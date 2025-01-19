@@ -28,4 +28,16 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="animations/anime.odin">
+    <img src="animations/assets/preview.gif" alt="animation system" width="960">
+  </a>
+</p>
+
+# Resources
+## Basic
+- [Read file](https://odin-lang.org/news/read-a-file-line-by-line/)
+## Sprites
+- [Lobster asset packs](https://o-lobster.itch.io/)
+
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
