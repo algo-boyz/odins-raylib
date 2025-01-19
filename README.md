@@ -16,4 +16,10 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="sprite/sprite.odin">
+    <img src="sprite/assets/preview.gif" alt="collision detection" width="960">
+  </a>
+</p>
+
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
