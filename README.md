@@ -22,4 +22,10 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="explosion/explosion.odin">
+    <img src="explosion/assets/preview.gif" alt="explosion 2D" width="960">
+  </a>
+</p>
+
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
