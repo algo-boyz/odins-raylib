@@ -40,6 +40,12 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="clock/clock.odin">
+    <img src="clock/assets/preview.gif" alt="clock" width="960">
+  </a>
+</p>
+
 # Resources
 ## Basic
 - [Read file](https://odin-lang.org/news/read-a-file-line-by-line/)
