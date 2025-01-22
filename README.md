@@ -2,7 +2,7 @@
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
 <h2 align="center">𓂀aᛉlib 🔆</h2>
 
-<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development harr 💥"</p>
+<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freya's hall, handling physics steady as Mjolnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
 ## [𓂀aᛉlib 🔆 basics by Falconerd in Odin](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
  1. Create a Window
@@ -15,13 +15,9 @@
  8. Basic collision detection
  9. Using the camera (2D)
  10. Render Textures, Post Processing Shaders
- 11. [Read files](https://odin-lang.org/news/read-a-file-line-by-line/)
 
 ## 𓂀aᛉlib 🔆 examples ported to Odin
-<p align="center">Voxel space</p>
-https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
-<hr>
 <p align="center">
 Paralax Scrolling
   <a href="scroll/scroll.odin">
@@ -82,6 +78,11 @@ Analog Clock
 </p>
 
 [Nick's 𓂀aᛉlib 🔆 Tutorial Series on Youtube](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
+
+<hr>
+<p align="center">Voxel space</p>
+https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
+
 
 # Resources
 
