@@ -47,5 +47,5 @@ Fog is a useful tool to hide clipping of the graphics at the far end of the z ax
 - Video tutorial by Pikuma: https://www.youtube.com/watch?v=bQBY9BM9g_Y&t=3270s . He has explained Voxel space with great detail, one of the best videos for voxel space explanation out on Internet.
 - Voxel space expanation by Sebastian Mackle: https://github.com/s-macke/VoxelSpace .
 - Codermind article: https://web.archive.org/web/20131113094653/http://www.codermind.com/articles/Voxel-terrain-engine-building-the-terrain.html
-
+- Article describing voxel culling optimizations: https://nickmcd.me/2021/04/04/high-performance-voxel-engine/
 

@@ -49,9 +49,18 @@ Animations
   </a>
 </p>
 
+<hr>
+<p align="center">
+Gltf models
+  <a href="gltf/gltf.odin">
+    <img src="gltf/assets/preview.png" alt="gltf models" width="960">
+  </a>
+</p>
+
 <div align="center">
   <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="Programming With Nick" width="32">
-  <h1>Programming With Nick</h1>
+  <h2>Programming With Nick
+  (lessons ported from C++)</h2>
 </div>
 
 <p align="center">
@@ -81,12 +90,33 @@ Analog Clock
 
 <hr>
 <p align="center">Voxel space</p>
+
 https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
 
 # Resources
 
 - [Computer Graphics from scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/index.html)
+
+- [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
+
+- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
+
+- [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
+
+- [ZTME - 𓂀aᛉlib Tile Editor](https://github.com/Z7-Z7L/ZTME)
+
+- [Anima - 2D animations](https://github.com/atomicptr/anima)
+
+- [Odin's Aseprite](https://github.com/blob1807/odin-aseprite)
+
 - [Lobster asset packs](https://o-lobster.itch.io/)
 
+- [Dusk game engine](https://github.com/JerMakesStuff/Dusk)
+
+- [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
+
+- [glTF2](https://github.com/Pawel82S/glTF2)
+
+- [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
