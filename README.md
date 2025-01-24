@@ -88,11 +88,23 @@ Analog Clock
 
 [Nick's 𓂀aᛉlib 🔆 Tutorial Series on Youtube](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
 
+<div align="center">
+  <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="3D" width="32">
+</div>
+
 <hr>
 <p align="center">
 Glsl shaders
   <a href="glsl/main.odin">
     <img src="glsl/assets/preview.gif"  alt="glsl torus" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+Raymarching
+  <a href="raymarching/main.odin">
+    <img src="raymarching/assets/preview.png"  alt="glsl torus" width="960">
   </a>
 </p>
 
@@ -120,6 +132,14 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 - [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
 
 - [glTF2](https://github.com/Pawel82S/glTF2)
+
+- [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
+
+- [The Book of Shaders](https://thebookofshaders.com/)
+
+- [Procedural 3D Engine. Ray Marching OpenGL Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
+
+- [Inigo Quilez - ShaderKing](https://iquilezles.org/)
 
 - [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
 
