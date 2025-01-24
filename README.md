@@ -89,7 +89,18 @@ Analog Clock
 [Nick's 𓂀aᛉlib 🔆 Tutorial Series on Youtube](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
 
 <hr>
-<p align="center">Voxel space</p>
+<p align="center">
+Glsl shaders
+  <a href="glsl/main.odin">
+    <img src="glsl/assets/preview.gif"  alt="glsl torus" width="960">
+  </a>
+</p>
+
+<p align="center">
+  <a href="voxels/README.md">
+    Voxel space
+  </a>
+</p>
 
 https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
@@ -100,23 +111,28 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
 
-- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
-
-- [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
-
-- [ZTME - 𓂀aᛉlib Tile Editor](https://github.com/Z7-Z7L/ZTME)
-
 - [Anima - 2D animations](https://github.com/atomicptr/anima)
 
 - [Odin's Aseprite](https://github.com/blob1807/odin-aseprite)
 
 - [Lobster asset packs](https://o-lobster.itch.io/)
 
-- [Dusk game engine](https://github.com/JerMakesStuff/Dusk)
-
 - [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
 
 - [glTF2](https://github.com/Pawel82S/glTF2)
 
 - [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
+
+- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
+
+- [FreeSound.org](https://freesound.org/)
+
+- [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
+
+- [ZTME - 𓂀aᛉlib Tile Editor](https://github.com/Z7-Z7L/ZTME)
+
+- [Dusk game engine](https://github.com/JerMakesStuff/Dusk)
+
+- [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn)
+
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
