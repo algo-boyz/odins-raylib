@@ -17,52 +17,52 @@
  10. Render Textures, Post Processing Shaders
 
 <p align="center">
-  <a href="microui/main.odin">
+  <a href="2D/microui/main.odin">
     MicroUI
   </a>
-  <a href="microui/main.odin">
-    <img src="microui/assets/preview.png" alt="microui" width="960">
+  <a href="2D/microui/main.odin">
+    <img src="2D/microui/assets/preview.png" alt="microui" width="960">
   </a>
 </p>
 
 ## 𓂀aᛉlib 🔆 2D
 
 <p align="center">
-  <a href="scroll/scroll.odin">
+  <a href="2D/scroll/scroll.odin">
     Paralax Scrolling
   </a>
-  <a href="scroll/scroll.odin">
-    <img src="scroll/assets/cyberpunk_street.png" alt="paralax scroll" width="960">
+  <a href="2D/scroll/scroll.odin">
+    <img src="2D/scroll/assets/cyberpunk_street.png" alt="paralax scroll" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="sprite/sprite.odin">
+  <a href="2D/sprite/sprite.odin">
     Sprite rendering
   </a>
-  <a href="sprite/sprite.odin">
-    <img src="sprite/assets/preview.gif" alt="collision detection" width="960">
+  <a href="2D/sprite/sprite.odin">
+    <img src="2D/sprite/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="explosion/explosion.odin">
+  <a href="2D/explosion/explosion.odin">
     Explosions
   </a>
-  <a href="explosion/explosion.odin">
-    <img src="explosion/assets/preview.gif" alt="explosion 2D" width="960">
+  <a href="2D/explosion/explosion.odin">
+    <img src="2D/explosion/assets/preview.gif" alt="explosion 2D" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="animations/anime.odin">
+  <a href="2D/animations/anime.odin">
     Animations
   </a>
-  <a href="animations/anime.odin">
-    <img src="animations/assets/preview.gif" alt="animation system" width="960">
+  <a href="2D/animations/anime.odin">
+    <img src="2D/animations/assets/preview.gif" alt="animation system" width="960">
   </a>
 </p>
 
@@ -73,31 +73,31 @@
 </div>
 
 <p align="center">
-  <a href="dino/dino.odin">
+  <a href="2D/collision/dino.odin">
     Collision detection
   </a>
-  <a href="dino/dino.odin">
-    <img src="dino/assets/preview.jpg" alt="collision detection" width="960">
+  <a href="2D/collision/dino.odin">
+    <img src="2D/collision/assets/preview.jpg" alt="collision detection" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="buttons/button.odin">
+  <a href="2D/buttons/button.odin">
     Menus
   </a>
-  <a href="buttons/button.odin">
-    <img src="buttons/assets/preview.png" alt="buttons" width="960">
+  <a href="2D/buttons/button.odin">
+    <img src="2D/buttons/assets/preview.png" alt="buttons" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="clock/clockn.odin">
+  <a href="2D/clock/clockn.odin">
     Analog Clock
   </a>
-  <a href="clock/clock.odin">
-    <img src="clock/assets/preview.gif" alt="clock" width="960">
+  <a href="2D/clock/clock.odin">
+    <img src="2D/clock/assets/preview.gif" alt="clock" width="960">
   </a>
 </p>
 
@@ -111,36 +111,36 @@
 
 <hr>
 <p align="center">
-  <a href="gltf/gltf.odin">
+  <a href="3D/gltf/gltf.odin">
     Gltf models
   </a>
-  <a href="gltf/gltf.odin">
-    <img src="gltf/assets/preview.png" alt="gltf models" width="960">
+  <a href=3D/gltf/gltf.odin">
+    <img src="3D/gltf/assets/preview.png" alt="gltf models" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="glsl/main.odin">
+  <a href="3D/glsl/main.odin">
     Glsl shaders
   </a>
-  <a href="glsl/main.odin">
-    <img src="glsl/assets/preview.gif"  alt="glsl torus" width="960">
+  <a href="3D/glsl/main.odin">
+    <img src="3D/glsl/assets/preview.gif"  alt="glsl torus" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="raymarching/main.odin">
+  <a href="3D/raymarching/main.odin">
     Raymarching
   </a>
-  <a href="raymarching/main.odin">
-    <img src="raymarching/assets/preview.png"  alt="glsl torus" width="960">
+  <a href="3D/raymarching/main.odin">
+    <img src="3D/raymarching/assets/preview.png"  alt="glsl torus" width="960">
   </a>
 </p>
 
 <p align="center">
-  <a href="voxels/README.md">
+  <a href="3D/voxels/README.md">
     Voxel space
   </a>
 </p>
@@ -150,10 +150,10 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 <hr>
 <p align="center">
-  <a href="particles/main.odin">
+  <a href="3D/particles/main.odin">
     Particle simulation
   </a>
-  <a href="particles/main.odin">
+  <a href="3D/particles/main.odin">
     <img src="particles/assets/preview.png"  alt="glsl torus" width="960">
   </a>
 </p>
@@ -222,5 +222,9 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [ZTME - 𓂀aᛉlib Tile Editor](https://github.com/Z7-Z7L/ZTME)
 
 - [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn)
+
+- [Cloth simulation](https://github.com/marianpekar/cloth-simulation-2d-odin/blob/main/main.odin)
+
+- [Karl's SDF Terrain painter](https://github.com/karl-zylinski/sdf-terrain-painter/blob/main/README.md)
 
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
