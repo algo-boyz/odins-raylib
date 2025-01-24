@@ -16,7 +16,7 @@
  9. Using the camera (2D)
  10. Render Textures, Post Processing Shaders
 
-## 𓂀aᛉlib 🔆 examples ported to Odin
+## 𓂀aᛉlib 🔆 2D
 
 <p align="center">
 Paralax Scrolling
@@ -46,14 +46,6 @@ Explosions
 Animations
   <a href="animations/anime.odin">
     <img src="animations/assets/preview.gif" alt="animation system" width="960">
-  </a>
-</p>
-
-<hr>
-<p align="center">
-Gltf models
-  <a href="gltf/gltf.odin">
-    <img src="gltf/assets/preview.png" alt="gltf models" width="960">
   </a>
 </p>
 
@@ -89,8 +81,18 @@ Analog Clock
 [Nick's 𓂀aᛉlib 🔆 Tutorial Series on Youtube](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
 
 <div align="center">
-  <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="3D" width="32">
+  <img src="https://toppng.com/uploads/preview/3d-cube-isometric-cube-11563195249ki2gzzenvf.png" alt="3D" width="32">
 </div>
+
+## 𓂀aᛉlib 🔆 3D
+
+<hr>
+<p align="center">
+Gltf models
+  <a href="gltf/gltf.odin">
+    <img src="gltf/assets/preview.png" alt="gltf models" width="960">
+  </a>
+</p>
 
 <hr>
 <p align="center">
@@ -119,33 +121,9 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 # Resources
 
+## Basics 
+
 - [Computer Graphics from scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/index.html)
-
-- [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
-
-- [Anima - 2D animations](https://github.com/atomicptr/anima)
-
-- [Odin's Aseprite](https://github.com/blob1807/odin-aseprite)
-
-- [Lobster asset packs](https://o-lobster.itch.io/)
-
-- [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
-
-- [glTF2](https://github.com/Pawel82S/glTF2)
-
-- [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
-
-- [The Book of Shaders](https://thebookofshaders.com/)
-
-- [Procedural 3D Engine. Ray Marching OpenGL Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
-
-- [Inigo Quilez - ShaderKing](https://iquilezles.org/)
-
-- [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
-
-- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
-
-- [FreeSound.org](https://freesound.org/)
 
 - [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
 
@@ -154,5 +132,46 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 - [Dusk game engine](https://github.com/JerMakesStuff/Dusk)
 
 - [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn)
+
+## Sound
+
+- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
+
+- [FreeSound.org](https://freesound.org/)
+
+## 2D 
+
+### Animations
+
+- [Anima - 2D animations](https://github.com/atomicptr/anima)
+
+- [Odin's Aseprite](https://github.com/blob1807/odin-aseprite)
+
+- [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
+
+- [Lobster asset packs](https://o-lobster.itch.io/)
+
+### Physics
+
+- [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
+
+- [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
+
+## 3D
+
+### OpenGL
+
+- [Inigo Quilez - ShaderKing](https://iquilezles.org/)
+- [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
+- [The Book of Shaders](https://thebookofshaders.com/)
+- [Procedural 3D Engine. Ray Marching OpenGL Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
+- [Odin's OpenGL tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
+- [glTF2](https://github.com/Pawel82S/glTF2)
+
+### TODO port some more glsl examples
+
+- [Sirenian Dawn](https://www.shadertoy.com/view/XsyGWV)
+- [Blue Planet](https://www.shadertoy.com/view/Ds3XRl)
+- [finish particle simulation](particles/README.md)
 
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
