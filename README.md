@@ -112,10 +112,20 @@
 <hr>
 <p align="center">
   <a href="3D/gltf/gltf.odin">
-    Gltf models
+    GLTF 3D Models
   </a>
   <a href=3D/gltf/gltf.odin">
     <img src="3D/gltf/assets/preview.png" alt="gltf models" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="3D/particles/main.odin">
+    OBJ 3D Models
+  </a>
+  <a href="3D/obj/main.odin">
+    <img src="3D/obj/assets/preview.png"  alt="obj 3D models" width="960">
   </a>
 </p>
 
@@ -154,10 +164,9 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
     Particle simulation
   </a>
   <a href="3D/particles/main.odin">
-    <img src="particles/assets/preview.png"  alt="glsl torus" width="960">
+    <img src="3D/particles/assets/preview.png"  alt="glsl torus" width="960">
   </a>
 </p>
-
 
 # Resources
 
@@ -207,9 +216,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Inigo Quilez - ShaderKing](https://iquilezles.org/)
 - [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
 - [The Book of Shaders](https://thebookofshaders.com/)
-- [Procedural 3D Engine. Ray Marching OpenGL® Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
 - [Odin's OpenGL® tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
+- [🎨 Shader Tutorials](https://github.com/SuboptimalEng/shader-tutorials)
 - [glTF2](https://github.com/Pawel82S/glTF2)
+- [Michael Walczyk - Raymarching](https://michaelwalczyk.com/blog-ray-marching.html)
+- [Procedural 3D Engine. Ray Marching OpenGL® Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
 
 ### TODO port some more glsl examples
 
@@ -217,14 +228,24 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Blue Planet](https://www.shadertoy.com/view/Ds3XRl)
 - [finish particle simulation](particles/README.md)
 
+## SDF
+
+- [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
+
+## AI
+
+- [Hunyuan3D](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model
+
 ## Cool stuff
 
-- [ZTME - 𓂀aᛉlib Tile Editor](https://github.com/Z7-Z7L/ZTME)
+- [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 
 - [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn)
 
-- [Cloth simulation](https://github.com/marianpekar/cloth-simulation-2d-odin/blob/main/main.odin)
+-	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
-- [Karl's SDF Terrain painter](https://github.com/karl-zylinski/sdf-terrain-painter/blob/main/README.md)
+-	[Quaternius](https://quaternius.com/): Free low-poly 3D models, perfect for a Total War-like game.
+
+-	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
 
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>

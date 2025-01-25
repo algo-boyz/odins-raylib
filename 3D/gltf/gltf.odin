@@ -20,13 +20,15 @@ main :: proc() {
     }
 
     // Load model and animations
-    model := raylib.LoadModel("assets/robot.glb")
+    robot:cstring = "assets/robot.glb"
+    
+    model := raylib.LoadModel(robot)
     defer raylib.UnloadModel(model)
 
     position := raylib.Vector3{ 0.0, 0.0, 0.0 }
 
     anim_count: i32
-    model_animations := raylib.LoadModelAnimations("assets/robot.glb", &anim_count)
+    model_animations := raylib.LoadModelAnimations(robot, &anim_count)
     defer raylib.UnloadModelAnimations(model_animations, anim_count)
 
     anim_index: u32 = 0

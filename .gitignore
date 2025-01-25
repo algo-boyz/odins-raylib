@@ -2,5 +2,6 @@
 **/.vscode/
 **/build/
 **/raylib/
+hot/
 **/ols.json
 todo/
