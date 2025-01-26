@@ -1,5 +1,5 @@
 
-<h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏n⚡ 𒅒▬▬█</h1>
+<h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
 <h2 align="center">𓂀aᛉlib 🔆</h2>
 
 <p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freya's hall, handling physics steady as Mjolnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
@@ -26,6 +26,7 @@
  8. Basic collision detection
  9. Using the camera (2D)
  10. Render Textures, Post Processing Shaders
+ 11. [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
 
 ## 𓂀aᛉlib 🔆 2D
 
@@ -143,7 +144,7 @@ Reference implementations for common collision queries and grid navigation
 
 <hr>
 <p align="center">
-  <a href="2D/clock/clockn.odin">
+  <a href="2D/clock/clock.odin">
     Analog Clock
   </a>
   <a href="2D/clock/clock.odin">
@@ -223,6 +224,12 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [🎨 Shader Tutorials](https://github.com/SuboptimalEng/shader-tutorials)
 - [The Book of Shaders](https://thebookofshaders.com/)
 
+### TODO port some more glsl examples ૮( OᴗO)っ Contributions welcome
+
+- [Sirenian Dawn](https://www.shadertoy.com/view/XsyGWV)
+- [Blue Planet](https://www.shadertoy.com/view/Ds3XRl)
+- [finish particle simulation](particles/README.md)
+
 ## SDF
 
 - [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
@@ -243,6 +250,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Original ReSTIR Paper](https://cdn.pharr.org/ReSTIR.pdf)
 - [ReSTIR for Global Illumination Paper](https://d1qx31qr3h6wln.cloudfront.net/publications/ReSTIR%20GI.pdf)
 
+- [Basics of ReSTIR DI](https://blog.42yeah.is/featured/rendering/2023/03/11/restir.html)
+- [ReSTIR (C++) with DirectX Raytracing](https://github.com/lindayukeyi/ReSTIR_DX12)
+- [ZetaRay (C++) Real-time Direct3D 12 path tracer](https://github.com/alipbcs/ZetaRay)
+
+<hr>
 <hr>
 <p align="center">
   <a href="3D/raymarching/main.odin">
@@ -276,19 +288,23 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
   </a>
 </p>
 
-## Physics (Contributions welcome)
+## Physics ૮( OᴗO)っ Contributions welcome
 
 - [PhysX](https://github.com/tgolsson/physx-odin) C Bindings to PhysX
 
-<h3 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏n⚡ Hall of FAME 𒅒▬▬█</h3>
+## Audio
 
-- [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
+- [YT Coding Adventure by Sebastian Lague](https://www.youtube.com/watch?v=iA6wRgwl7k0) Sound (and the Fourier Transform)
 
-- [Dusk's 𓂀aᛉlib game template](https://github.com/JerMakesStuff/Dusk)
+- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) C Bindings to compute discrete Fourier transform in one or more dimensions.
 
-- [Karl's 𓂀aᛉlib game template with Hot Reload](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template)
+- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin) C Bindings
 
-- [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
+- [FreeSound.org](https://freesound.org/) collaborative collection of ~700K free sounds
+
+- [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) 33K free sounds from the BBC Effects archive
+
+<h3 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ Hall of FAME 𒅒▬▬█</h3>
 
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
@@ -296,16 +312,10 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 -	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
 
-## Audio
+- [Dusk's 𓂀aᛉlib game template](https://github.com/JerMakesStuff/Dusk)
 
-- [YT Coding Adventure by Sebastian Lague: Sound (and the Fourier Transform)](https://www.youtube.com/watch?v=iA6wRgwl7k0)
+- [Karl's 𓂀aᛉlib game template with Hot Reload](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template)
 
-- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) C Bindings to compute discrete Fourier transform in one or more dimensions.
-
-- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
-
-- [FreeSound.org](https://freesound.org/)
-
-- [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/)
+- [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
