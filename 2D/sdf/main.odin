@@ -1,5 +1,6 @@
 // This is some signed distance field drawing experiments. You can draw hills.
 // It's very inefficient and runs on CPU. But the basic ideas are there.
+// Source: https://github.com/karl-zylinski/sdf-terrain-painter
 
 package game
 
@@ -7,6 +8,7 @@ import "core:math/linalg"
 import "core:math/noise"
 import "base:intrinsics"
 import "core:math"
+
 import rl "vendor:raylib"
 
 Vec2 :: rl.Vector2

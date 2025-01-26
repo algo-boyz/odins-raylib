@@ -70,10 +70,10 @@
 
 <hr>
 <p align="center">
-  <a href="2D/sprite/jump/animator.odin">
+  <a href="2D/sprite/jump/main.odin">
     Keyboard Control
   </a>
-  <a href="2D/sprite/jump/animator.odin">
+  <a href="2D/sprite/jump/main.odin">
     <img src="2D/sprite/jump/assets/preview.gif" alt="animation system" width="960">
   </a>
 </p>
@@ -232,6 +232,16 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 ## SDF
 
+<hr>
+<p align="center">
+  <a href="2D/sdf/main.odin">
+    Karl's SDF Terrain Painter
+  </a>
+  <a href="2D/sdf/main.odin">
+    <img src="2D/sdf/assets/preview.gif"  alt="sdf painter" width="960">
+  </a>
+</p>
+
 - [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
 
 ## RayTracing
@@ -265,7 +275,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p>
 
-- [Michael Walczyk - Raymarching](https://michaelwalczyk.com/blog-ray-marching.html)
+- [Michael Walczyk - Raymarching Basics](https://michaelwalczyk.com/blog-ray-marching.html)
+- [An introduction to Raymarching](https://www.youtube.com/watch?v=khblXafu7iA)
 - [YT Procedural 3D Engine. Ray Marching OpenGL® Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
 
 <p align="center">
@@ -304,7 +315,7 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) 33K free sounds from the BBC Effects archive
 
-<h3 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ Hall of FAME 𒅒▬▬█</h3>
+## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
