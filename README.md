@@ -151,6 +151,17 @@ Reference implementations for common collision queries and grid navigation
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="2D/pong/main.odin">
+    Pong
+  </a>
+  <a href="2D/pong/main.odin">
+    <img src="2D/pong/assets/preview.gif" alt="pong" width="960">
+  </a>
+</p>
+
+
 [YT Nick's 𓂀aᛉlib 🔆 Tutorials](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
 
 <div align="center">
