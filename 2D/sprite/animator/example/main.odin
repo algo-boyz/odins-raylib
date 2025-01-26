@@ -8,7 +8,7 @@ SCREEN_WIDTH :: 800
 SCREEN_HEIGHT :: 600
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [core] Odin example - sprite animation")
+    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "sprite animation")
     defer rl.CloseWindow()
     
     rl.SetTargetFPS(120)

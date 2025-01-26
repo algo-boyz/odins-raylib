@@ -4,6 +4,17 @@
 
 <p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freya's hall, handling physics steady as Mjolnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
+<p align="center">
+  <a href="https://gabrielgambetta.com/computer-graphics-from-scratch/index.html">
+    Computer Graphics from scratch - Gabriel Gambetta
+  </a>
+  <a href="https://gabrielgambetta.com/computer-graphics-from-scratch/index.html">
+    <img src="https://gabrielgambetta.com/computer-graphics-from-scratch/images/cover.jpg" alt="computer graphics from scratch" width="960">
+  </a>
+</p>
+
+## [v5.5 cheat sheet](https://www.raylib.com/cheatsheet/cheatsheet.html)
+
 ## [𓂀aᛉlib 🔆 basics by Falconerd](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
  1. Create a Window
  2. Draw Simple Shapes
@@ -16,6 +27,8 @@
  9. Using the camera (2D)
  10. Render Textures, Post Processing Shaders
 
+## 𓂀aᛉlib 🔆 2D
+
 <p align="center">
   <a href="2D/microui/main.odin">
     MicroUI
@@ -24,8 +37,6 @@
     <img src="2D/microui/assets/preview.png" alt="microui" width="960">
   </a>
 </p>
-
-## 𓂀aᛉlib 🔆 2D
 
 <p align="center">
   <a href="2D/scroll/scroll.odin">
@@ -38,11 +49,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/sprite/sprite.odin">
+  <a href="2D/sprite/basics/basics.odin">
     Sprite rendering
   </a>
-  <a href="2D/sprite/sprite.odin">
-    <img src="2D/sprite/assets/preview.gif" alt="collision detection" width="960">
+  <a href="2D/sprite/basics/basics.odin">
+    <img src="2D/sprite/basics/assets/preview.gif" alt="sprites" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/sprite/animator/animator.odin">
+    Animations
+  </a>
+  <a href="2D/sprite/animator/animator.odin">
+    <img src="2D/sprite/animator/assets/preview.gif" alt="animation system" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/sprite/jump/animator.odin">
+    Keyboard Control
+  </a>
+  <a href="2D/sprite/jump/animator.odin">
+    <img src="2D/sprite/jump/assets/preview.gif" alt="animation system" width="960">
   </a>
 </p>
 
@@ -56,15 +87,24 @@
   </a>
 </p>
 
-<hr>
-<p align="center">
-  <a href="2D/animations/anime.odin">
-    Animations
-  </a>
-  <a href="2D/animations/anime.odin">
-    <img src="2D/animations/assets/preview.gif" alt="animation system" width="960">
-  </a>
-</p>
+The term “sprite” first used by Texas Instruments in the 70s describes independently movable sequences of images used to create the illusion of movement in 2D. They became popular through games like Donkey Kong (1981) and Super Mario Bros (1985)
+
+- [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
+
+- [Aseprite](https://github.com/blob1807/odin-aseprite)
+
+- [Anima](https://github.com/atomicptr/anima)
+
+- [Lobster asset packs](https://o-lobster.itch.io/)
+
+- [Spriter's Resource](https://www.spriters-resource.com/)
+
+### Physics
+Reference implementations for common collision queries and grid navigation
+
+- [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
+
+- [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
 
 <hr>
 <p align="center">
@@ -111,13 +151,16 @@
   </a>
 </p>
 
-[Nick's 𓂀aᛉlib 🔆 Tutorial Series on Youtube](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
+[YT Nick's 𓂀aᛉlib 🔆 Tutorials](https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9)
 
 <div align="center">
   <img src="https://toppng.com/uploads/preview/3d-cube-isometric-cube-11563195249ki2gzzenvf.png" alt="3D" width="32">
 </div>
 
 ## 𓂀aᛉlib 🔆 3D
+
+## OpenGL®
+Originally developed by Silicon Graphics in the early '90s, OpenGL® has become the most widely-used open graphics standard in the world
 
 <hr>
 <p align="center">
@@ -129,6 +172,8 @@
   </a>
 </p>
 
+- [glTF2](https://github.com/Pawel82S/glTF2) in pure Odin
+
 <hr>
 <p align="center">
   <a href="3D/particles/main.odin">
@@ -138,6 +183,9 @@
     <img src="3D/obj/assets/preview.png"  alt="obj 3D models" width="960">
   </a>
 </p>
+
+- [Hunyuan3D NeuralNet](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model
+- [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 
 <hr>
 <p align="center">
@@ -149,6 +197,32 @@
   </a>
 </p>
 
+- [Inigo Quilez - ShaderKing](https://iquilezles.org/)
+- [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
+- [Odin's OpenGL® tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
+- [🎨 Shader Tutorials](https://github.com/SuboptimalEng/shader-tutorials)
+- [The Book of Shaders](https://thebookofshaders.com/)
+
+## SDF
+
+- [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
+
+## RayTracing
+
+### Past
+- [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+- [Ray Tracing in One Weekend - Code](https://github.com/jmazin/rtow)
+- [YT Ray Tracing in an hour! (Part 1)](https://www.youtube.com/watch?v=kHNewYRvgSk)
+- [YT Ray Tracing in an hour! (Part 2)](https://www.youtube.com/watch?v=C1tJ0IKLLjw)
+- [YT Ray Tracing in an hour! (Part 3)](https://www.youtube.com/watch?v=wXCJgVtcvuM)
+
+### Future
+- [YT ReSTIR - 600x faster Ray Tracing](https://www.youtube.com/watch?v=gsZiJeaMO48)
+- [RIS Paper](https://diglib.eg.org/server/api/core/bitstreams/0205c190-16aa-4f85-a26f-c7b3220683b9/content)
+- [RIS Thesis](https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=1662&context=etd)
+- [Original ReSTIR Paper](https://cdn.pharr.org/ReSTIR.pdf)
+- [ReSTIR for Global Illumination Paper](https://d1qx31qr3h6wln.cloudfront.net/publications/ReSTIR%20GI.pdf)
+
 <hr>
 <p align="center">
   <a href="3D/raymarching/main.odin">
@@ -159,6 +233,9 @@
   </a>
 </p>
 
+- [Michael Walczyk - Raymarching](https://michaelwalczyk.com/blog-ray-marching.html)
+- [YT Procedural 3D Engine. Ray Marching OpenGL® Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
+
 <p align="center">
   <a href="3D/voxels/README.md">
     Voxel space
@@ -167,6 +244,7 @@
 
 https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
+- [Voxelisation Algorithms and Data Structures](https://pmc.ncbi.nlm.nih.gov/articles/PMC8707769/)
 
 <hr>
 <p align="center">
@@ -178,11 +256,7 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
   </a>
 </p>
 
-# Resources
-
-## Basics 
-
-- [Computer Graphics from scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/index.html)
+## Hit the ground running 
 
 - [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
 
@@ -190,76 +264,7 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [Karl's 𓂀aᛉlib game template with Hot Reload](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template)
 
-## Sound
-
-- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
-
-- [FreeSound.org](https://freesound.org/)
-
-- [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/)
-
-## 2D
-
-### Sprite Animations
-The term “sprite” first used by Texas Instruments in the 70s describes independently movable sequences of images used to create the illusion of movement in 2D. They became popular through games like Donkey Kong (1981) and Super Mario Bros (1985)
-- [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
-
-- [Aseprite](https://github.com/blob1807/odin-aseprite)
-
-- [Anima](https://github.com/atomicptr/anima)
-
-- [Lobster asset packs](https://o-lobster.itch.io/)
-
-- [Spriter's Resource](https://www.spriters-resource.com/)
-
-### Physics
-Reference implementations for common collision queries and grid navigation
-- [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
-
-- [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
-
-## 3D
-
-### OpenGL®
-Originally developed by Silicon Graphics in the early '90s, OpenGL® has become the most widely-used open graphics standard in the world
-
-- [Inigo Quilez - ShaderKing](https://iquilezles.org/)
-- [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
-- [The Book of Shaders](https://thebookofshaders.com/)
-- [Odin's OpenGL® tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
-- [🎨 Shader Tutorials](https://github.com/SuboptimalEng/shader-tutorials)
-- [glTF2](https://github.com/Pawel82S/glTF2)
-- [Michael Walczyk - Raymarching](https://michaelwalczyk.com/blog-ray-marching.html)
-- [Procedural 3D Engine. Ray Marching OpenGL® Tutorial](https://www.youtube.com/watch?v=hUaYxqkrfjA)
-
-### TODO port some more glsl examples
-
-- [Sirenian Dawn](https://www.shadertoy.com/view/XsyGWV)
-- [Blue Planet](https://www.shadertoy.com/view/Ds3XRl)
-- [finish particle simulation](particles/README.md)
-
-## SDF
-
-- [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
-
-## VOXELS
-
-- [Voxelisation Algorithms and Data Structures](https://pmc.ncbi.nlm.nih.gov/articles/PMC8707769/)
-
-## RayTracing
-
-- [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-- [Ray Tracing in One Weekend - Code](https://github.com/jmazin/rtow)
-
-## AI
-
-- [Hunyuan3D](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model
-
-## Cool stuff
-
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
-
-- [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
@@ -267,5 +272,16 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 -	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
 
-- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) compute discrete Fourier transform in one or more dimensions,
+## Audio
+
+- [YT Coding Adventure by Sebastian Lague: Sound (and the Fourier Transform)](https://www.youtube.com/watch?v=iA6wRgwl7k0)
+
+- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) C Bindings to compute discrete Fourier transform in one or more dimensions.
+
+- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin)
+
+- [FreeSound.org](https://freesound.org/)
+
+- [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/)
+
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
