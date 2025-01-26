@@ -108,11 +108,11 @@ Reference implementations for common collision queries and grid navigation
 
 <hr>
 <p align="center">
-  <a href="2D/racer/main.odin">
+  <a href="2D/racing/main.odin">
     Racing
   </a>
-  <a href="2D/racer/main.odin">
-    <img src="2D/racer/assets/preview.png" alt="racer" width="960">
+  <a href="2D/racing/main.odin">
+    <img src="2D/racing/assets/preview.png" alt="racer" width="960">
   </a>
 </p>
 
