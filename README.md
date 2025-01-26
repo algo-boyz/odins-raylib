@@ -66,6 +66,16 @@
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="2D/racer/main.odin">
+    Racing
+  </a>
+  <a href="2D/racer/main.odin">
+    <img src="2D/racer/assets/preview.png" alt="racer" width="960">
+  </a>
+</p>
+
 <div align="center">
   <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="Programming With Nick" width="32">
   <h2>Programming With Nick
@@ -232,6 +242,15 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
 
+## VOXELS
+
+- [Voxelisation Algorithms and Data Structures](https://pmc.ncbi.nlm.nih.gov/articles/PMC8707769/)
+
+## RayTracing
+
+- [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+- [Ray Tracing in One Weekend - Code](https://github.com/jmazin/rtow)
+
 ## AI
 
 - [Hunyuan3D](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model
@@ -240,12 +259,13 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 
-- [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn)
+- [Neural network / 𓂀aᛉlib visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
--	[Quaternius](https://quaternius.com/): Free low-poly 3D models, perfect for a Total War-like game.
+-	[Quaternius](https://quaternius.com/): Free low-poly 3D models.
 
 -	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
 
+- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) compute discrete Fourier transform in one or more dimensions,
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
