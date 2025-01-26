@@ -1,5 +1,5 @@
 
-<h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
+<h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏n⚡ 𒅒▬▬█</h1>
 <h2 align="center">𓂀aᛉlib 🔆</h2>
 
 <p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freya's hall, handling physics steady as Mjolnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
@@ -276,7 +276,11 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
   </a>
 </p>
 
-## Hit the ground running 
+## Physics (Contributions welcome)
+
+- [PhysX](https://github.com/tgolsson/physx-odin) C Bindings to PhysX
+
+<h3 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏n⚡ Hall of FAME 𒅒▬▬█</h3>
 
 - [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
 
