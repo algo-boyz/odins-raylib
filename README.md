@@ -30,6 +30,17 @@
 
 ## 𓂀aᛉlib 🔆 2D
 
+<hr>
+<p align="center">
+  <a href="2D/matrix/basic/main.odin">
+    The Matrix
+  </a>
+  <a href="2D/matrix/basic/main.odin">
+    <img src="2D/matrix/assets/preview.gif" alt="pong" width="960">
+  </a>
+</p>
+
+<hr>
 <p align="center">
   <a href="2D/microui/main.odin">
     MicroUI
@@ -39,6 +50,7 @@
   </a>
 </p>
 
+<hr>
 <p align="center">
   <a href="2D/scroll/scroll.odin">
     Paralax Scrolling
@@ -51,7 +63,7 @@
 <hr>
 <p align="center">
   <a href="2D/sprite/basics/basics.odin">
-    Sprite rendering
+    Sprites
   </a>
   <a href="2D/sprite/basics/basics.odin">
     <img src="2D/sprite/basics/assets/preview.gif" alt="sprites" width="960">
@@ -61,20 +73,30 @@
 <hr>
 <p align="center">
   <a href="2D/sprite/animator/animator.odin">
-    Animations
+    Animator
   </a>
   <a href="2D/sprite/animator/animator.odin">
-    <img src="2D/sprite/animator/assets/preview.gif" alt="animation system" width="960">
+    <img src="2D/sprite/animator/assets/preview.gif" alt="animator" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
   <a href="2D/sprite/jump/main.odin">
-    Keyboard Control
+    Character Control
   </a>
   <a href="2D/sprite/jump/main.odin">
     <img src="2D/sprite/jump/assets/preview.gif" alt="animation system" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/camera/main.odin">
+    Camera Control
+  </a>
+  <a href="2D/camera/main.odin">
+    <img src="2D/camera/assets/preview.gif" alt="explosion 2D" width="960">
   </a>
 </p>
 
@@ -116,6 +138,8 @@ Reference implementations for common collision queries and grid navigation
     <img src="2D/racing/assets/preview.png" alt="racer" width="960">
   </a>
 </p>
+
+[YT Unconventional Coding](https://www.youtube.com/watch?v=0Gxw5HEj784)
 
 <div align="center">
   <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="Programming With Nick" width="32">
@@ -244,27 +268,35 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
 
-## RayTracing
+## RayTracing/Casting/Marching
 
-### Past
 - [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [Ray Tracing in One Weekend - Code](https://github.com/jmazin/rtow)
 - [YT Ray Tracing in an hour! (Part 1)](https://www.youtube.com/watch?v=kHNewYRvgSk)
 - [YT Ray Tracing in an hour! (Part 2)](https://www.youtube.com/watch?v=C1tJ0IKLLjw)
 - [YT Ray Tracing in an hour! (Part 3)](https://www.youtube.com/watch?v=wXCJgVtcvuM)
-
-### Future
 - [YT ReSTIR - 600x faster Ray Tracing](https://www.youtube.com/watch?v=gsZiJeaMO48)
 - [RIS Paper](https://diglib.eg.org/server/api/core/bitstreams/0205c190-16aa-4f85-a26f-c7b3220683b9/content)
 - [RIS Thesis](https://scholarsarchive.byu.edu/cgi/viewcontent.cgi?article=1662&context=etd)
 - [Original ReSTIR Paper](https://cdn.pharr.org/ReSTIR.pdf)
 - [ReSTIR for Global Illumination Paper](https://d1qx31qr3h6wln.cloudfront.net/publications/ReSTIR%20GI.pdf)
-
 - [Basics of ReSTIR DI](https://blog.42yeah.is/featured/rendering/2023/03/11/restir.html)
 - [ReSTIR (C++) with DirectX Raytracing](https://github.com/lindayukeyi/ReSTIR_DX12)
 - [ZetaRay (C++) Real-time Direct3D 12 path tracer](https://github.com/alipbcs/ZetaRay)
 
 <hr>
+<p align="center">
+  <a href="3D/raycasting/dda/main.odin">
+    Raycasting
+  </a>
+  <a href="3D/raycasting/dda/main.odin">
+    <img src="3D/raycasting/dda/assets/preview.gif"  alt="dda raycasting" width="960">
+  </a>
+</p>
+
+- [Making a RayCaster in Odin by Bachware](https://www.youtube.com/watch?v=9dLqxdbRjbM)
+- [Super Fast Ray Casting in Tiled Worlds using DDA by OneLoneCoder](https://www.youtube.com/watch?v=NbSee-XM7WA)
+
 <hr>
 <p align="center">
   <a href="3D/raymarching/main.odin">

@@ -160,6 +160,16 @@ main :: proc() {
     width := 150
     height := 75
     cloth := SetupCloth(width, height, spacing, (int(screen_width) - (width * spacing)) / 2, 50)
+    defer {
+        for &point in cloth.points {
+            free(point)
+        }
+        
+        for &stick in cloth.sticks {
+            free(stick)
+        }
+    }
+
     drag: f32 = 0.005
     acceleration: rl.Vector2 = {0, 980}
     elasticity: f32 = 80.0
