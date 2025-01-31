@@ -141,6 +141,16 @@ Reference implementations for common collision queries and grid navigation
 
 <hr>
 <p align="center">
+  <a href="2D/asteroids/main.odin">
+    Asteroids
+  </a>
+  <a href="2D/asteroids/main.odin">
+    <img src="2D/asteroids/assets/preview.gif" alt="asteroids" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="2D/racing/main.odin">
     Racing
   </a>
@@ -213,6 +223,16 @@ Reference implementations for common collision queries and grid navigation
 </div>
 
 ## 𓂀aᛉlib 🔆 3D
+
+<hr>
+<p align="center">
+  <a href="3D/stars/main.odin">
+    to the stars...
+  </a>
+  <a href="3D/stars/main.odin">
+    <img src="3D/stars/assets/preview.gif" alt="asteroids" width="960">
+  </a>
+</p>
 
 ## OpenGL®
 Originally developed by Silicon Graphics in the early '90s, OpenGL® has become the most widely-used open graphics standard in the world
@@ -305,17 +325,6 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 </p>
 
 - [Super Fast Ray Casting in Tiled Worlds using DDA by OneLoneCoder](https://www.youtube.com/watch?v=NbSee-XM7WA)
-
-<hr>
-<p align="center">
-  <a href="3D/raycasting/dda/main.odin">
-    Raycasting
-  </a>
-  <a href="3D/raycasting/dda/main.odin">
-    <img src="3D/raycasting/dda/assets/preview.gif"  alt="dda raycasting" width="960">
-  </a>
-</p>
-
 - [Making a RayCaster in Odin by Bachware](https://www.youtube.com/watch?v=9dLqxdbRjbM)
 - [Alfie's - Odinary 3D DDA Raycaster](https://github.com/alfiehiscox/odinary-raycaster)
 
