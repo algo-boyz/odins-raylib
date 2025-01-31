@@ -2,7 +2,7 @@
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
 <h2 align="center">𓂀aᛉlib 🔆</h2>
 
-<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freya's hall, handling physics steady as Mjolnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
+<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as [Freyja's](https://en.wikipedia.org/wiki/Freyja) hall, handling physics steady as [Mjölnir's](https://en.wikipedia.org/wiki/Mj%C3%B6lnir) flight. No more shall y'a wrestle with the serpents of lake memory or the [Garm](https://en.wikipedia.org/wiki/Garmr) of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of [Asgard](https://en.wikipedia.org/wiki/Asgard), for [Odin's language](https://odin-lang.org/docs/examples/) bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
 <p align="center">
   <a href="https://gabrielgambetta.com/computer-graphics-from-scratch/index.html">
@@ -52,11 +52,11 @@
 
 <hr>
 <p align="center">
-  <a href="2D/scroll/scroll.odin">
+  <a href="2D/paralax/scroll.odin">
     Paralax Scrolling
   </a>
-  <a href="2D/scroll/scroll.odin">
-    <img src="2D/scroll/assets/cyberpunk_street.png" alt="paralax scroll" width="960">
+  <a href="2D/paralax/scroll.odin">
+    <img src="2D/paralax/assets/cyberpunk_street.gif" alt="paralax scroll" width="960">
   </a>
 </p>
 
@@ -126,8 +126,18 @@ The term “sprite” first used by Texas Instruments in the 70s describes indep
 Reference implementations for common collision queries and grid navigation
 
 - [Real Time Collision Detection](https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6)
-
+- [Odin's PhysAC](https://github.com/thePHTest/odin-physac/blob/main/physac.odin)
 - [A*2D path finding](https://github.com/scoobery/odin_pathgrid/blob/master/README.md)
+
+<hr>
+<p align="center">
+  <a href="2D/fluid/main.odin">
+    Fluid Simulation
+  </a>
+  <a href="2D/fluid/main.odin">
+    <img src="2D/fluid/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  </a>
+</p>
 
 <hr>
 <p align="center">
@@ -294,8 +304,20 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p>
 
-- [Making a RayCaster in Odin by Bachware](https://www.youtube.com/watch?v=9dLqxdbRjbM)
 - [Super Fast Ray Casting in Tiled Worlds using DDA by OneLoneCoder](https://www.youtube.com/watch?v=NbSee-XM7WA)
+
+<hr>
+<p align="center">
+  <a href="3D/raycasting/dda/main.odin">
+    Raycasting
+  </a>
+  <a href="3D/raycasting/dda/main.odin">
+    <img src="3D/raycasting/dda/assets/preview.gif"  alt="dda raycasting" width="960">
+  </a>
+</p>
+
+- [Making a RayCaster in Odin by Bachware](https://www.youtube.com/watch?v=9dLqxdbRjbM)
+- [Alfie's - Odinary 3D DDA Raycaster](https://github.com/alfiehiscox/odinary-raycaster)
 
 <hr>
 <p align="center">
@@ -360,5 +382,10 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 - [Karl's 𓂀aᛉlib game template with Hot Reload](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template)
 
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
+
+- [TMX](https://github.com/RobLoach/raylib-tmx) Load Tiled .tmx files for tile maps in 𓂀aᛉlib, with TMX C Loader.
+
+## [Contribute](contributing.md)
+Enter thy hall, where mortals become legends and etch your legacy into the fabric of [Yggdrasil](https://en.wikipedia.org/wiki/Yggdrasil) itself
 
 <p align="center">𒉭 𐱅𐰇𐰼𐰰 𖣐</p>
