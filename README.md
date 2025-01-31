@@ -234,6 +234,24 @@ Reference implementations for common collision queries and grid navigation
   </a>
 </p>
 
+<p align="center">
+  <a href="3D/collision/main.odin">
+    Collision detection
+  </a>
+  <a href="3D/collision/main.odin">
+    <img src="3D/collision/assets/preview.gif" alt="collision detection" width="960">
+  </a>
+</p>
+
+<p align="center">
+  <a href="3D/rotation/main.odin">
+    Flight control
+  </a>
+  <a href="3D/rotation/main.odin">
+    <img src="3D/rotation/assets/preview.gif" alt="collision detection" width="960">
+  </a>
+</p>
+
 ## OpenGL®
 Originally developed by Silicon Graphics in the early '90s, OpenGL® has become the most widely-used open graphics standard in the world
 
