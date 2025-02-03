@@ -4,6 +4,7 @@ import "core:math"
 
 import rl "vendor:raylib"
 
+// http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
 
 // Recursive method for subdividing each face of a polygon.
 sub_divide_triangle :: proc(vertices: ^[dynamic]rl.Vector3, a, b, c: rl.Vector3, depth: u8) {

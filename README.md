@@ -2,7 +2,7 @@
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
 <h2 align="center">𓂀aᛉlib 🔆</h2>
 
-<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as [Freyja's](https://en.wikipedia.org/wiki/Freyja) hall, handling physics steady as [Mjölnir's](https://en.wikipedia.org/wiki/Mj%C3%B6lnir) flight. No more shall y'a wrestle with the serpents of lake memory or the [Garm](https://en.wikipedia.org/wiki/Garmr) of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of [Asgard](https://en.wikipedia.org/wiki/Asgard), for [Odin's language](https://odin-lang.org/docs/examples/) bears the blessing of both low-level mastery and high-level grace...💥"</p>
+<p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freyja's hall, handling physics steady as Mjölnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
 <p align="center">
   <a href="https://gabrielgambetta.com/computer-graphics-from-scratch/index.html">
@@ -13,7 +13,7 @@
   </a>
 </p>
 
-## [v5.5 cheat sheet](https://www.raylib.com/cheatsheet/cheatsheet.html)
+[𓂀aᛉlib 🔆 v5.5 cheat sheet](https://www.raylib.com/cheatsheet/cheatsheet.html)
 
 ## [𓂀aᛉlib 🔆 basics by Falconerd](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
  1. Create a Window
@@ -27,6 +27,8 @@
  9. Using the camera (2D)
  10. Render Textures, Post Processing Shaders
  11. [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
+
+[Game Programming Patterns](https://gameprogrammingpatterns.com/contents.html)
 
 ## 𓂀aᛉlib 🔆 2D
 
@@ -69,6 +71,15 @@
     <img src="2D/sprite/basics/assets/preview.gif" alt="sprites" width="960">
   </a>
 </p>
+
+<hr>
+<p align="center">
+  <a href="https://x.com/DetFantasia/status/1810374059559104603">
+    Detective Fantasia
+  </a>
+</p>
+
+https://github.com/go-dockly/odins-raylib/2D/fluid/assets/ocean.mp4
 
 <hr>
 <p align="center">
@@ -115,6 +126,8 @@ The term “sprite” first used by Texas Instruments in the 70s describes indep
 - [Assimp](https://github.com/CoolDove/odin-assimp/tree/master)
 
 - [Aseprite](https://github.com/blob1807/odin-aseprite)
+
+- [Piskel](https://www.piskelapp.com/) online editor for animated sprites
 
 - [Anima](https://github.com/atomicptr/anima)
 
@@ -277,6 +290,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p>
 
+- [Echo 3D](https://www.echo3d.com/post/convert-2d-and-3d-assets-for-free-tutorial) Convert 2D and 3D Assets
 - [Hunyuan3D NeuralNet](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 
@@ -290,31 +304,31 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p>
 
+- [Twigl](https://twigl.app/)
 - [Inigo Quilez - ShaderKing](https://iquilezles.org/)
 - [Glsl for Beginners](https://waelyasmina.net/articles/glsl-and-shaders-tutorial-for-beginners-webgl-threejs/)
 - [Odin's OpenGL® tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
 - [🎨 Shader Tutorials](https://github.com/SuboptimalEng/shader-tutorials)
 - [The Book of Shaders](https://thebookofshaders.com/)
+- [Shadered](https://shadered.org/) The most powerful shader IDE
 
 ### TODO port some more glsl examples ૮( OᴗO)っ Contributions welcome
 
 - [Sirenian Dawn](https://www.shadertoy.com/view/XsyGWV)
 - [Blue Planet](https://www.shadertoy.com/view/Ds3XRl)
 - [finish particle simulation](particles/README.md)
-
-## SDF
+- [flat planets](https://emildziewanowski.com/flat-planets/)
+- [The best darn shader yet](https://bgolus.medium.com/the-best-darn-grid-shader-yet-727f9278b9d8)
 
 <hr>
 <p align="center">
-  <a href="2D/sdf/main.odin">
-    Karl's SDF Terrain Painter
+  <a href="3D/pbr/main.odin">
+    Physically Based Rendering
   </a>
-  <a href="2D/sdf/main.odin">
-    <img src="2D/sdf/assets/preview.gif"  alt="sdf painter" width="960">
+  <a href="3D/pbr/main.odin">
+    <img src="3D/pbr/assets/preview.gif"  alt="glsl torus" width="960">
   </a>
 </p>
-
-- [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
 
 ## RayTracing/Casting/Marching
 
@@ -369,6 +383,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
 - [Voxelisation Algorithms and Data Structures](https://pmc.ncbi.nlm.nih.gov/articles/PMC8707769/)
+- [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
 
 <hr>
 <p align="center">
@@ -392,17 +407,53 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin) C Bindings
 
+- [99sounds](https://99sounds.org/free-sound-effects/)
+
 - [FreeSound.org](https://freesound.org/) collaborative collection of ~700K free sounds
+
+- [Free to Use Sounds](http://freetousesounds.com/) Sounds from around the world!
 
 - [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) 33K free sounds from the BBC Effects archive
 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
+- [Graphics Programmer Weekly](https://www.jendrikillner.com/article_database/)
+
+- [Free Icons](https://feathericons.com/)
+
+- [Monospace Fonts](https://freebiesupply.com/blog/top-monospace-fonts-for-developers/)
+
+- [Canva color wheel](https://www.canva.com/colors/color-wheel/)
+
+- [Pixilart](https://www.pixilart.com/) Create and share art.
+
+- [Textures.com](https://www.textures.com/) Take your CG art to the next level.
+
+- [Transparent Textures](https://www.transparenttextures.com/)
+
+- [Image Splitter](https://ruyili.ca/image-splitter/) split images into square tiles.
+
+-	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
+
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
 
 -	[Quaternius](https://quaternius.com/): Free low-poly 3D models.
 
--	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
+-	[Quaternius](https://poly.pizza/): and more perfect for game jams.
+
+- [Polyhaven](https://polyhaven.com/): Free HDRI Environment Maps.
+
+- [Jeremie's 3K animals](https://sketchfab.com/jeremielouvetz/collections/3k-animals) Free low-poly models.
+
+- [Magic Poser](https://magicposer.com/) Draw better and faster
+
+- [Magica Voxel](https://www.voxelmade.com/magicavoxel/) 8-bit voxel editor and path tracing renderer.
+
+- [Jangafx - Embergen](https://jangafx.com/software/embergen/download/free-vdb-animations/) Free VDB Animations.
+
+- [Freepik](https://www.freepik.com/) Designers’ faves
+
+- [Dimensions](https://www.dimensions.com/) visual references of scale across objects.
 
 - [Dusk's 𓂀aᛉlib game template](https://github.com/JerMakesStuff/Dusk)
 
@@ -411,6 +462,8 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 
 - [TMX](https://github.com/RobLoach/raylib-tmx) Load Tiled .tmx files for tile maps in 𓂀aᛉlib, with TMX C Loader.
+
+- [CrocoTile 3D](https://crocotile3d.com/) Create 3d models and environments with tiles.
 
 ## [Contribute](contributing.md)
 Enter thy hall, where mortals become legends and etch your legacy into the fabric of [Yggdrasil](https://en.wikipedia.org/wiki/Yggdrasil) itself

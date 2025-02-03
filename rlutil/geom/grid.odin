@@ -1,5 +1,7 @@
 package geom
 
+import "core:math"
+
 import "core:math/linalg"
 import rl "vendor:raylib"
 
@@ -14,4 +16,11 @@ vector2_distance :: proc(v1, v2: rl.Vector2) -> f32 {
     dx := v2.x - v1.x
     dy := v2.y - v1.y
     return linalg.sqrt(dx * dx + dy * dy)
+}
+
+vector2_lerp :: proc(start, end: rl.Vector2, t: f32) -> rl.Vector2 {
+    return rl.Vector2{
+        math.lerp(start.x, end.x, t),
+        math.lerp(start.y, end.y, t),
+    }
 }

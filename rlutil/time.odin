@@ -2,10 +2,10 @@ package rlutil
 
 import "core:time"
 
-FORMAT_H_M_S_MS :: "%02vh:%02vm:%02vs.%03vms"
-FORMAT_H_M      :: "%02vh:%02vm"
-FORMAT_M_S      :: "%02vm:%02vs"
-FORMAT_S_MS     :: "%02vs.%03vms"
+CLOCK_H_M_S_MS :: "%02vh:%02vm:%02vs.%03vms"
+CLOCK_H_M      :: "%02vh:%02vm"
+CLOCK_M_S      :: "%02vm:%02vs"
+CLOCK_S_MS     :: "%02vs.%03vms"
 
 _time_abs :: proc "contextless" (t: time.Time) -> u64 {
     return u64(t._nsec/1e9 + time.UNIX_TO_ABSOLUTE)
@@ -50,6 +50,6 @@ time_to_hmsms :: proc(t: i64, buf: []u8) -> (res: string) #no_bounds_check {
     buf[2] = ':'
     buf[1] = '0' + u8(h % 10); h /= 10
     buf[0] = '0' + u8(h)
-
+    defer delete(buf)
     return string(buf[:MIN_HMSMS_LEN]) // len HMSMS
 }
