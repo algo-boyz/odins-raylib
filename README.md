@@ -144,11 +144,31 @@ Reference implementations for common collision queries and grid navigation
 
 <hr>
 <p align="center">
+  <a href="2D/fire/main.odin">
+    DOOM fire effect
+  </a>
+  <a href="2D/fire/main.odin">
+    <img src="2D/fire/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="2D/fluid/main.odin">
     Fluid Simulation
   </a>
   <a href="2D/fluid/main.odin">
     <img src="2D/fluid/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/astar/main.odin">
+    A* Path finding
+  </a>
+  <a href="2D/astar/main.odin">
+    <img src="2D/astar/assets/preview.gif" alt="path finding" width="960">
   </a>
 </p>
 
