@@ -79,7 +79,7 @@
   </a>
 </p>
 
-https://github.com/go-dockly/odins-raylib/2D/fluid/assets/ocean.mp4
+https://github.com/go-dockly/odins-raylib/blob/master/2D/fluid/assets/ocean.mp4
 
 <hr>
 <p align="center">
