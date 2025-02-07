@@ -6,6 +6,8 @@ import "core:thread"
 
 import rl "vendor:raylib"
 
+PQueue :: priority_queue.Priority_Queue(Cell)
+
 main :: proc() {
     rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "A* Visualizer")
     rl.SetTargetFPS(60)
@@ -73,7 +75,6 @@ main :: proc() {
             }
         }
     }
-    // Clean
     rl.CloseWindow()
     rl.UnloadFont(font)
     if t != nil {

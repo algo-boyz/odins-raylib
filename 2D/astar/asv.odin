@@ -1,13 +1,10 @@
 package astar
 
-import "core:container/priority_queue"
 import "core:math"
 import "core:time"
 import "core:thread"
 
 import rl "vendor:raylib"
-
-PQueue :: priority_queue.Priority_Queue(Cell)
 
 grid: [][]CellState
 app_status: Status

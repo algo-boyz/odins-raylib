@@ -2,6 +2,8 @@ package main
 
 import rl "vendor:raylib"
 
+// todo compile raylib with rlights.h https://github.com/Bigfoot71/rlights
+
 MAX_LIGHTS :: 4  // Max dynamic lights supported by shader
 
 Light_Type :: enum {

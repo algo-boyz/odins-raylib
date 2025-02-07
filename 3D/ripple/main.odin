@@ -6,6 +6,7 @@ import "core:math/linalg"
 
 import rl "vendor:raylib"
 
+// ported from https://github.com/ProfJski/RayLib-Examples
 Matter :: struct {
     gradient: rl.Vector3,
     normal: rl.Vector3,
@@ -31,7 +32,7 @@ colorizer :: proc(
 
     blue_parts := rl.Vector3{f32(blue.r), f32(blue.g), f32(blue.b)}
     light_parts := rl.Vector3{f32(light.r), f32(light.g), f32(light.b)}
-
+    
     pos := rl.Vector3{
         f32(posx), 
         mat_array[posx + posz * xsize].height, 

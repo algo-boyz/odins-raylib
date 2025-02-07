@@ -19,3 +19,5 @@ https://github.com/aceiii/ace-raytracer
 - [ReSTIR (C++) with DirectX Raytracing](https://github.com/lindayukeyi/ReSTIR_DX12)
 
 - [ZetaRay (C++) Real-time Direct3D 12 path tracer](https://github.com/alipbcs/ZetaRay)
+
+- [Real-Time Differentiable Ray Tracing](https://radfoam.github.io/)

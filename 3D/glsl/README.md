@@ -1,6 +1,6 @@
 <hr>
 <p align="center">
-  <a href="main.odin">
+  <a href="https://sepi.prose.sh/2022-09-11-how-to-properly-use-shaders-in-raylib">
     🎨 Glsl shaders
   </a>
   <a href="main.odin">
