@@ -117,7 +117,7 @@ main :: proc() {
     img := rl.LoadImage("assets/skybox.png")
     skybox.materials[0].maps[rl.MaterialMapIndex.CUBEMAP].texture = rl.LoadTextureCubemap(img, rl.CubemapLayout.AUTO_DETECT)
     rl.UnloadImage(img)
-    rl.DisableCursor()
+    // rl.DisableCursor()
     rl.SetTargetFPS(60)
     for !rl.WindowShouldClose() {
         rl.UpdateCamera(&camera, .FIRST_PERSON)

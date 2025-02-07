@@ -1,4 +1,4 @@
-# vendor:raylib version seems outdated and the following functions appear not linked 
+# TODO compile with custom raylib config.h
 - LoadComputeShader
 - GetMatrixProjection
 - openGL 430 is not yet supported

@@ -148,22 +148,26 @@
   </a>
 </p>
 
-<p align="center">
+<hr>
+<div align="center">
   <a href="https://www.youtube.com/watch?v=0Gxw5HEj784">
     <img src="https://yt3.googleusercontent.com/672jrfOUtnUtIGPFUS7WqPK3jTsD8FT4EqvKfF3uzxT-gZDpMZlNsTWhfFHr1aec21BvFNEEzg=s160-c-k-c0x00ffffff-no-rj" alt="racer" width="32">
   </a>
+</div>
+
+<p align="center">
   <a href="2D/racing/main.odin">
     <img src="2D/racing/assets/preview.png" alt="racer" width="960">
   </a>
 </p>
 
+<hr>
 <div align="center">
   <a href="https://www.youtube.com/watch?v=wVYKG_ch4yM&list=PLwR6ZGPvjVOSRywn9VCQ3yrRVruxzzuo9">
     <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="Programming With Nick" width="32">
   </a>
 </div>
 
-<hr>
 <p align="center">
   <a href="2D/collision/dino.odin">
     <img src="2D/collision/assets/preview.jpg" alt="collision detection" width="960">
@@ -214,12 +218,33 @@
   <h2>𓂀aᛉlib 🔆 3D </h2>
 </div>
 <p align="center">
-
+  to the stars...
   <a href="3D/stars/main.odin">
     <img src="3D/stars/assets/preview.gif" alt="asteroids" width="960">
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="3D/shapes/README.md">
+    Exotic shapes
+  </a>
+  <a href="3D/shapes/README.md">
+    <img src="3D/shapes/cubesphere/assets/preview.gif"  alt="cube sphere" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="3D/maps/height/main.odin">
+    Height maps
+  </a>
+  <a href="3D/maps/height/main.odin">
+    <img src="3D/maps/height/assets/preview.gif"  alt="glsl torus" width="960">
+  </a>
+</p>
+
+<hr>
 <p align="center">
   <a href="3D/collision/main.odin">
     Collision detection
@@ -229,6 +254,7 @@
   </a>
 </p>
 
+<hr>
 <p align="center">
   <a href="3D/rotation/main.odin">
     Flight control
@@ -270,16 +296,6 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
   <a href="3D/glsl/main.odin">
     <img src="3D/glsl/assets/preview.gif"  alt="glsl torus" width="960">
-  </a>
-</p>
-
-<hr>
-<p align="center">
-  <a href="3D/maps/height/main.odin">
-    Height maps
-  </a>
-  <a href="3D/maps/height/main.odin">
-    <img src="3D/maps/height/assets/preview.gif"  alt="glsl torus" width="960">
   </a>
 </p>
 
