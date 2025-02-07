@@ -55,3 +55,5 @@ Fog is a useful tool to hide clipping of the graphics at the far end of the z ax
 - [Voxelisation Algorithms and Data Structures](https://pmc.ncbi.nlm.nih.gov/articles/PMC8707769/)
 
 - [Intro to Signed Distance Fields](https://www.youtube.com/watch?v=pEdlZ9W2Xs0)
+
+- [Magica Voxel](https://www.voxelmade.com/magicavoxel/) 8-bit voxel editor and path tracing renderer.
