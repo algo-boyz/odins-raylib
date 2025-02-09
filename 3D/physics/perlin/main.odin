@@ -1,0 +1,336 @@
+package main
+
+import "core:math"
+import rl "vendor:raylib"
+
+// based on: https://github.com/daniilsjb/perlin-noise
+
+SCREEN_WIDTH :: 1024
+SCREEN_HEIGHT :: 780
+GRID_WIDTH :: 2048
+GRID_HEIGHT :: 1560
+CELL_SIZE :: 20
+COLS :: GRID_WIDTH / CELL_SIZE
+ROWS :: GRID_HEIGHT / CELL_SIZE
+MIN_HEIGHT :: -10
+MAX_HEIGHT :: 5
+MOVE_SPEED :: 60
+
+CAM_INIT_POS :: rl.Vector3{35.0, SCREEN_WIDTH, 210.0}
+CAM_INIT_TARGET :: rl.Vector3{120.0, SCREEN_WIDTH, 150.0}
+CAM_UP :: rl.Vector3{0.0, 0.0, 1.0}
+CAM_FOVY :: 45.0
+FLYING_SPEED :: 0.01
+
+State :: struct {
+    camera: rl.Camera3D,
+    terrain: [COLS][ROWS]f32,
+    flying: f32,
+}
+
+main :: proc() {
+    state := State{
+        camera = rl.Camera3D{},
+        terrain = [COLS][ROWS]f32{},
+        flying = 0,
+    }
+    
+    init(&state)
+    defer rl.CloseWindow()
+    
+    for !rl.WindowShouldClose() {
+        rl.UpdateCamera(&state.camera, .FREE)
+        process_input(&state)
+        draw(&state)
+    }
+}
+
+init :: proc(state: ^State) {
+    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib - 3D Terrain Generation")
+    
+    state.camera.position = CAM_INIT_POS
+    state.camera.target = CAM_INIT_TARGET
+    state.camera.up = CAM_UP
+    state.camera.fovy = CAM_FOVY
+    state.camera.projection = .PERSPECTIVE
+    
+    rl.SetTargetFPS(60)
+    rl.DisableCursor()
+}
+
+set_terrain :: proc(state: ^State) {
+    state.flying += FLYING_SPEED
+    
+    yoff := state.flying
+    for x := 0; x < COLS; x += 1 {
+        xoff := f32(0)
+        for y := 0; y < ROWS; y += 1 {
+            // Generate noise value using Perlin noise
+            noise_value := perlin(xoff, yoff)
+            
+            // Map the noise value to the desired range
+            state.terrain[x][y] = map_range(noise_value, 0, 1, MIN_HEIGHT, MAX_HEIGHT)
+            
+            xoff += 0.2
+        }
+        yoff += 0.2
+    }
+}
+
+process_input :: proc(state: ^State) {
+    move_amount := MOVE_SPEED * rl.GetFrameTime()
+    
+    // Calculate forward and right vectors
+    forward := rl.Vector3Normalize(state.camera.target - state.camera.position)
+    right := rl.Vector3Normalize(rl.Vector3CrossProduct(forward, state.camera.up))
+    
+    // Forward and Backward Movement
+    if rl.IsKeyDown(.W) {
+        state.camera.position = state.camera.position + (forward * move_amount)
+        state.camera.target = state.camera.target + (forward * move_amount)
+    }
+    if rl.IsKeyDown(.S) {
+        state.camera.position = state.camera.position - (forward * move_amount)
+        state.camera.target = state.camera.target - (forward * move_amount)
+    }
+    
+    // Left and Right Movement
+    if rl.IsKeyDown(.A) {
+        state.camera.position = state.camera.position - (forward * move_amount)
+        state.camera.target = state.camera.target - (forward * move_amount)
+    }
+    if rl.IsKeyDown(.D) {
+        state.camera.position = state.camera.position + (forward * move_amount)
+        state.camera.target = state.camera.target + (forward * move_amount)
+    }
+    
+    // Up and Down Movement
+    if rl.IsKeyDown(.E) {
+        state.camera.position.z += move_amount
+        state.camera.target.z += move_amount
+    }
+    if rl.IsKeyDown(.Q) {
+        state.camera.position.z -= move_amount
+        state.camera.target.z -= move_amount
+    }
+    
+    // Ensure camera.up remains consistent
+    state.camera.up = CAM_UP
+}
+
+draw :: proc(state: ^State) {
+    set_terrain(state)
+    
+    rl.BeginDrawing()
+    defer rl.EndDrawing()
+    
+    rl.ClearBackground(rl.BLACK)
+    
+    rl.BeginMode3D(state.camera)
+    defer rl.EndMode3D()
+    
+    // Draw the terrain grid
+    for x := 0; x < COLS - 1; x += 1 {
+        for y := 0; y < ROWS - 1; y += 1 {
+            // Get heights from the terrain array
+            z_top_left := state.terrain[x][y]
+            z_top_right := state.terrain[x + 1][y]
+            z_bottom_left := state.terrain[x][y + 1]
+            z_bottom_right := state.terrain[x + 1][y + 1]
+            
+            // Define corners of the current cell
+            top_left := rl.Vector3{f32(x * CELL_SIZE), f32(y * CELL_SIZE), z_top_left}
+            top_right := rl.Vector3{f32((x + 1) * CELL_SIZE), f32(y * CELL_SIZE), z_top_right}
+            bottom_left := rl.Vector3{f32(x * CELL_SIZE), f32((y + 1) * CELL_SIZE), z_bottom_left}
+            bottom_right := rl.Vector3{f32((x + 1) * CELL_SIZE), f32((y + 1) * CELL_SIZE), z_bottom_right}
+            
+            // Draw horizontal and vertical lines
+            rl.DrawLine3D(top_left, top_right, rl.RAYWHITE)    // Top edge
+            rl.DrawLine3D(top_left, bottom_left, rl.RAYWHITE)  // Left edge
+            
+            // Draw diagonal lines
+            rl.DrawLine3D(top_right, bottom_left, rl.RAYWHITE)  // Diagonal (top-right to bottom-left)
+            rl.DrawLine3D(top_left, bottom_right, rl.RAYWHITE)  // Diagonal (top-left to bottom-right)
+        }
+    }
+    
+    rl.DrawFPS(10, 10)
+}
+
+// Utility functions
+map_range :: proc(value, in_min, in_max, out_min, out_max: f32) -> f32 {
+    t := (value - in_min) / (in_max - in_min)
+    return out_min + t * (out_max - out_min)
+}
+
+// Permutation table for Perlin noise
+P := [512]u8{
+    0x97, 0xA0, 0x89, 0x5B, 0x5A, 0x0F, 0x83, 0x0D, 0xC9, 0x5F, 0x60, 0x35, 0xC2, 0xE9, 0x07, 0xE1,
+    0x8C, 0x24, 0x67, 0x1E, 0x45, 0x8E, 0x08, 0x63, 0x25, 0xF0, 0x15, 0x0A, 0x17, 0xBE, 0x06, 0x94,
+    0xF7, 0x78, 0xEA, 0x4B, 0x00, 0x1A, 0xC5, 0x3E, 0x5E, 0xFC, 0xDB, 0xCB, 0x75, 0x23, 0x0B, 0x20,
+    0x39, 0xB1, 0x21, 0x58, 0xED, 0x95, 0x38, 0x57, 0xAE, 0x14, 0x7D, 0x88, 0xAB, 0xA8, 0x44, 0xAF,
+    0x4A, 0xA5, 0x47, 0x86, 0x8B, 0x30, 0x1B, 0xA6, 0x4D, 0x92, 0x9E, 0xE7, 0x53, 0x6F, 0xE5, 0x7A,
+    0x3C, 0xD3, 0x85, 0xE6, 0xDC, 0x69, 0x5C, 0x29, 0x37, 0x2E, 0xF5, 0x28, 0xF4, 0x66, 0x8F, 0x36,
+    0x41, 0x19, 0x3F, 0xA1, 0x01, 0xD8, 0x50, 0x49, 0xD1, 0x4C, 0x84, 0xBB, 0xD0, 0x59, 0x12, 0xA9,
+    0xC8, 0xC4, 0x87, 0x82, 0x74, 0xBC, 0x9F, 0x56, 0xA4, 0x64, 0x6D, 0xC6, 0xAD, 0xBA, 0x03, 0x40,
+    0x34, 0xD9, 0xE2, 0xFA, 0x7C, 0x7B, 0x05, 0xCA, 0x26, 0x93, 0x76, 0x7E, 0xFF, 0x52, 0x55, 0xD4,
+    0xCF, 0xCE, 0x3B, 0xE3, 0x2F, 0x10, 0x3A, 0x11, 0xB6, 0xBD, 0x1C, 0x2A, 0xDF, 0xB7, 0xAA, 0xD5,
+    0x77, 0xF8, 0x98, 0x02, 0x2C, 0x9A, 0xA3, 0x46, 0xDD, 0x99, 0x65, 0x9B, 0xA7, 0x2B, 0xAC, 0x09,
+    0x81, 0x16, 0x27, 0xFD, 0x13, 0x62, 0x6C, 0x6E, 0x4F, 0x71, 0xE0, 0xE8, 0xB2, 0xB9, 0x70, 0x68,
+    0xDA, 0xF6, 0x61, 0xE4, 0xFB, 0x22, 0xF2, 0xC1, 0xEE, 0xD2, 0x90, 0x0C, 0xBF, 0xB3, 0xA2, 0xF1,
+    0x51, 0x33, 0x91, 0xEB, 0xF9, 0x0E, 0xEF, 0x6B, 0x31, 0xC0, 0xD6, 0x1F, 0xB5, 0xC7, 0x6A, 0x9D,
+    0xB8, 0x54, 0xCC, 0xB0, 0x73, 0x79, 0x32, 0x2D, 0x7F, 0x04, 0x96, 0xFE, 0x8A, 0xEC, 0xCD, 0x5D,
+    0xDE, 0x72, 0x43, 0x1D, 0x18, 0x48, 0xF3, 0x8D, 0x80, 0xC3, 0x4E, 0x42, 0xD7, 0x3D, 0x9C, 0xB4,
+
+    0x97, 0xA0, 0x89, 0x5B, 0x5A, 0x0F, 0x83, 0x0D, 0xC9, 0x5F, 0x60, 0x35, 0xC2, 0xE9, 0x07, 0xE1,
+    0x8C, 0x24, 0x67, 0x1E, 0x45, 0x8E, 0x08, 0x63, 0x25, 0xF0, 0x15, 0x0A, 0x17, 0xBE, 0x06, 0x94,
+    0xF7, 0x78, 0xEA, 0x4B, 0x00, 0x1A, 0xC5, 0x3E, 0x5E, 0xFC, 0xDB, 0xCB, 0x75, 0x23, 0x0B, 0x20,
+    0x39, 0xB1, 0x21, 0x58, 0xED, 0x95, 0x38, 0x57, 0xAE, 0x14, 0x7D, 0x88, 0xAB, 0xA8, 0x44, 0xAF,
+    0x4A, 0xA5, 0x47, 0x86, 0x8B, 0x30, 0x1B, 0xA6, 0x4D, 0x92, 0x9E, 0xE7, 0x53, 0x6F, 0xE5, 0x7A,
+    0x3C, 0xD3, 0x85, 0xE6, 0xDC, 0x69, 0x5C, 0x29, 0x37, 0x2E, 0xF5, 0x28, 0xF4, 0x66, 0x8F, 0x36,
+    0x41, 0x19, 0x3F, 0xA1, 0x01, 0xD8, 0x50, 0x49, 0xD1, 0x4C, 0x84, 0xBB, 0xD0, 0x59, 0x12, 0xA9,
+    0xC8, 0xC4, 0x87, 0x82, 0x74, 0xBC, 0x9F, 0x56, 0xA4, 0x64, 0x6D, 0xC6, 0xAD, 0xBA, 0x03, 0x40,
+    0x34, 0xD9, 0xE2, 0xFA, 0x7C, 0x7B, 0x05, 0xCA, 0x26, 0x93, 0x76, 0x7E, 0xFF, 0x52, 0x55, 0xD4,
+    0xCF, 0xCE, 0x3B, 0xE3, 0x2F, 0x10, 0x3A, 0x11, 0xB6, 0xBD, 0x1C, 0x2A, 0xDF, 0xB7, 0xAA, 0xD5,
+    0x77, 0xF8, 0x98, 0x02, 0x2C, 0x9A, 0xA3, 0x46, 0xDD, 0x99, 0x65, 0x9B, 0xA7, 0x2B, 0xAC, 0x09,
+    0x81, 0x16, 0x27, 0xFD, 0x13, 0x62, 0x6C, 0x6E, 0x4F, 0x71, 0xE0, 0xE8, 0xB2, 0xB9, 0x70, 0x68,
+    0xDA, 0xF6, 0x61, 0xE4, 0xFB, 0x22, 0xF2, 0xC1, 0xEE, 0xD2, 0x90, 0x0C, 0xBF, 0xB3, 0xA2, 0xF1,
+    0x51, 0x33, 0x91, 0xEB, 0xF9, 0x0E, 0xEF, 0x6B, 0x31, 0xC0, 0xD6, 0x1F, 0xB5, 0xC7, 0x6A, 0x9D,
+    0xB8, 0x54, 0xCC, 0xB0, 0x73, 0x79, 0x32, 0x2D, 0x7F, 0x04, 0x96, 0xFE, 0x8A, 0xEC, 0xCD, 0x5D,
+    0xDE, 0x72, 0x43, 0x1D, 0x18, 0x48, 0xF3, 0x8D, 0x80, 0xC3, 0x4E, 0x42, 0xD7, 0x3D, 0x9C, 0xB4,
+}
+
+floor :: proc(x: f32) -> int {
+    xi := int(x)
+    return xi - 1 if x < f32(xi) else xi
+}
+
+fade :: proc(t: f32) -> f32 {
+    return t * t * t * (t * (t * 6.0 - 15.0) + 10.0)
+}
+
+dot_grad :: proc{dot_grad_1d, dot_grad_2d, dot_grad_3d}
+
+dot_grad_1d :: proc(hash: int, xf: f32) -> f32 {
+    return xf if (hash & 0x1) != 0 else -xf
+}
+
+dot_grad_2d :: proc(hash: int, xf, yf: f32) -> f32 {
+    switch hash & 0x7 {
+        case 0x0: return  xf + yf
+        case 0x1: return  xf
+        case 0x2: return  xf - yf
+        case 0x3: return -yf
+        case 0x4: return -xf - yf
+        case 0x5: return -xf
+        case 0x6: return -xf + yf
+        case 0x7: return  yf
+        case: return 0.0
+    }
+}
+
+dot_grad_3d :: proc(hash: int, xf, yf, zf: f32) -> f32 {
+    switch hash & 0xF {
+        case 0x0: return  xf + yf
+        case 0x1: return -xf + yf
+        case 0x2: return  xf - yf
+        case 0x3: return -xf - yf
+        case 0x4: return  xf + zf
+        case 0x5: return -xf + zf
+        case 0x6: return  xf - zf
+        case 0x7: return -xf - zf
+        case 0x8: return  yf + zf
+        case 0x9: return -yf + zf
+        case 0xA: return  yf - zf
+        case 0xB: return -yf - zf
+        case 0xC: return  yf + xf
+        case 0xD: return -yf + zf
+        case 0xE: return  yf - xf
+        case 0xF: return -yf - zf
+        case: return 0.0
+    }
+}
+
+perlin :: proc{perlin_1d, perlin_2d, perlin_3d}
+
+perlin_1d :: proc(x: f32) -> f32 {
+    xi0 := floor(x)
+    
+    xf0 := x - f32(xi0)
+    xf1 := xf0 - 1.0
+    
+    xi := xi0 & 0xFF
+    
+    u := fade(xf0)
+        
+    h0 := int(P[xi + 0])
+    h1 := int(P[xi + 1])
+    
+    return math.lerp(dot_grad(h0, xf0), dot_grad(h1, xf1), u)
+}
+
+perlin_2d :: proc(x, y: f32) -> f32 {
+    xi0 := floor(x)
+    yi0 := floor(y)
+    
+    xf0 := x - f32(xi0)
+    yf0 := y - f32(yi0)
+    xf1 := xf0 - 1.0
+    yf1 := yf0 - 1.0
+    
+    xi := xi0 & 0xFF
+    yi := yi0 & 0xFF
+    
+    u := fade(xf0)
+    v := fade(yf0)
+    
+    h00 := int(P[int(P[xi + 0]) + yi + 0])
+    h01 := int(P[int(P[xi + 0]) + yi + 1])
+    h10 := int(P[int(P[xi + 1]) + yi + 0])
+    h11 := int(P[int(P[xi + 1]) + yi + 1])
+    
+    x1 := math.lerp(dot_grad(h00, xf0, yf0), dot_grad(h10, xf1, yf0), u)
+    x2 := math.lerp(dot_grad(h01, xf0, yf1), dot_grad(h11, xf1, yf1), u)
+    
+    return math.lerp(x1, x2, v)
+}
+
+perlin_3d :: proc(x, y, z: f32) -> f32 {
+    xi0 := floor(x)
+    yi0 := floor(y)
+    zi0 := floor(z)
+    
+    xf0 := x - f32(xi0)
+    yf0 := y - f32(yi0)
+    zf0 := z - f32(zi0)
+    xf1 := xf0 - 1.0
+    yf1 := yf0 - 1.0
+    zf1 := zf0 - 1.0
+    
+    xi := xi0 & 0xFF
+    yi := yi0 & 0xFF
+    zi := zi0 & 0xFF
+    
+    u := fade(xf0)
+    v := fade(yf0)
+    w := fade(zf0)
+    
+    h000 := int(P[int(P[int(P[xi + 0]) + yi + 0]) + zi + 0])
+    h001 := int(P[int(P[int(P[xi + 0]) + yi + 0]) + zi + 1])
+    h010 := int(P[int(P[int(P[xi + 0]) + yi + 1]) + zi + 0])
+    h011 := int(P[int(P[int(P[xi + 0]) + yi + 1]) + zi + 1])
+    h100 := int(P[int(P[int(P[xi + 1]) + yi + 0]) + zi + 0])
+    h101 := int(P[int(P[int(P[xi + 1]) + yi + 0]) + zi + 1])
+    h110 := int(P[int(P[int(P[xi + 1]) + yi + 1]) + zi + 0])
+    h111 := int(P[int(P[int(P[xi + 1]) + yi + 1]) + zi + 1])
+    
+    x11 := math.lerp(dot_grad(h000, xf0, yf0, zf0), dot_grad(h100, xf1, yf0, zf0), u)
+    x12 := math.lerp(dot_grad(h010, xf0, yf1, zf0), dot_grad(h110, xf1, yf1, zf0), u)
+    x21 := math.lerp(dot_grad(h001, xf0, yf0, zf1), dot_grad(h101, xf1, yf0, zf1), u)
+    x22 := math.lerp(dot_grad(h011, xf0, yf1, zf1), dot_grad(h111, xf1, yf1, zf1), u)
+    
+    y1 := math.lerp(x11, x12, v)
+    y2 := math.lerp(x21, x22, v)
+    
+    return math.lerp(y1, y2, w)
+}

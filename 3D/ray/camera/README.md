@@ -2,6 +2,7 @@
 Understanding camera projection
 </h2>
 
+Ported from: [github.com/arceryz/raylib-examples](https://github.com/arceryz/raylib-examples)
 <hr>
 <p align="center">
   <a href="main.odin">
@@ -9,7 +10,7 @@ Understanding camera projection
   </a>
 </p>
 
-The green ray you're seeing is a visualization of a camera ray - essentially showing where in 3D space your mouse is "pointing" from the camera's perspective.
+The green ray you're seeing bouncing of the cube at times is a visualization of a camera ray - essentially showing where in 3D space your mouse is "pointing" to from the camera's perspective.
 
 1. code tracks mouse position and converts it to normalized device coordinates (NDC):
 ```odin

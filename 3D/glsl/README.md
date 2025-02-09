@@ -18,6 +18,8 @@
 
 - [How to Write Shaders Code](https://github.com/SuboptimalEng/shader-tutorials)
 
+- [OpenGL Tutorials](https://lazyfoo.net/tutorials/OpenGL/index.php)
+
 - [Odin's OpenGL® tutorials](https://github.com/bg-thompson/OpenGL-Tutorials-In-Odin)
 
 - [The Book of Shaders](https://thebookofshaders.com/)

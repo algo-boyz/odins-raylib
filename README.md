@@ -44,21 +44,21 @@
 
 <hr>
 <p align="center">
-  <a href="2D/microui/main.odin">
+  <a href="2D/gui/microui/main.odin">
     MicroUI
   </a>
-  <a href="2D/microui/main.odin">
-    <img src="2D/microui/assets/preview.png" alt="microui" width="960">
+  <a href="2D/gui/microui/main.odin">
+    <img src="2D/gui/microui/assets/preview.png" alt="microui" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/paralax/scroll.odin">
+  <a href="2D/games/paralax/scroll.odin">
     Paralax Scrolling
   </a>
-  <a href="2D/paralax/scroll.odin">
-    <img src="2D/paralax/assets/cyberpunk_street.gif" alt="paralax scroll" width="960">
+  <a href="2D/games/paralax/scroll.odin">
+    <img src="2D/games/paralax/assets/cyberpunk_street.gif" alt="paralax scroll" width="960">
   </a>
 </p>
 
@@ -70,31 +70,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/sprite/README.md">
+  <a href="2D/games/sprite/README.md">
     Animator
   </a>
-  <a href="2D/sprite/README.md">
-    <img src="2D/sprite/animator/assets/preview.gif" alt="animator" width="960">
+  <a href="2D/games/sprite/README.md">
+    <img src="2D/games/sprite/animator/assets/preview.gif" alt="animator" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/sprite/README.md">
+  <a href="2D/games/sprite/README.md">
     Explosions
   </a>
-  <a href="2D/sprite/README.md">
-    <img src="2D/sprite/explosion/assets/preview.gif" alt="explosion 2D" width="960">
+  <a href="2D/games/sprite/README.md">
+    <img src="2D/games/sprite/explosion/assets/preview.gif" alt="explosion 2D" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/sprite/README.md">
+  <a href="2D/games/sprite/README.md">
     Character Control
   </a>
-  <a href="2D/sprite/README.md">
-    <img src="2D/sprite/jump/assets/preview.gif" alt="animation system" width="960">
+  <a href="2D/games/sprite/README.md">
+    <img src="2D/games/sprite/jump/assets/preview.gif" alt="animation system" width="960">
   </a>
 </p>
 
@@ -120,31 +120,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/curves/README.md">
-    Curves
+  <a href="2D/shapes/README.md">
+    Shapes
   </a>
-  <a href="2D/curves/README.md">
-    <img src="2D/curves/smooth/assets/preview.gif" alt="curves" width="960">
+  <a href="2D/shapes/README.md">
+    <img src="2D/shapes/curves/smooth/assets/preview.gif" alt="curves" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/fire/README.md">
+  <a href="2D/physics/fire/README.md">
     DOOM fire effect
   </a>
-  <a href="2D/fire/README.md">
-    <img src="2D/fire/doom/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  <a href="2D/physics/fire/README.md">
+    <img src="2D/physics/fire/doom/assets/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/fluid/main.odin">
+  <a href="2D/physics/fluid/main.odin">
     Fluid Simulation
   </a>
-  <a href="2D/fluid/main.odin">
-    <img src="2D/fluid/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  <a href="2D/physics/fluid/main.odin">
+    <img src="2D/physics/fluid/assets/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>
 
@@ -160,11 +160,11 @@
 
 <hr>
 <p align="center">
-  <a href="2D/asteroids/main.odin">
+  <a href="2D/games/asteroids/main.odin">
     In a world filled with space rocks, one ship can make a difference...
   </a>
-  <a href="2D/asteroids/main.odin">
-    <img src="2D/asteroids/assets/preview.gif" alt="asteroids" width="960">
+  <a href="2D/games/asteroids/main.odin">
+    <img src="2D/games/asteroids/assets/preview.gif" alt="asteroids" width="960">
   </a>
 </p>
 
@@ -176,8 +176,8 @@
 </div>
 
 <p align="center">
-  <a href="2D/racing/main.odin">
-    <img src="2D/racing/assets/preview.png" alt="racer" width="960">
+  <a href="2D/games/racing/main.odin">
+    <img src="2D/games/racing/assets/preview.png" alt="racer" width="960">
   </a>
 </p>
 
@@ -189,38 +189,38 @@
 </div>
 
 <p align="center">
-  <a href="2D/collision/dino.odin">
-    <img src="2D/collision/assets/preview.jpg" alt="collision detection" width="960">
+  <a href="2D/physics/collision/dino.odin">
+    <img src="2D/physics/collision/assets/preview.jpg" alt="collision detection" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/buttons/button.odin">
+  <a href="2D/gui/buttons/button.odin">
     Menus
   </a>
-  <a href="2D/buttons/button.odin">
-    <img src="2D/buttons/assets/preview.png" alt="buttons" width="960">
+  <a href="2D/gui/buttons/button.odin">
+    <img src="2D/gui/buttons/assets/preview.png" alt="buttons" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/clock/clock.odin">
+  <a href="2D/gui/clock/clock.odin">
     Analog Clock
   </a>
-  <a href="2D/clock/clock.odin">
-    <img src="2D/clock/assets/preview.gif" alt="clock" width="960">
+  <a href="2D/gui/clock/clock.odin">
+    <img src="2D/gui/clock/assets/preview.gif" alt="clock" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/pong/main.odin">
+  <a href="2D/games/pong/main.odin">
     Pong
   </a>
-  <a href="2D/pong/main.odin">
-    <img src="2D/pong/assets/preview.gif" alt="pong" width="960">
+  <a href="2D/games/pong/main.odin">
+    <img src="2D/games/pong/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
@@ -229,8 +229,8 @@
   <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">
     Conway's Game of Life
   </a>
-  <a href="2D/conway/main.odin">
-    <img src="2D/conway/assets/preview.gif" alt="pong" width="960">
+  <a href="2D/games/conway/main.odin">
+    <img src="2D/games/conway/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
@@ -295,6 +295,17 @@
     <img src="3D/physics/collision/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
+
+<hr>
+<p align="center">
+  <a href="3D/physics/perlin/main.odin">
+    Perlin noise
+  </a>
+  <a href="3D/physics/perlin/main.odin">
+    <img src="3D/physics/perlin/assets/preview.gif"  alt="scale" width="960">
+  </a>
+</p>
+
 
 - [Jolt](3D/jolt/jolt.odin) C Bindings to Jolt
 - [PhysX](https://github.com/tgolsson/physx-odin) C Bindings to PhysX
@@ -380,15 +391,6 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
 
-<hr>
-<p align="center">
-  <a href="3D/physics/particles/main.odin">
-    Particle simulation
-  </a>
-  <a href="3D/physics/particles/main.odin">
-    <img src="3D/physics/particles/assets/preview.png"  alt="glsl torus" width="960">
-  </a>
-</p>
 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
@@ -425,6 +427,11 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [Archery](https://github.com/LunaStrawberri/archery)
 
+- [Wolfenstein 3D](https://github.com/Akselmo/artificial-rage)
+
+- [Quake](https://github.com/jakubtomsu/dungeon-of-quake?tab=readme-ov-file)
+
+- [Chunky](https://github.com/christopherzimmerman/chunky) Minecraft-inspired voxel game
 
 ### Toolz
 
@@ -434,9 +441,13 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 
 - [Magic Poser](https://magicposer.com/) Draw better and faster
 
+- [Piskel](https://www.piskelapp.com/) Editor for animated sprites & pixel art.
+
 - [Image Splitter](https://ruyili.ca/image-splitter/) split images into square tiles.
 
 - [Dimensions](https://www.dimensions.com/) visual references of scale across objects.
+
+- [glTF Viewer](https://gltf-viewer.donmccurdy.com/)
 
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 
@@ -459,6 +470,8 @@ https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85
 -	[OpenGameArt](https://opengameart.org/): A treasure trove of open-source game assets.
 
 -	[Kenney.nl](https://kenney.nl/assets): Free game assets for 2D and 3D projects.
+
+-	[kaylousberg](https://kaylousberg.com/game-assets): Great collection of free game assets.
 
 -	[Quaternius](https://quaternius.com/): Free low-poly 3D models.
 

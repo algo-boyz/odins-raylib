@@ -27,3 +27,8 @@ GuiSlider_Custom :: proc(bounds: rl.Rectangle, textLeft: cstring, textRight: cst
         }
     }
 }
+
+// poor man's healthbar
+healthbar :: proc (health: ^f32, bounds: rl.Rectangle) {
+    rl.GuiProgressBar(bounds, "Health", "", health, 0, 100)
+}
