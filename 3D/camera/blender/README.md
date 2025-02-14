@@ -1,8 +1,15 @@
-# A Blender Style Camera Implemenation for [Raylib](https://github.com/raysan5/raylib)
+<h2 align="center">
+    Blender Style Camera
+</h2>
 
-This project provides a blender style camera (with both orbit and fly modes) in **3 lines of Odin**!
+<p align="center">
+  <a href="main.odin">
+    <img src="assets/preview.gif" alt="blender" width="960">
+  </a>
+</p>
+This project provides a blender style camera (with both orbit and fly modes) in 3 lines of Odin
 
-**Supported Modes/Features**
+### **Supported Modes/Features**
 
 1. Gimbal Orbit (Pan, Zoom, Orbit Rotate)
 2. Free Fly Mode (WASD + QE with normal, fast, and slow mode)
@@ -126,7 +133,7 @@ bcam = blender.camera_init()
 bcam.camera.fovy = 70
 ```
 
-## Todo
+## Todo ૮( OᴗO)っ Contributions welcome
 
 - [ ] Orthographic Support
 - [ ] Track object

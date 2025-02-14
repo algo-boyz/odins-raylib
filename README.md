@@ -311,11 +311,11 @@
 
 <hr>
 <p align="center">
-  <a href="3D/physics/collision/main.odin">
+  <a href="3D/physics/collision/box/main.odin">
     Collision detection
   </a>
-  <a href="3D/physics/collision/main.odin">
-    <img src="3D/physics/collision/assets/preview.gif" alt="collision detection" width="960">
+  <a href="3D/physics/collision/box/main.odin">
+    <img src="3D/physics/collision/box/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
 
@@ -338,11 +338,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
-  <a href="3D/models/gltf/robot/gltf.odin">
+  <a href="3D/models/glb/robot/main.odin">
     GLB models
   </a>
-  <a href=3D/models/gltf/robot/gltf.odin">
-    <img src="3D/models/gltf/robot/assets/preview.png" alt="glb" width="960">
+  <a href=3D/models/glb/robot/main.odin">
+    <img src="3D/models/glb/robot/assets/preview.gif" alt="glb" width="960">
   </a>
 </p>
 

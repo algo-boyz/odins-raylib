@@ -1,14 +1,14 @@
 <h2 align="center">
 Understanding camera projection
 </h2>
-
-Ported from: [github.com/arceryz/raylib-examples](https://github.com/arceryz/raylib-examples)
 <hr>
 <p align="center">
   <a href="main.odin">
     <img src="assets/preview.gif" alt="microui" width="960">
   </a>
 </p>
+
+Ported from: [github.com/arceryz/raylib-examples](https://github.com/arceryz/raylib-examples)
 
 The green ray you're seeing bouncing of the cube at times is a visualization of a camera ray - essentially showing where in 3D space your mouse is "pointing" to from the camera's perspective.
 
