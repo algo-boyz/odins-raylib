@@ -4,6 +4,7 @@ import "core:fmt"
 import "core:math/rand"
 import rl "vendor:raylib"
 
+// making falling sand simulations - https://jason.today/falling-sand
 Particles :: enum {
 	None,
 	Sand,

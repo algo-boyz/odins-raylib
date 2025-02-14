@@ -14,6 +14,7 @@
 </p>
 
 [𓂀aᛉlib 🔆 v5.5 cheat sheet](https://www.raylib.com/cheatsheet/cheatsheet.html)
+[Building and Linking Google's ANGLE with 𓂀aᛉlib 🔆 on MacOS](https://dev.to/grplyler/building-and-linking-googles-angle-with-raylib-on-macos-11kp) -- todo make dedicated ODIN guide
 
 ## [𓂀aᛉlib 🔆 basics by Falconerd](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
  1. Create a Window
@@ -100,11 +101,23 @@
 
 <hr>
 <p align="center">
-  <a href="2D/camera/main.odin">
+  <a href="2D/camera/control/main.odin">
     Camera Control
   </a>
-  <a href="2D/camera/main.odin">
-    <img src="2D/camera/assets/preview.gif" alt="explosion 2D" width="960">
+  <a href="2D/camera/control/main.odin">
+    <img src="2D/camera/control/assets/preview.gif" alt="camera control" width="960">
+  </a>
+</p>
+
+[Understanding the 2D Camera in Raylib](http://archieatkinson.com/raylib-2dcamera)
+
+<hr>
+<p align="center">
+  <a href="2D/camera/quadtree/main.odin">
+    Quadtree
+  </a>
+  <a href="2D/camera/quadtree/main.odin">
+    <img src="2D/camera/quadtree/assets/preview.gif" alt="quadtree" width="960">
   </a>
 </p>
 
@@ -256,11 +269,21 @@
 
 <hr>
 <p align="center">
-  <a href="3D/ray/camera/README.md">
-    Projection
+  <a href="3D/camera/frustum/README.md">
+    Frustum
   </a>
-  <a href="3D/ray/camera/README.md">
-    <img src="3D/ray/camera/assets/preview.gif" alt="microui" width="960">
+  <a href="3D/camera/frustum/README.md">
+    <img src="3D/camera/frustum/assets/preview.gif" alt="frustum" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="3D/camera/blender/README.md">
+    Blender style
+  </a>
+  <a href="3D/camera/blender/README.md">
+    <img src="3D/camera/blender/assets/preview.gif" alt="blender" width="960">
   </a>
 </p>
 
@@ -315,11 +338,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
-  <a href="3D/models/gltf/gltf.odin">
-    GLTF models
+  <a href="3D/models/gltf/robot/gltf.odin">
+    GLB models
   </a>
-  <a href=3D/models/gltf/gltf.odin">
-    <img src="3D/models/gltf/assets/preview.png" alt="gltf models" width="960">
+  <a href=3D/models/gltf/robot/gltf.odin">
+    <img src="3D/models/gltf/robot/assets/preview.png" alt="glb" width="960">
   </a>
 </p>
 
@@ -329,7 +352,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
     OBJ models
   </a>
   <a href="3D/models/obj/main.odin">
-    <img src="3D/models/obj/assets/preview.png"  alt="obj 3D models" width="960">
+    <img src="3D/models/obj/assets/preview.png"  alt="obj" width="960">
   </a>
 </p>
 
