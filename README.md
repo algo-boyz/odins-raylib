@@ -372,7 +372,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
     Physics Based Rendering (PBR)
   </a>
   <a href="3D/physics/pbr/main.odin">
-    <img src="3D/physics/pbr/assets/preview.gif"  alt="glsl torus" width="960">
+    <img src="3D/physics/pbr/assets/preview.gif"  alt="pbr" width="960">
   </a>
 </p>
 
@@ -392,19 +392,19 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
     Raymarching
   </a>
   <a href="3D/ray/marching/README.md">
-    <img src="3D/ray/marching/assets/preview.png"  alt="glsl torus" width="960">
+    <img src="3D/ray/marching/assets/preview.png"  alt="raymarching" width="960">
   </a>
 </p>
 
-<hr>
+<!-- <hr>
 <p align="center">
   <a href="3D/ray/tracing/README.md">
     Raytracing
   </a>
   <a href="3D/ray/tracing/README.md">
-    <img src="3D/ray/tracing/assets/preview.png"  alt="glsl torus" width="960">
+    <img src="3D/ray/tracing/assets/preview.png"  alt="raytracing" width="960">
   </a>
-</p>
+</p> -->
 
 <p align="center">
   <a href="3D/voxels/README.md">
