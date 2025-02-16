@@ -1,142 +1,232 @@
+// MIT (c) 2025 by Jesus Marron
+// https://github.com/jmarron7/odin-boids
 package main
 
 import "core:fmt"
 import "core:math"
-import "core:math/linalg"
-import "core:math/rand"
-import mui "vendor:microui"
 import rl "vendor:raylib"
 
-WINDOW_WIDTH :: 1000
-WINDOW_HEIGHT :: 800
+NUM_BOIDS :: 200
+BOID_SIZE :: 8.0
 
-BOID_AMOUNT :: 100
-BOID_SIZE :: 10
-BOID_SPEED :: 100
-BOID_VIEWING_ANGLE :: 140
-BOID_VIEWING_RADIUS :: 70
-BOID_TURNING_STR :: 80000
-BOID_COHESION :: 300
-BOID_ALIGNMENT_RADIUS :: 100
-BOID_ALIGNMENT :: 300
+// Window dimensions
+WIDTH :: 2040
+HEIGHT :: 1080
+
+// Boid parameters
+MAX_SPEED :: 6.5
+SEP_WEIGHT :: 0.5
+ALIGN_WEIGHT :: 0.5
+COH_WEIGHT :: 0.1
+
+SEPARATION_RADIUS :: 25.0
+ALIGNMENT_RADIUS :: 50.0
+COHESION_RADIUS :: 50.0
+
 
 Boid :: struct {
-	id:    int,
-	pos:   rl.Vector2,
-	vel:   rl.Vector2,
-	rot:   f32,
-	color: rl.Color,
+    position: rl.Vector2,
+    velocity: rl.Vector2,
+    acceleration: rl.Vector2,
 }
 
 main :: proc() {
-	rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "2D Boids")
-	defer rl.CloseWindow()
-	rl.SetTargetFPS(60)
-
-
-	boids := make([]Boid, BOID_AMOUNT)
-	for i in 0 ..< BOID_AMOUNT {
-		boids[i] = random_boid(i)
-	}
-
-	for !rl.WindowShouldClose() {
-		delta := rl.GetFrameTime()
-
-		for &boid in boids {
-			update_boid_position(&boid, boids, delta)
-			update_boid_rotation(&boid)
-		}
-
-		rl.BeginDrawing()
-		defer rl.EndDrawing()
-		rl.ClearBackground(rl.DARKBLUE)
-
-		for boid in boids {
-			draw_boid(boid)
-		}
-	}
+    rl.InitWindow(WIDTH, HEIGHT, "Boids Simulation")
+    rl.SetTargetFPS(60)
+    
+    flock := init_boids()
+    
+    // Main loop
+    for !rl.WindowShouldClose() {
+        update_boids(flock)
+        rl.BeginDrawing()
+        rl.ClearBackground(rl.BLACK)
+        draw_boids(flock)
+        rl.EndDrawing()
+    }
+    
+    rl.CloseWindow()
 }
 
-random_boid :: proc(id: int) -> Boid {
-	return Boid {
-		id = id,
-		pos = {rand.float32_range(0, WINDOW_WIDTH), rand.float32_range(0, WINDOW_HEIGHT)},
-		vel = {rand.float32_range(-200, 200), rand.float32_range(-200, 200)},
-		rot = 0,
-		color = rl.RAYWHITE,
-	}
+init_boids :: proc() -> []Boid {
+    boids := new([NUM_BOIDS]Boid)
+    
+    // Initialize boids with random positions and velocities
+    for i in 0..<NUM_BOIDS {
+        boids[i] = Boid{
+            position = rl.Vector2{f32(rl.GetRandomValue(0, WIDTH)), f32(rl.GetRandomValue(0, HEIGHT))},
+            velocity = rl.Vector2{f32(rl.GetRandomValue(-1, 1)), f32(rl.GetRandomValue(-1, 1))},
+            acceleration = rl.Vector2{0, 0},
+        }
+    }
+    
+    return boids[:]
 }
 
-draw_boid :: proc(boid: Boid) {
-	rl.DrawPoly(boid.pos, 3, BOID_SIZE, boid.rot, boid.color)
+separation :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
+    perception_radius: f32 = SEPARATION_RADIUS
+
+    steer := rl.Vector2{0, 0}
+    
+    //  Count how many boids are in the perception radius
+    total := 0
+    for other in boids {
+        if other != boid {
+            distance := rl.Vector2Distance(boid.position, other.position)
+            if distance < perception_radius && distance > 0 {
+                diff := boid.position - other.position
+                
+                weight := (perception_radius - distance) / perception_radius
+                weight *= weight
+                
+                diff = rl.Vector2Normalize(diff) * weight
+                steer += diff
+                total += 1
+            }
+        }
+        
+        // Average the steering vector
+        if total > 0 {
+            steer = steer * (1/f32(total))
+            steer = rl.Vector2Normalize(steer)
+            steer = steer * 0.8
+        }
+        
+    }
+    return steer
 }
 
-update_boid_position :: proc(boid: ^Boid, boids: []Boid, delta: f32) {
+alignment :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
+    perception_radius: f32 = ALIGNMENT_RADIUS
+    avg_velocity := rl.Vector2{0, 0}
 
-	update_separation(boid, boids, delta)
-	update_cohesion(boid, boids, delta)
-	update_alignment(boid, boids, delta)
-
-	// Max Velocity 
-	boid.vel = linalg.normalize(boid.vel) * 200
-
-	boid.pos += boid.vel * delta
-	if boid.pos.x > WINDOW_WIDTH {boid.pos.x = 0}
-	if boid.pos.x < 0 {boid.pos.x = WINDOW_WIDTH}
-	if boid.pos.y > WINDOW_HEIGHT {boid.pos.y = 0}
-	if boid.pos.y < 0 {boid.pos.y = WINDOW_HEIGHT}
+    // Count how many boids are in the perception radius
+    total := 0
+    for other in boids {
+        if other != boid {
+            distance := rl.Vector2Distance(boid.position, other.position)
+            if distance < perception_radius {
+                avg_velocity = avg_velocity + other.velocity
+                total += 1
+            }
+        }
+    }
+    
+    // Average the velocity vector
+    if total > 0 {
+        avg_velocity = avg_velocity * (1/f32(total))
+        avg_velocity -= boid.velocity
+        avg_velocity = rl.Vector2Normalize(avg_velocity) * 0.3
+    }
+    
+    return avg_velocity
 }
 
-// This could use a little tweaking but is working okay. 
-// Consider using a vision angle so they can't see behind themselves.
-update_separation :: proc(boid: ^Boid, boids: []Boid, delta: f32) {
-	for other_boid in boids {
-		if boid.id != other_boid.id {
-			dist := linalg.distance(boid.pos, other_boid.pos)
-			if dist < BOID_VIEWING_RADIUS {
-				// dist = max(dist, 0.1)
-				dir := linalg.normalize(other_boid.pos - boid.pos)
-				avoidance_dir := rl.Vector2{-dir.y, dir.x}
-				if rand.int_max(2) > 1 {avoidance_dir = rl.Vector2{dir.y, -dir.x}}
-				avoidance_str := BOID_TURNING_STR / (dist * dist)
-				avoidance_force := avoidance_dir * avoidance_str
-				boid.vel += avoidance_force * delta
-			}
-		}
-	}
+cohesion :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
+    perception_radius: f32 = COHESION_RADIUS
+    
+    // Center of the boids in the perception radius
+    center := rl.Vector2{0, 0}
+    avg_distance: f32 = 0.0
+
+    // Count how many boids are in the perception radius
+    total := 0
+    for other in boids {
+        if other != boid {
+            distance := rl.Vector2Distance(boid.position, other.position)
+            if distance < perception_radius {
+                center += other.position
+                avg_distance += distance
+                total += 1
+            }
+        }
+    }
+    
+    // Average the center vector
+    if total > 0 {
+        center = center * (1/f32(total))
+        avg_distance = avg_distance / f32(total)
+        steer := center - boid.position
+
+        weight := 0.02 + (0.1 * (avg_distance / perception_radius))
+        steer = rl.Vector2Normalize(steer) * weight
+        
+        return steer
+    }
+    
+    return center 
 }
 
-update_cohesion :: proc(boid: ^Boid, boids: []Boid, delta: f32) {
-	sum := rl.Vector2{0, 0}
-	for boid in boids {sum += boid.pos}
-	avg := sum / f32(len(boids))
-	dir := linalg.normalize(avg - boid.pos)
-	cohesion_force := dir * BOID_COHESION
-	boid.vel += cohesion_force * delta
+draw_boids :: proc(boids: []Boid) {
+    size: f32 = BOID_SIZE
+
+    for boid, idx in boids {
+        vel_normalized := rl.Vector2Normalize(boid.velocity)
+        
+        // Calculate the angle of the velocity vector
+        angle := math.atan2(vel_normalized.y, vel_normalized.x)
+
+        // Draw the boid as a triangle pointing in the direction of the velocity
+        front := rl.Vector2{
+            boid.position.x + vel_normalized.x * size * 2, 
+            boid.position.y + vel_normalized.y * size * 2
+        }
+
+        left := rl.Vector2{
+            boid.position.x + math.cos(math.atan2(vel_normalized.y, vel_normalized.x) + 2.5) * size, 
+            boid.position.y + math.sin(math.atan2(vel_normalized.y, vel_normalized.x) + 2.5) * size
+        }
+
+        right := rl.Vector2{
+            boid.position.x + math.cos(math.atan2(vel_normalized.y, vel_normalized.x) - 2.5) * size, 
+            boid.position.y + math.sin(math.atan2(vel_normalized.y, vel_normalized.x) - 2.5) * size
+        }
+
+        rl.DrawTriangleLines(front, left, right, rl.LIGHTGRAY)
+    }
 }
 
-update_alignment :: proc(boid: ^Boid, boids: []Boid, delta: f32) {
+update_boids :: proc(boids: []Boid) {
+    for i in 0..<NUM_BOIDS {
+        boid := &boids[i]
+        
+        // Calculate the steering forces
+        sep := separation(boids, boid^)
+        align := alignment(boids, boid^)
+        coh := cohesion(boids, boid^)
+        
+        // Update the boid's acceleration, velocity, and position
+        boid.acceleration = (boid.acceleration * 0.7) + (sep * SEP_WEIGHT + align * ALIGN_WEIGHT + coh * COH_WEIGHT) * 0.3
+        boid.velocity += boid.acceleration
+        
+        limit_speed(boid, MAX_SPEED)
+        
+        boid.position += boid.velocity
+        
+        // Wrap around the screen
+        if boid.position.x < -10 {
+            boid.position.x = WIDTH + 10
+        } else if boid.position.x > WIDTH + 10 {
+            boid.position.x = -10
+        }
 
-	count: f32 = 0
-	sum := rl.Vector2{0, 0}
-	for other_boid in boids {
-		if boid.id != other_boid.id {
-			dist := linalg.distance(boid.pos, other_boid.pos)
-			if dist < BOID_ALIGNMENT_RADIUS {
-				sum += other_boid.vel
-				count += 1
-			}
-		}
-	}
+        if boid.position.y < -10 {
+            boid.position.y = HEIGHT + 10
+        } else if boid.position.y > HEIGHT + 10 {
+            boid.position.y = -10
+        }
 
-	if count > 0 {
-		avg_vel := sum / count
-		alignment := linalg.normalize(avg_vel - boid.vel) * BOID_ALIGNMENT
-		boid.vel += alignment * delta
-	}
+        // Apply friction/drag
+        boid.acceleration = boid.acceleration * 0.8
+    }
 }
 
-update_boid_rotation :: proc(boid: ^Boid) {
-	radians := math.atan2(boid.vel.y, boid.vel.x)
-	boid.rot = radians * (180 / math.PI)
+limit_speed :: proc(boid: ^Boid, max_speed: f32) {
+    speed := math.sqrt(boid.velocity.x * boid.velocity.x + boid.velocity.y * boid.velocity.y)
+    
+    if speed > max_speed {
+        scale := max_speed / speed
+        boid.velocity.x *= scale
+        boid.velocity.y *= scale
+    }
 }

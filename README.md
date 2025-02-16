@@ -163,11 +163,21 @@
 
 <hr>
 <p align="center">
-  <a href="2D/astar/main.odin">
+  <a href="https://github.com/jmarron7/odin-boids/blob/main/src/main.odin">
+    Boids Algorithm
+  </a>
+  <a href="https://github.com/jmarron7/odin-boids/blob/main/src/main.odin">
+    <img src="https://github.com/jmarron7/odin-boids/blob/main/assets/boids.gif" alt="fluid simulation 2D" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/astar/README.md">
     Dijkstra's A* Path finder
   </a>
-  <a href="2D/astar/main.odin">
-    <img src="2D/astar/assets/preview.gif" alt="path finding" width="960">
+  <a href="2D/astar/README.md">
+    <img src="2D/astar/naive/assets/preview.gif" alt="path finding" width="960">
   </a>
 </p>
 
