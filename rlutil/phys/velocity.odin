@@ -1,4 +1,4 @@
-package geom
+package phys
 
 import "core:math"
 import rl "vendor:raylib"

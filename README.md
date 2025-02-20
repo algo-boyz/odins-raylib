@@ -123,7 +123,7 @@
 
 <hr>
 <p align="center">
-  <a href="https://github.com/jakubtomsu/fixed-timestep-demo/blob/main/fixed_timestep_demo.odin">
+  <a href="audio/timesteps/README.md">
     Fixed Timesteps
   </a>
   <a href="https://github.com/jakubtomsu/fixed-timestep-demo/blob/main/fixed_timestep_demo.odin">
@@ -138,6 +138,19 @@
   </a>
   <a href="2D/shapes/README.md">
     <img src="2D/shapes/curves/smooth/assets/preview.gif" alt="curves" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/physics/springs/README.md">
+    Springs
+  </a>
+  <a href="2D/physics/springs/README.md">
+    <video width="960" controls>
+      <source src="https://theorangeduck.com/media/uploads/springs/springdamper_implicit_fixed.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </a>
 </p>
 
@@ -422,7 +435,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p>
 
-https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049
+<video width="960" controls>
+  <source src="https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME

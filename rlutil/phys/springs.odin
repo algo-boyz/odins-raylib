@@ -1,4 +1,4 @@
-package geom
+package phys
 
 import "core:math"
 import rl "vendor:raylib"
@@ -471,4 +471,49 @@ tracking_spring_update_exact :: proc "contextless" (
         damping,
         dt,
     )
+}
+
+spring_damper_exact_stiffness_damping :: proc(
+    x, v: ^f32,
+    x_goal, v_goal: f32,
+    stiffness, damping, dt: f32,
+    eps: f32 = 1e-5,
+) {
+    g := x_goal
+    q := v_goal
+    s := stiffness
+    d := damping
+    c := g + (d * q) / (s + eps)
+    y := d / 2.0
+    
+    if math.abs(s - (d * d) / 4.0) < eps { // Critically Damped
+        j0 := x^ - c
+        j1 := v^ + j0 * y
+        
+        eydt := fast_negexp(y * dt)
+        
+        x^ = j0 * eydt + dt * j1 * eydt + c
+        v^ = -y * j0 * eydt - y * dt * j1 * eydt + j1 * eydt
+    } else if s - (d * d) / 4.0 > 0.0 { // Under Damped
+        w := math.sqrt(s - (d * d) / 4.0)
+        j := math.sqrt(square(v^ + y * (x^ - c)) / (w * w + eps) + square(x^ - c))
+        p := math.atan((v^ + (x^ - c) * y) / (-(x^ - c) * w + eps))
+        
+        j = j if x^ - c > 0.0 else -j
+        
+        eydt := fast_negexp(y * dt)
+        
+        x^ = j * eydt * math.cos(w * dt + p) + c
+        v^ = -y * j * eydt * math.cos(w * dt + p) - w * j * eydt * math.sin(w * dt + p)
+    } else if s - (d * d) / 4.0 < 0.0 { // Over Damped
+        y0 := (d + math.sqrt(d * d - 4 * s)) / 2.0
+        y1 := (d - math.sqrt(d * d - 4 * s)) / 2.0
+        j1 := (c * y0 - x^ * y0 - v^) / (y1 - y0)
+        j0 := x^ - j1 - c
+        
+        ey0dt := fast_negexp(y0 * dt)
+        ey1dt := fast_negexp(y1 * dt)
+        x^ = j0 * ey0dt + j1 * ey1dt + c
+        v^ = -y0 * j0 * ey0dt - y1 * j1 * ey1dt
+    }
 }

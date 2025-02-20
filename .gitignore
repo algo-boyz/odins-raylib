@@ -5,3 +5,6 @@
 hot/
 **/ols.json
 todo/
+3D/models/fbx/deps
+audio/bass/libbass.dylib
+audio/openal/libopenal.dylib
