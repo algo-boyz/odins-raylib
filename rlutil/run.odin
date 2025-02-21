@@ -6,14 +6,18 @@ import "core:mem"
 import rl "vendor:raylib"
 
 WindowSettings :: struct {
-	width:  i32,
-	height: i32,
-	title:  cstring,
-	fps:    i32,
-	flags:  rl.ConfigFlags,
+    width:  i32,
+    height: i32,
+    title:  cstring,
+    fps:    i32,
+    flags:  rl.ConfigFlags,
+    fixed_timestep: bool,                  // Enable fixed timestep updates
+    update_rate: f32,                      // default: 50 updates per second
+    max_updates_per_frame: int,
 }
 
 // Looking for an easy way to structure your game loop? This function is for you.
+// Now with optional fixed timestep support - just set fixed_timestep = true in settings!
 run :: proc(
     world: ^$M,
     init: proc(world: ^M),
@@ -35,6 +39,7 @@ run :: proc(
             fmt.printfln(" %v allocation %p freed badly", bad_free.location, bad_free.memory)
         }
     }
+
     init(world)
     rl.SetConfigFlags(settings.flags)
     rl.InitWindow(settings.width, settings.height, settings.title)
@@ -42,9 +47,30 @@ run :: proc(
     rl.InitAudioDevice()
     defer rl.CloseAudioDevice()
     rl.SetTargetFPS(settings.fps)
+
+    accumulator:f32
+
     for !rl.WindowShouldClose() {
-        dt := rl.GetFrameTime()
-        update(world, dt)
+        frame_time := rl.GetFrameTime()
+
+        if settings.fixed_timestep {
+            // Fixed timestep update
+            accumulator += frame_time
+            update_count := 0
+
+            for accumulator >= settings.update_rate && update_count < settings.max_updates_per_frame {
+                update(world, settings.update_rate)
+                accumulator -= settings.update_rate
+                update_count += 1
+            }
+            // If we hit max updates, drain any remaining time
+            if update_count >= settings.max_updates_per_frame {
+                accumulator = 0
+            }
+        } else {
+            // Variable timestep update
+            update(world, frame_time)
+        }
         rl.BeginDrawing()
         render(world)
         rl.EndDrawing()
@@ -58,7 +84,7 @@ package main
 import rlu "rlutil"
 
 World :: struct {
-	settings: rlu.WindowSettings
+    settings: rlu.WindowSettings
     <your fields>
 }
 
@@ -68,14 +94,16 @@ render :: proc(w: ^World) {}
 cleanup :: proc(w: ^World) {}
 
 main :: proc() {
-	w: World
-	rlu.run(&m, init, update, render, cleanup, rlu.WindowSettings {
-		width = 1280,
-		height = 720,
-		title = "Raylib example",
-		fps = 60,
-		flags = {.VSYNC_HINT, .WINDOW_RESIZABLE, .MSAA_4X_HINT},
-	})
+    w: World
+    rlu.run(&w, init, update, render, cleanup, rlu.WindowSettings {
+        width = 1280,
+        height = 720,
+        title = "Raylib example",
+        fps = 60,
+        flags = {.VSYNC_HINT, .WINDOW_RESIZABLE, .MSAA_4X_HINT},
+        fixed_timestep = true,  // Enable fixed timestep updates
+        update_rate = 1.0/50.0, // (Unity-like)
+        max_updates_per_frame = 5, // Prevent spiral of death
+    })
 }
-
 */

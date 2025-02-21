@@ -55,11 +55,11 @@
 
 <hr>
 <p align="center">
-  <a href="2D/games/paralax/scroll.odin">
-    Paralax Scrolling
+  <a href="2D/camera/paralax/scroll.odin">
+    Paralax
   </a>
-  <a href="2D/games/paralax/scroll.odin">
-    <img src="2D/games/paralax/assets/cyberpunk_street.gif" alt="paralax scroll" width="960">
+  <a href="2D/camera/paralax/scroll.odin">
+    <img src="2D/camera/paralax/assets/cyberpunk_street.gif" alt="paralax" width="960">
   </a>
 </p>
 
@@ -146,11 +146,8 @@
   <a href="2D/physics/springs/README.md">
     Springs
   </a>
-  <a href="2D/physics/springs/README.md">
-    <video width="960" controls>
-      <source src="https://theorangeduck.com/media/uploads/springs/springdamper_implicit_fixed.m4v" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <a href="2D/physics/springs/README.md">
+    <img src="2D/physics/springs/spring_damper/single/spring_damper.gif" alt="springs" width="960">
   </a>
 </p>
 
@@ -262,11 +259,31 @@
 
 <hr>
 <p align="center">
+  <a href="2D/games/snake/README.md">
+    Snake
+  </a>
+  <a href="2D/games/snake/README.md">
+    <img src="2D/games/snake/assets/preview.gif" alt="tetris" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">
     Conway's Game of Life
   </a>
   <a href="2D/games/conway/main.odin">
     <img src="2D/games/conway/assets/preview.gif" alt="pong" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/games/tetris/README.md">
+    Tetris
+  </a>
+  <a href="2D/games/tetris/README.md">
+    <img src="2D/games/tetris/assets/preview.gif" alt="tetris" width="960">
   </a>
 </p>
 
