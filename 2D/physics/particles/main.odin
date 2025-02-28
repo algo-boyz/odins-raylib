@@ -52,14 +52,14 @@ main :: proc() {
 	rl.SetTargetFPS(FPS)
 	defer rl.CloseWindow()
 
-	initGame()
+	init()
 	rl.HideCursor()
 
 	for !rl.WindowShouldClose() do updateGame()
 }
 
 // Initialize game state
-initGame :: proc() {
+init :: proc() {
 	for &row in cells {
 		for &cell in row {
 			cell = Particle{LIGHT_GREY, .None, false, 0, 1}
@@ -79,17 +79,17 @@ controls :: proc() {
 	row := int(m_pos.y / CELL_SIZE)
 	col := int(m_pos.x / CELL_SIZE)
 
-	if inBounds(row, col) {
+	if is_within_bounds(row, col) {
 		if rl.IsMouseButtonDown(.LEFT) {
-			applyBrush(row, col, 'a', p_type[p_num])
+			apply_brush(row, col, 'a', p_type[p_num])
 		}
 		if rl.IsMouseButtonPressed(.RIGHT) {
-			applyBrush(row, col, 'e')
+			apply_brush(row, col, 'e')
 		}
 	}
 
 	if rl.IsKeyPressed(.R) {
-		initGame()
+		init()
 	}
 
 	if rl.IsKeyPressed(.T) {
@@ -119,19 +119,19 @@ controls :: proc() {
 updateGame :: proc() {
 	controls()
 	if !paused {
-		particleSimulation()
+		run()
 	}
-	drawGame()
+	draw()
 }
 
 // Draw all elements
-drawGame :: proc() {
+draw :: proc() {
 	rl.BeginDrawing()
 	defer rl.EndDrawing()
 	rl.ClearBackground(GREY)
 
-	drawGrid()
-	drawBrush()
+	draw_grid()
+	draw_brush()
 
 	if showFPS {
 		rl.DrawFPS(10, 10)
@@ -139,7 +139,7 @@ drawGame :: proc() {
 }
 
 // Draw particles
-drawGrid :: proc() {
+draw_grid :: proc() {
 	for row in 0 ..< ROWS {
 		for col in 0 ..< COLS {
 			particle := cells[row][col]
@@ -158,7 +158,7 @@ drawGrid :: proc() {
 }
 
 // Draw brush 
-drawBrush :: proc() {
+draw_brush :: proc() {
 	col := int(m_pos.x / CELL_SIZE)
 	row := int(m_pos.y / CELL_SIZE)
 
@@ -182,17 +182,17 @@ drawBrush :: proc() {
 }
 
 // brush that allows you to add or remove particles
-applyBrush :: proc(row, col: int, type: rune, particle: Particles = .None) {
+apply_brush :: proc(row, col: int, type: rune, particle: Particles = .None) {
 	for r in 0 ..< brush_size {
 		for c in 0 ..< brush_size {
 			c_row := row + r
 			c_col := col + c
 
-			if inBounds(c_row, c_col) {
+			if is_within_bounds(c_row, c_col) {
 				if type == 'e' {
-					removeParticle(c_row, c_col)
+					remove_particle(c_row, c_col)
 				} else if type == 'a' {
-					addParticle(c_row, c_col, particle)
+					add_particle(c_row, c_col, particle)
 				}
 			}
 		}
@@ -200,7 +200,7 @@ applyBrush :: proc(row, col: int, type: rune, particle: Particles = .None) {
 }
 
 // Creates rand collors using hsv values
-randColor :: proc(h1, h2, s1, s2, v1, v2: f32) -> rl.Color {
+rand_color :: proc(h1, h2, s1, s2, v1, v2: f32) -> rl.Color {
 	hue := rand.float32_uniform(h1, h2)
 	saturation := rand.float32_uniform(s1, s2)
 	value := rand.float32_uniform(v1, v2)
@@ -208,57 +208,57 @@ randColor :: proc(h1, h2, s1, s2, v1, v2: f32) -> rl.Color {
 }
 
 // set particles color
-setParticleColor :: proc(particle: Particles) -> rl.Color {
+set_color :: proc(particle: Particles) -> rl.Color {
 	#partial switch particle {
 	case .None:
 		return LIGHT_GREY
 	case .Sand:
-		return randColor(37, 42, .5, .7, .6, .7)
+		return rand_color(37, 42, .5, .7, .6, .7)
 	case .Rock:
-		return randColor(8, 12, .1, .15, .3, .5)
+		return rand_color(8, 12, .1, .15, .3, .5)
 	case .Water:
-		return randColor(213, 214, .75, .76, .70, .71)
+		return rand_color(213, 214, .75, .76, .70, .71)
 	case .Steam:
-		return randColor(10, 18, .05, .15, .60, .64)
+		return rand_color(10, 18, .05, .15, .60, .64)
 	case .Fire:
-		return randColor(30, 42, .80, .95, .80, .90)
+		return rand_color(30, 42, .80, .95, .80, .90)
 	}
 	return LIGHT_GREY
 }
 
 // Utility functions
-inBounds :: proc(row, col: int) -> bool {
+is_within_bounds :: proc(row, col: int) -> bool {
 	return (row >= 0 && row < ROWS) && (col >= 0 && col < COLS)
 }
 
 // checks if cells is in bounds and not .None
-isEmptyCell :: proc(row, col: int) -> bool {
-	return inBounds(row, col) && cells[row][col].type == .None
+is_empty_cell :: proc(row, col: int) -> bool {
+	return is_within_bounds(row, col) && cells[row][col].type == .None
 }
 
 // adds particles
-addParticle :: proc(row, col: int, type: Particles) {
-	if isEmptyCell(row, col) {
-		rate := setDispRate(cells[row][col])
+add_particle :: proc(row, col: int, type: Particles) {
+	if is_empty_cell(row, col) {
+		rate := set_dispersion_rate(cells[row][col])
 		if type != .Rock {
 			if rand.float32() < 0.15 {
-				cells[row][col] = Particle{setParticleColor(type), type, false, rate, 1}
+				cells[row][col] = Particle{set_color(type), type, false, rate, 1}
 			}
 		} else {
-			cells[row][col] = Particle{setParticleColor(type), type, false, rate, 1}
+			cells[row][col] = Particle{set_color(type), type, false, rate, 1}
 		}
 	}
 }
 
 // removes particles
-removeParticle :: proc(row, col: int) {
-	if !isEmptyCell(row, col) {
+remove_particle :: proc(row, col: int) {
+	if !is_empty_cell(row, col) {
 		cells[row][col] = Particle{LIGHT_GREY, .None, false, 0, 0}
 	}
 }
 
 // sets particles disp rate
-setDispRate :: proc(particle: Particle) -> int {
+set_dispersion_rate :: proc(particle: Particle) -> int {
 	#partial switch particle.type {
 	case .None:
 		return 0
@@ -279,7 +279,7 @@ setDispRate :: proc(particle: Particle) -> int {
 }
 
 // controls movement horizontally based on the disp_rate
-dispMovement :: proc(row, col, mod: int) {
+disp_movement :: proc(row, col, mod: int) {
 	col := col
 	moves := 0
 	max_moves := cells[row][col].disp_rate
@@ -287,8 +287,8 @@ dispMovement :: proc(row, col, mod: int) {
 	for moves < max_moves {
 		cell := cells[row][col]
 		new_col := col + mod
-		if isEmptyCell(row, new_col) {
-			swapParticles(row, col, row, new_col)
+		if is_empty_cell(row, new_col) {
+			swap_particles(row, col, row, new_col)
 			col = new_col
 			moves += 1
 		} else {
@@ -298,21 +298,21 @@ dispMovement :: proc(row, col, mod: int) {
 }
 
 // change particle
-changeParticle :: proc(row, col, r, c, chance: int, typeof, typeto: Particles) {
-	if inBounds(row + r, col + c) {
+change_particle :: proc(row, col, r, c, chance: int, typeof, typeto: Particles) {
+	if is_within_bounds(row + r, col + c) {
 		s_part := cells[row + r][col + c]
 
 		if s_part.type == typeof {
-			removeParticle(row, col)
-			removeParticle(row + r, col + c)
-			if chance == 0 do addParticle(row, col, typeto)
+			remove_particle(row, col)
+			remove_particle(row + r, col + c)
+			if chance == 0 do add_particle(row, col, typeto)
 		}
 	}
 }
 
 // Swap two particles
-swapParticles :: proc(row1, col1, row2, col2: int) {
-	if inBounds(row1, col1) && inBounds(row2, col2) {
+swap_particles :: proc(row1, col1, row2, col2: int) {
+	if is_within_bounds(row1, col1) && is_within_bounds(row2, col2) {
 		temp := cells[row1][col1]
 		cells[row1][col1] = cells[row2][col2]
 		cells[row2][col2] = temp
@@ -323,62 +323,62 @@ swapParticles :: proc(row1, col1, row2, col2: int) {
 }
 
 // Moves particles. If 'b' move down, if 'd' move diagonally, if 'h' move horizontally 
-moveParticle :: proc(row, col: int, type: rune, dirs: []int = {}) {
-	if isEmptyCell(row, col) {
+move_particle :: proc(row, col: int, type: rune, dirs: []int = {}) {
+	if is_empty_cell(row, col) {
 		if cells[row][col].updated do return
 	}
 
 	switch type {
 	case 'b':
-		if isEmptyCell(row + 1, col) {
-			swapParticles(row, col, row + 1, col)
+		if is_empty_cell(row + 1, col) {
+			swap_particles(row, col, row + 1, col)
 		}
 	case 'a':
-		if isEmptyCell(row - 1, col) {
-			swapParticles(row, col, row - 1, col)
+		if is_empty_cell(row - 1, col) {
+			swap_particles(row, col, row - 1, col)
 		}
 	case 'd':
 		for dir in dirs {
 			new_col := col + dir
 
-			if !inBounds(row, new_col) || cells[row][new_col].type == .Rock do continue
+			if !is_within_bounds(row, new_col) || cells[row][new_col].type == .Rock do continue
 
 			// **Move Diagonally if the space is empty**
-			if isEmptyCell(row + 1, new_col) {
-				swapParticles(row, col, row + 1, new_col)
+			if is_empty_cell(row + 1, new_col) {
+				swap_particles(row, col, row + 1, new_col)
 			}
 		}
 	case 'r':
 		for dir in dirs {
 			new_col := col + dir
 
-			if !inBounds(row, new_col) || cells[row][new_col].type == .Rock do continue
+			if !is_within_bounds(row, new_col) || cells[row][new_col].type == .Rock do continue
 
 			// **Move Diagonally if the space is empty**
-			if isEmptyCell(row - 1, new_col) {
-				swapParticles(row, col, row - 1, new_col)
+			if is_empty_cell(row - 1, new_col) {
+				swap_particles(row, col, row - 1, new_col)
 			}
 		}
 	case 'h':
 		for dir in dirs {
-			dispMovement(row, col, dir)
+			disp_movement(row, col, dir)
 		}
 	}
 }
 
 // Update sand particle with desired logic
-updateSand :: proc(row, col: int) {
-	if !inBounds(row, col) || cells[row][col].type != .Sand {
+update_sand :: proc(row, col: int) {
+	if !is_within_bounds(row, col) || cells[row][col].type != .Sand {
 		return
 	} else {
-		cells[row][col].disp_rate = setDispRate(cells[row][col])
+		cells[row][col].disp_rate = set_dispersion_rate(cells[row][col])
 
 		// **Swap with Water Directly Below**
-		if inBounds(row + 1, col) {
+		if is_within_bounds(row + 1, col) {
 			s_part := cells[row + 1][col]
 
 			if (s_part.type == .Water || s_part.type == .Steam) && !s_part.updated {
-				swapParticles(row, col, row + 1, col)
+				swap_particles(row, col, row + 1, col)
 			}
 		}
 	}
@@ -388,13 +388,13 @@ updateSand :: proc(row, col: int) {
 	}
 
 	// **Attempt to Move Down**
-	moveParticle(row, col, 'b')
+	move_particle(row, col, 'b')
 
 	// **Attempt Diagonal Movement into Empty Spaces Only**
 	directions: []int = {-1, 1}
 	rand.shuffle(directions)
 
-	moveParticle(row, col, 'd', directions)
+	move_particle(row, col, 'd', directions)
 
 
 	// **No Movement Possible**
@@ -402,11 +402,11 @@ updateSand :: proc(row, col: int) {
 }
 
 // Update water particle
-updateWater :: proc(row, col: int) {
-	if !inBounds(row, col) || cells[row][col].type != .Water {
+update_water :: proc(row, col: int) {
+	if !is_within_bounds(row, col) || cells[row][col].type != .Water {
 		return
 	} else {
-		cells[row][col].disp_rate = setDispRate(cells[row][col])
+		cells[row][col].disp_rate = set_dispersion_rate(cells[row][col])
 	}
 
 	if cells[row][col].updated {
@@ -414,39 +414,39 @@ updateWater :: proc(row, col: int) {
 	}
 
 	// **Attempt to Move Down**
-	moveParticle(row, col, 'b')
+	move_particle(row, col, 'b')
 
 	directions := []int{-1, 1}
 	rand.shuffle(directions)
 
 	// **Attempt Diagonal Movement**
-	moveParticle(row, col, 'd', directions)
+	move_particle(row, col, 'd', directions)
 
 	// **Move Horizontally if Possible**
-	moveParticle(row, col, 'h', directions)
+	move_particle(row, col, 'h', directions)
 
 	// **No Movement Possible**
 	cells[row][col].updated = true
 }
 
 // Update steam particle
-updateSteam :: proc(row, col: int) {
-	if !inBounds(row, col) || cells[row][col].type != .Steam {
+update_steam :: proc(row, col: int) {
+	if !is_within_bounds(row, col) || cells[row][col].type != .Steam {
 		return
 	} else {
 		// fmt.println(cells[row][col].disp_rate)
-		cells[row][col].disp_rate = setDispRate(cells[row][col])
+		cells[row][col].disp_rate = set_dispersion_rate(cells[row][col])
 		cells[row][col].health -= rand.float32_uniform(.00001, .001)
 
 		// Condense to water 
 		side := rand.choice(([]int){-1, 1})
 		chance := rand.int_max(20)
 		// **Condense with Water Above**
-		changeParticle(row, col, -1, 0, chance, .Water, .Water)
+		change_particle(row, col, -1, 0, chance, .Water, .Water)
 		// **Condense with Water Side**
-		changeParticle(row, col, 0, side, chance, .Water, .Water)
+		change_particle(row, col, 0, side, chance, .Water, .Water)
 		// **Condense with Water Side**
-		changeParticle(row, col, 0, -side, chance, .Water, .Water)
+		change_particle(row, col, 0, -side, chance, .Water, .Water)
 	}
 
 	if cells[row][col].updated {
@@ -455,33 +455,33 @@ updateSteam :: proc(row, col: int) {
 
 	// chance to condense on health 0
 	if cells[row][col].health <= 0 {
-		removeParticle(row, col)
-		if rand.int_max(20) == 0 do addParticle(row, col, .Water)
+		remove_particle(row, col)
+		if rand.int_max(20) == 0 do add_particle(row, col, .Water)
 	}
 
 	// **Attempt to Move Up**
-	moveParticle(row, col, 'a')
+	move_particle(row, col, 'a')
 
 	// **Attempt Diagonal Movement**
 	directions := []int{-1, 1}
 	rand.shuffle(directions)
 
-	moveParticle(row, col, 'd', directions)
-	moveParticle(row, col, 'r', directions)
+	move_particle(row, col, 'd', directions)
+	move_particle(row, col, 'r', directions)
 
 	// **Move Horizontally if Possible**
-	moveParticle(row, col, 'h', directions)
+	move_particle(row, col, 'h', directions)
 
 	// **No Movement Possible**
 	cells[row][col].updated = true
 }
 
 // Update fire particle
-updateFire :: proc(row, col: int) {
-	if !inBounds(row, col) || cells[row][col].type != .Fire {
+update_fire :: proc(row, col: int) {
+	if !is_within_bounds(row, col) || cells[row][col].type != .Fire {
 		return
 	} else {
-		cells[row][col].disp_rate = setDispRate(cells[row][col])
+		cells[row][col].disp_rate = set_dispersion_rate(cells[row][col])
 		cells[row][col].health -= rand.float32_uniform(.0001, .002)
 
 		// Transform to steam
@@ -489,13 +489,13 @@ updateFire :: proc(row, col: int) {
 		// chance := rand.int_max(20)
 
 		// **Water Above**
-		changeParticle(row, col, -1, 0, 0, .Water, .Steam)
+		change_particle(row, col, -1, 0, 0, .Water, .Steam)
 		// **Water Below**
-		changeParticle(row, col, 1, 0, 0, .Water, .Steam)
+		change_particle(row, col, 1, 0, 0, .Water, .Steam)
 		// **Water Side**
-		changeParticle(row, col, 0, side, 0, .Water, .Steam)
+		change_particle(row, col, 0, side, 0, .Water, .Steam)
 		// **Water Side**
-		changeParticle(row, col, 0, -side, 0, .Water, .Steam)
+		change_particle(row, col, 0, -side, 0, .Water, .Steam)
 	}
 
 	if cells[row][col].updated {
@@ -504,22 +504,22 @@ updateFire :: proc(row, col: int) {
 
 	// on health 0
 	if cells[row][col].health <= 0 {
-		removeParticle(row, col)
+		remove_particle(row, col)
 	}
 
 	// // **Attempt Diagonal Movement**
 	directions := []int{-1, 1}
 	rand.shuffle(directions)
 
-	moveParticle(row, col, 'd', directions)
-	moveParticle(row, col, 'r', directions)
+	move_particle(row, col, 'd', directions)
+	move_particle(row, col, 'r', directions)
 
 	// **No Movement Possible**
 	cells[row][col].updated = true
 }
 
 // Update particle positions
-updateParticle :: proc(row, col: int) {
+update_particle :: proc(row, col: int) {
 	particle := &cells[row][col]
 	if particle.type == .None || particle.updated {
 		return // Skip empty or already updated particles
@@ -527,31 +527,31 @@ updateParticle :: proc(row, col: int) {
 
 	#partial switch particle.type {
 	case .Sand:
-		updateSand(row, col)
+		update_sand(row, col)
 	case .Water:
-		updateWater(row, col)
+		update_water(row, col)
 	case .Steam:
-		updateSteam(row, col)
+		update_steam(row, col)
 	case .Fire:
-		updateFire(row, col)
+		update_fire(row, col)
 	case:
 		particle.updated = true
 	}
 }
 
 // Simulation passes for particles
-simulationPasses :: proc(type: Particles) {
+simulate :: proc(type: Particles) {
 	for row := ROWS - 1; row >= 0; row -= 1 {
 		if row %% 2 == 0 {
 			for col in 0 ..< COLS {
 				if cells[row][col].type == type {
-					updateParticle(row, col)
+					update_particle(row, col)
 				}
 			}
 		} else {
 			for col := COLS - 1; col >= 0; col -= 1 {
 				if cells[row][col].type == type {
-					updateParticle(row, col)
+					update_particle(row, col)
 				}
 			}
 		}
@@ -559,7 +559,7 @@ simulationPasses :: proc(type: Particles) {
 }
 
 // run simulation
-particleSimulation :: proc() {
+run :: proc() {
 	// **Reset update flags**
 	for &row in cells {
 		for &cell in row {
@@ -568,14 +568,14 @@ particleSimulation :: proc() {
 	}
 
 	// **First Pass: Update Sand Particles**
-	simulationPasses(.Sand)
+	simulate(.Sand)
 
 	// **Second Pass: Update Water Particles**
-	simulationPasses(.Water)
+	simulate(.Water)
 
 	// **Third Pass: Update Steam Particles**
-	simulationPasses(.Steam)
+	simulate(.Steam)
 
 	// **Third Pass: Update Fire Particles**
-	simulationPasses(.Fire)
+	simulate(.Fire)
 }

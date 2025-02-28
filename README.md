@@ -101,6 +101,16 @@
 
 <hr>
 <p align="center">
+  <a href="2D/physics/collision/README.md">
+    Sort, sweep and prune
+  </a>
+  <a href="2D/physics/collision/README.md">
+    <img src="2D/physics/collision/sort_sweep_prune/assets/preview.gif" alt="animation system" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="2D/camera/control/main.odin">
     Camera Control
   </a>
@@ -183,11 +193,21 @@
 
 <hr>
 <p align="center">
-  <a href="2D/astar/README.md">
+  <a href="2D/algos/astar/README.md">
     Dijkstra's A* Path finder
   </a>
-  <a href="2D/astar/README.md">
-    <img src="2D/astar/naive/assets/preview.gif" alt="path finding" width="960">
+  <a href="2D/algos/astar/README.md">
+    <img src="2D/algos/astar/naive/assets/preview.gif" alt="path finding" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/algos/tsp/README.md">
+    Ant Colonies / Travelling Salesman
+  </a>
+  <a href="2D/algos/tsp/README.md">
+    <img src="2D/algos/tsp/assets/aco.jpg" alt="tsp" width="960">
   </a>
 </p>
 
@@ -220,12 +240,6 @@
     <img src="https://yt3.googleusercontent.com/bDRXOJmxIqwhk9nRDplsLF7UDJ2kHQzuq7aD5vDVv4Oj9QKR8b30WBSUDfJLNcvxtSk2vir7VQ=s160-c-k-c0x00ffffff-no-rj" alt="Programming With Nick" width="32">
   </a>
 </div>
-
-<p align="center">
-  <a href="2D/physics/collision/dino.odin">
-    <img src="2D/physics/collision/assets/preview.jpg" alt="collision detection" width="960">
-  </a>
-</p>
 
 <hr>
 <p align="center">
@@ -292,8 +306,8 @@
 </div>
 <p align="center">
   to the stars...
-  <a href="3D/stars/main.odin">
-    <img src="3D/stars/assets/preview.gif" alt="asteroids" width="960">
+  <a href="3D/astro/stars/main.odin">
+    <img src="3D/astro/stars/assets/preview.gif" alt="asteroids" width="960">
   </a>
 </p>
 
@@ -346,6 +360,17 @@
     <img src="3D/rotation/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
+
+<hr>
+<p align="center">
+  <a href="https://github.com/heyoeyo/jetslalom_odin">
+    Jetslalom
+  </a>
+  <a href="https://github.com/heyoeyo/jetslalom_odin">
+    <img src="https://raw.githubusercontent.com/heyoeyo/jetslalom_odin/main/.readme_assets/demo_anim.gif" alt="jet slalom" width="960">
+  </a>
+</p>
+
 
 ## Physics ૮( OᴗO)っ Contributions welcome
 
@@ -466,6 +491,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 ### Pretty cool
 
 - [Sorting Visualizer](https://github.com/wmpowell8/RaylibSortingVisualizer)
+- [Orbitz](https://github.com/quonic/Odin-Orbitz)
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 
 ### Gamez

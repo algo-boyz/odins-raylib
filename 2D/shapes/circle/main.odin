@@ -45,7 +45,7 @@ main :: proc() {
     screen_width :: 1280
     screen_height :: 720
     
-    rl.InitWindow(screen_width, screen_height, "Jumping Circle")
+    rl.InitWindow(screen_width, screen_height, "Jumping Ball")
     rl.EnableCursor()
     
     rl.SetTargetFPS(60)

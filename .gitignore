@@ -5,6 +5,7 @@
 hot/
 **/ols.json
 todo/
+2D/games/life/settings.json
 3D/models/fbx/deps
 audio/bass/libbass.dylib
 audio/openal/libopenal.dylib
