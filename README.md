@@ -528,6 +528,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 ### Toolz
 
+- [Spall](https://github.com/colrdavidson/spall-web) profiler
+
 - [Echo 3D](https://www.echo3d.com/post/convert-2d-and-3d-assets-for-free-tutorial) Convert 2D and 3D Assets
 
 - [Hunyuan3D NeuralNet](https://huggingface.co/tencent/Hunyuan3D-2) Image to 3D model

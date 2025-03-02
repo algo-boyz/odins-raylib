@@ -1,6 +1,5 @@
 package geom
 
-import "core:math"
 import rl "vendor:raylib"
 
 center_pos :: proc() -> rl.Vector2 {

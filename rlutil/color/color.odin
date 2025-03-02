@@ -169,3 +169,34 @@ LightSlateGray := rl.Color{ 119, 136, 153, 255}
 SlateGray := rl.Color{ 112, 128, 144, 255}
 DarkSlateGray := rl.Color{ 47, 79, 79, 255}
 
+color_blend :: proc(c1, c2: rl.Color, amount: f32, use_alpha: bool) -> rl.Color {
+	r := amount * (f32(c1.r) / 255) + (1 - amount) * (f32(c2.r) / 255)
+	g := amount * (f32(c1.g) / 255) + (1 - amount) * (f32(c2.g) / 255)
+	b := amount * (f32(c1.b) / 255) + (1 - amount) * (f32(c2.b) / 255)
+	a := amount * (f32(c1.a) / 255) + (1 - amount) * (f32(c2.a) / 255)
+
+	return rl.Color {
+		u8(r * 255),
+		u8(g * 255),
+		u8(b * 255),
+		u8(use_alpha ? u8(a * 255) : 255),
+	}
+}
+
+color_blend_amount :: proc(a, b: rl.Color, t: f32) -> (result: rl.Color) {
+	result.a = a.a
+	result.r = u8((1.0 - t) * f32(b.r) + t * f32(a.r))
+	result.g = u8((1.0 - t) * f32(b.g) + t * f32(a.g))
+	result.b = u8((1.0 - t) * f32(b.b) + t * f32(a.b))
+	return
+}
+
+color_alpha :: proc(color: rl.Color, alpha: f32) -> (res: rl.Color) {
+	res = color
+	res.a = u8(alpha * 255)
+	return
+}
+
+color_to_bw :: proc(a: rl.Color) -> rl.Color {
+	return max(a.r, a.g, a.b) < 125 ? rl.WHITE : rl.BLACK
+}
