@@ -1,5 +1,6 @@
 package audio
 
+import "core:mem"
 import rl "vendor:raylib"
 import c "core:c/libc"
 
@@ -7,6 +8,8 @@ delayBuffer: [^]f32 = nil
 delayBufferSize: u32 = 0
 delayReadIndex: u32 = 2
 delayWriteIndex: u32 = 0
+lowPassState: [2]f32 = {0, 0}
+lowPassCutoff: f32 = 100
 
 main :: proc() {
 
@@ -19,10 +22,11 @@ main :: proc() {
     music := rl.LoadMusicStream("../a-faded-folk-song.mp3")
     defer rl.UnloadMusicStream(music)
 
-    // TODO: This might be the incorrect way to do malloc/free
     delayBufferSize = 48000*2
-    delayBuffer = make([^]f32, delayBufferSize)
-    defer free(delayBuffer)
+    // Allocate a slice and get a pointer to its data
+    delay_slice := make([]f32, delayBufferSize)
+    delayBuffer = &delay_slice[0]
+    defer delete(delay_slice)
 
     rl.PlayMusicStream(music)
 
@@ -99,45 +103,42 @@ main :: proc() {
     }
 }
 
-// FIXME: both effect are not working, idk how to translate the c code that
-//        casts the pointer to float
-
 AudioProcessEffectLPF :: proc "c" (buffer: rawptr, frames: c.uint) {
-    low: [2]f32
-    cutoff: f32 : 70/44100
-    k:      f32 : cutoff / (cutoff + 0.1591549431)
-
+    // Increase the cutoff frequency to a more reasonable value
+    cutoff: f32 = lowPassCutoff/44100
+    k: f32 = cutoff / (cutoff + 0.1591549431)
+    // Correctly cast the buffer to a float array
+    bufptr := ([^]f32)(buffer)
     for i := 0; i < int(frames)*2; i += 2 {
-        bufptr := cast([^]f32)buffer
-
-        l := bufptr[i + 0]
-        r := bufptr[i + 1]
-
-        low[0] += k * (l - low[0])
-        low[1] += k * (r - low[1])
-
-        bufptr[i + 0] = low[0]
-        bufptr[i + 1] = low[1]
+        l := bufptr[i]
+        r := bufptr[i+1]
+        // Use the global state variables
+        lowPassState[0] += k * (l - lowPassState[0])
+        lowPassState[1] += k * (r - lowPassState[1])
+        bufptr[i] = lowPassState[0]
+        bufptr[i+1] = lowPassState[1]
     }
 }
 
 AudioProcessEffectDelay :: proc "c" (buffer: rawptr, frames: c.uint) {
+    // Correctly cast the buffer to a float array
+    bufptr := ([^]f32)(buffer)
+    
     for i := 0; i < int(frames)*2; i += 2 {
-        bufptr := cast([^]f32)buffer
-
-        leftDelay  := delayBuffer[delayReadIndex]; delayReadIndex += 1
+        leftDelay := delayBuffer[delayReadIndex]; delayReadIndex += 1
         rightDelay := delayBuffer[delayReadIndex]; delayReadIndex += 1
-
+        
         if delayReadIndex == delayBufferSize {
             delayReadIndex = 0
         }
-
-        bufptr[i + 0] = 0.5 * bufptr[i + 0] + 0.5 * leftDelay
-        bufptr[i + 1] = 0.5 * bufptr[i + 1] + 0.5 * rightDelay
-
-        delayBuffer[delayWriteIndex] = bufptr[i + 0]; delayReadIndex += 1
-        delayBuffer[delayWriteIndex] = bufptr[i + 1]; delayReadIndex += 1
-
+        
+        bufptr[i] = 0.5 * bufptr[i] + 0.5 * leftDelay
+        bufptr[i+1] = 0.5 * bufptr[i+1] + 0.5 * rightDelay
+        
+        // There's a bug in your original code - you're incrementing delayReadIndex instead of delayWriteIndex
+        delayBuffer[delayWriteIndex] = bufptr[i]; delayWriteIndex += 1
+        delayBuffer[delayWriteIndex] = bufptr[i+1]; delayWriteIndex += 1
+        
         if delayWriteIndex == delayBufferSize {
             delayWriteIndex = 0
         }
