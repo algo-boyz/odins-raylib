@@ -34,6 +34,16 @@
 
 <hr>
 <p align="center">
+  <a href="dense/main.odin">
+    Dense injections
+  </a>
+  <a href="dense/main.odin">
+    <img src="dense/preview.gif" alt="dense" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="hexgrid/main.odin">
     Hexgrid
   </a>
