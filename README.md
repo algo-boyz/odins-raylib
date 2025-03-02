@@ -323,6 +323,16 @@
 
 <hr>
 <p align="center">
+  <a href="3D/astro/planets/README.md">
+    Planets
+  </a>
+  <a href="3D/astro/planets/README.md">
+    <img src="3D/astro/planets/assets/preview.gif"  alt="planets" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="3D/camera/frustum/README.md">
     Frustum
   </a>
@@ -510,8 +520,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [MineSweeper](https://github.com/Nave55/Odin-Raylib-Examples/blob/main/Games/Minesweeper/minesweeper.odin)
 
-- [Snake](https://github.com/Dalex994/Snake_Odin_Raylib/blob/master/src/snake.odin)
-
+- [Wordle](https://github.com/aribish/spurtle)
+x
 - [Zelda](https://github.com/travis-racisz/zelda-clone/blob/master/zelda-clone)
 
 - [Samurai](https://github.com/Spyder01/samurai-game)

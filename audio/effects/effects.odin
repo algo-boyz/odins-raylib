@@ -23,7 +23,6 @@ main :: proc() {
     defer rl.UnloadMusicStream(music)
 
     delayBufferSize = 48000*2
-    // Allocate a slice and get a pointer to its data
     delay_slice := make([]f32, delayBufferSize)
     delayBuffer = &delay_slice[0]
     defer delete(delay_slice)
@@ -104,15 +103,13 @@ main :: proc() {
 }
 
 AudioProcessEffectLPF :: proc "c" (buffer: rawptr, frames: c.uint) {
-    // Increase the cutoff frequency to a more reasonable value
     cutoff: f32 = lowPassCutoff/44100
     k: f32 = cutoff / (cutoff + 0.1591549431)
-    // Correctly cast the buffer to a float array
     bufptr := ([^]f32)(buffer)
+
     for i := 0; i < int(frames)*2; i += 2 {
         l := bufptr[i]
         r := bufptr[i+1]
-        // Use the global state variables
         lowPassState[0] += k * (l - lowPassState[0])
         lowPassState[1] += k * (r - lowPassState[1])
         bufptr[i] = lowPassState[0]
@@ -121,7 +118,6 @@ AudioProcessEffectLPF :: proc "c" (buffer: rawptr, frames: c.uint) {
 }
 
 AudioProcessEffectDelay :: proc "c" (buffer: rawptr, frames: c.uint) {
-    // Correctly cast the buffer to a float array
     bufptr := ([^]f32)(buffer)
     
     for i := 0; i < int(frames)*2; i += 2 {
@@ -135,7 +131,6 @@ AudioProcessEffectDelay :: proc "c" (buffer: rawptr, frames: c.uint) {
         bufptr[i] = 0.5 * bufptr[i] + 0.5 * leftDelay
         bufptr[i+1] = 0.5 * bufptr[i+1] + 0.5 * rightDelay
         
-        // There's a bug in your original code - you're incrementing delayReadIndex instead of delayWriteIndex
         delayBuffer[delayWriteIndex] = bufptr[i]; delayWriteIndex += 1
         delayBuffer[delayWriteIndex] = bufptr[i+1]; delayWriteIndex += 1
         
