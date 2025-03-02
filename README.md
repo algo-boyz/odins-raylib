@@ -153,6 +153,16 @@
 
 <hr>
 <p align="center">
+  <a href="2D/physics/bounce/main.odin">
+    Bounce
+  </a>
+  <a href="2D/physics/bounce/main.odin">
+    <img src="2D/physics/bounce/preview.gif" alt="bounce" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="2D/physics/springs/README.md">
     Springs
   </a>

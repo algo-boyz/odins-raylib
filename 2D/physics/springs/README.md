@@ -10,7 +10,7 @@ This repo contains the source code for all the demos from [this article](https:/
     The Damper
   </a>
     <a href="damper/main.odin">
-    <img src="damper/damper_exponent.gif" alt="damper" width="960">
+    <img src="damper/damper.gif" alt="damper" width="960">
   </a>
 </p>
 
