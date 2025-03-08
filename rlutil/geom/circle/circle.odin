@@ -270,11 +270,6 @@ update_hitbox :: proc(circle: ^Circle) {
     }
 }
 
-// update :: proc(circle: ^Circle) {
-//     move_left_right(circle)
-//     move_up_down(circle)
-//     update_hitbox(circle)
-// }
 update :: proc(circle: ^Circle) {
     move_left_right(circle)
     move_up_down(circle)

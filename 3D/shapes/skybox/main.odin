@@ -73,8 +73,8 @@ gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32
 main :: proc() {
     rl.InitWindow(screen_width, screen_height, "raylib [models] example - skybox loading and drawing")
     camera := rl.Camera {
-        position = {1.0, 1.0, 1.0},
-        target = {4.0, 1.0, 4.0},
+        position = {0.0, 0.0, 0.0},  // Center of the cube
+        target = {1.0, 0.0, 0.0},    // Looking in some direction
         up = {0.0, 1.0, 0.0},
         fovy = 45.0,
         projection = rl.CameraProjection.PERSPECTIVE,
@@ -129,7 +129,7 @@ main :: proc() {
             // We are inside the cube, disable backface culling
             rlgl.DisableBackfaceCulling()
             rlgl.DisableDepthMask()
-            rl.DrawModel(skybox, {0, 0, 0}, 1.0, rl.WHITE)
+            rl.DrawModel(skybox, {0, 0, 0}, -1.0, rl.WHITE)
             rlgl.EnableBackfaceCulling()
             rlgl.EnableDepthMask()
             rl.DrawGrid(10, 1.0)

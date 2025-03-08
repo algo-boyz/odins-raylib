@@ -22,3 +22,5 @@ The centered cursor approach is commonly used in games for camera control and si
 4. We get perfect 1:1 tracking of movement without any need for thresholds or smoothing
 
 The invisible cursor during drag also makes it feel more like you're "grabbing" the window directly rather than dragging it with a cursor, which is a nice touch!
+
+- [How Clay's UI Layout Algorithm Works](https://www.youtube.com/watch?v=by9lQvpvMIc)

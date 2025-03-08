@@ -17,7 +17,7 @@
 
 - [Building and Linking Google's ANGLE with 𓂀aᛉlib 🔆 on MacOS](https://dev.to/grplyler/building-and-linking-googles-angle-with-raylib-on-macos-11kp) todo make dedicated ODIN guide
 
-## [𓂀aᛉlib 🔆 basics by Falconerd](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
+## [𓂀aᛉlib 🔆 basics](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
  1. Create a Window
  2. Draw Simple Shapes
  3. Handle Input
@@ -35,11 +35,11 @@
 ## 𓂀aᛉlib 🔆 2D
 
 <p align="center">
-  <a href="2D/matrix/basic/main.odin">
+  <a href="2D/anim/matrix/basic/main.odin">
     The Matrix
   </a>
-  <a href="2D/matrix/basic/main.odin">
-    <img src="2D/matrix/assets/preview.gif" alt="pong" width="960">
+  <a href="2D/anim/matrix/basic/main.odin">
+    <img src="2D/anim/matrix/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
@@ -71,31 +71,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/games/sprite/README.md">
+  <a href="2D/anim/sprite/README.md">
     Animator
   </a>
-  <a href="2D/games/sprite/README.md">
-    <img src="2D/games/sprite/animator/assets/preview.gif" alt="animator" width="960">
+  <a href="2D/anim/sprite/README.md">
+    <img src="2D/anim/sprite/animator/assets/preview.gif" alt="animator" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/sprite/README.md">
+  <a href="2D/anim/sprite/README.md">
     Explosions
   </a>
-  <a href="2D/games/sprite/README.md">
-    <img src="2D/games/sprite/explosion/assets/preview.gif" alt="explosion 2D" width="960">
+  <a href="2D/anim/sprite/README.md">
+    <img src="2D/anim/sprite/explosion/assets/preview.gif" alt="explosion 2D" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/sprite/README.md">
+  <a href="2D/anim/sprite/README.md">
     Character Control
   </a>
-  <a href="2D/games/sprite/README.md">
-    <img src="2D/games/sprite/jump/assets/preview.gif" alt="animation system" width="960">
+  <a href="2D/anim/sprite/README.md">
+    <img src="2D/anim/sprite/jump/assets/preview.gif" alt="animation system" width="960">
   </a>
 </p>
 
@@ -505,6 +505,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
 - [Graphics Programmer Weekly](https://www.jendrikillner.com/article_database/)
+
+- [Ashish's intro to Raylib](https://github.com/AshishAanand/Raylib/blob/master/Raylib.md)
 
 ### Pretty cool
 
