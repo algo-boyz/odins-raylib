@@ -1,6 +1,6 @@
 
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
-<h2 align="center">𓂀aᛉlib 🔆 (95 examples and counting)</h2>
+<h2 align="center">𓂀aᛉlib 🔆 (100+ examples and counting)</h2>
 
 <p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freyja's hall, handling physics steady as Mjölnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
@@ -306,6 +306,16 @@
   </a>
   <a href="2D/games/tetris/README.md">
     <img src="2D/games/tetris/assets/preview.gif" alt="tetris" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/games/chess/play/main.odin">
+    Chess
+  </a>
+  <a href="2D/games/chess/play/main.odin">
+    <img src="2D/games/chess/assets/preview.gif" alt="chess" width="960">
   </a>
 </p>
 

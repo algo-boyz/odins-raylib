@@ -348,3 +348,16 @@ point_in_circle :: proc(point: rl.Vector2, c: Circle) -> bool {
 length_squared :: proc(v: rl.Vector2) -> f32 {
   return (v.x * v.x) + (v.y * v.y)
 }
+
+to_radians :: proc(degrees: f32) -> f32 {
+    return degrees * PI / 180.0
+}
+
+to_degrees :: proc(radians: f32) -> f32 {
+    return (radians / PI) * 180.0
+}
+
+// Ensures that the added degrees stays in the range [0, 360)
+offset_degrees :: proc(base: i32, add: i32) -> i32 {
+    return (base + add >= 0) ? (base + add) % 360 : (360 + (base + add))
+}
