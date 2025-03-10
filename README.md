@@ -319,6 +319,16 @@
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="2D/games/life/main.odin">
+    Life From Simple Rules
+  </a>
+  <a href="2D/games/life/main.odin">
+    <img src="2D/games/life/assets/preview.gif" alt="pong" width="960">
+  </a>
+</p>
+
 <div align="center">
   <h2>𓂀aᛉlib 🔆 3D </h2>
 </div>
