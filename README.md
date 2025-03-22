@@ -509,18 +509,15 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   </a>
 </p> -->
 
+<hr>
 <p align="center">
   <a href="3D/voxels/README.md">
-    Voxel space
+    Voxels
+  </a>
+  <a href="3D/voxels/README.md">
+    <img src="3D/voxels/assets/preview.gif"  alt="voxels" width="960">
   </a>
 </p>
-
-<video width="960" controls>
-  <source src="https://github.com/djmgit/voxel_space/assets/16368427/20eb69ed-96bf-4ddb-a4a2-85214f3da049" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-
 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
@@ -544,14 +541,12 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [OdinGame](https://github.com/BeauRussell/OdinGame/blob/main/main.odin) Cool & Easy Physics
 
-- [Conflict3049](https://matty77.itch.io/conflict-3049) StarCraft vibez
-
 - [BubbleSort](https://github.com/Goldenlion5648/BubbleSortGame)
 
 - [MineSweeper](https://github.com/Nave55/Odin-Raylib-Examples/blob/main/Games/Minesweeper/minesweeper.odin)
 
 - [Wordle](https://github.com/aribish/spurtle)
-x
+
 - [Zelda](https://github.com/travis-racisz/zelda-clone/blob/master/zelda-clone)
 
 - [Samurai](https://github.com/Spyder01/samurai-game)
@@ -566,6 +561,10 @@ x
 
 - [Chunky](https://github.com/christopherzimmerman/chunky) Minecraft-inspired voxel game
 
+- [Solitaire](https://github.com/mawaldne/solitrouble)
+
+- [Super Mario](https://github.com/jfcode4/mario)
+
 ### Toolz
 
 - [Spall](https://github.com/colrdavidson/spall-web) profiler
@@ -577,8 +576,6 @@ x
 - [Magic Poser](https://magicposer.com/) Draw better and faster
 
 - [Piskel](https://www.piskelapp.com/) Editor for animated sprites & pixel art.
-
-- [Image Splitter](https://ruyili.ca/image-splitter/) split images into square tiles.
 
 - [Dimensions](https://www.dimensions.com/) visual references of scale across objects.
 

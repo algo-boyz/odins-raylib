@@ -1,4 +1,4 @@
-package pathgrid
+package astar
 
 import pq "core:container/priority_queue"
 import "core:math"
@@ -10,8 +10,8 @@ DEFAULT_PATHFINDER_BUFFER_SIZE :: 128 * mem.Kilobyte
 IVector2 :: [2]i32
 
 /*
-// TODO: Implement this someday.
-AStar_Diagonal_Mode :: enum {
+// TODO https://github.com/tykim83/FabFlow/blob/main/fabflow.odin
+Diagonal_Mode :: enum {
 	Always,
 	Never,
 	AtLeastOneWalkable,
@@ -19,29 +19,33 @@ AStar_Diagonal_Mode :: enum {
 }
 */
 
+// Euclidean is the most accurate but also the most expensive.
 heuristic_euclidean :: proc(a, b: IVector2) -> f32 {
 	dx := f32(math.abs(b.x - a.x))
 	dy := f32(math.abs(b.y - a.y))
 	return math.sqrt(dx * dx + dy * dy)
 }
+// Manhattan works best in non-diagonal grids where the cost of moving is the same in all directions.
 heuristic_manhattan :: proc(a, b: IVector2) -> f32 {
 	dx := f32(math.abs(b.x - a.x))
 	dy := f32(math.abs(b.y - a.y))
 	return dx + dy
 }
+// Octile is a good compromise between Euclidean and Manhattan.
 heuristic_octile :: proc(a, b: IVector2) -> f32 {
 	dx := f32(math.abs(b.x - a.x))
 	dy := f32(math.abs(b.y - a.y))
 	F :: math.SQRT_TWO - 1
 	return (dx < dy) ? (F * dx + dy) : (F * dy + dx)
 }
+// Chebyshev is the most efficient but also the least accurate.
 heuristic_chebyshev :: proc(a, b: IVector2) -> f32 {
 	dx := f32(math.abs(b.x - a.x))
 	dy := f32(math.abs(b.y - a.y))
 	return math.max(dx, dy)
 }
 
-AStar_Grid :: struct {
+Grid :: struct {
 	region:            struct {
 		min, max: IVector2,
 	},
@@ -54,8 +58,8 @@ AStar_Grid :: struct {
 	},
 }
 
-astar_grid_init :: proc(
-	asg: ^AStar_Grid,
+grid_init :: proc(
+	asg: ^Grid,
 	heuristic := heuristic_euclidean,
 	allocator := context.allocator,
 	buffer_size := DEFAULT_PATHFINDER_BUFFER_SIZE,
@@ -68,7 +72,7 @@ astar_grid_init :: proc(
 	asg.compute_heuristic = heuristic
 }
 
-astar_grid_destroy :: proc(asg: ^AStar_Grid) {
+grid_destroy :: proc(asg: ^Grid) {
 	delete(asg.blocked_points)
 	delete(asg.cost_points)
 	delete(asg.alloc.bytes)
@@ -93,12 +97,12 @@ _point_neighbors :: #force_inline proc(p: IVector2) -> [8]IVector2 {
 
 @(private = "file")
 _neighbors_walkable :: #force_inline proc(
-	asg: ^AStar_Grid,
+	asg: ^Grid,
 	p: IVector2,
 	allocator := context.allocator,
 ) -> []IVector2 {
 	_filter :: proc(p: IVector2) -> bool {
-		asg := (cast(^AStar_Grid)context.user_ptr)
+		asg := (cast(^Grid)context.user_ptr)
 		return _in_bounds(asg, p) && _is_walkable(asg, p)
 	}
 	context.user_ptr = asg
@@ -107,7 +111,7 @@ _neighbors_walkable :: #force_inline proc(
 }
 
 @(private = "file")
-_in_bounds :: #force_inline proc(asg: ^AStar_Grid, p: IVector2) -> bool {
+_in_bounds :: #force_inline proc(asg: ^Grid, p: IVector2) -> bool {
 	return(
 		(p.x >= asg.region.min.x && p.x < asg.region.max.x) &&
 		(p.y >= asg.region.min.y && p.y < asg.region.max.y) \
@@ -115,31 +119,25 @@ _in_bounds :: #force_inline proc(asg: ^AStar_Grid, p: IVector2) -> bool {
 }
 
 @(private = "file")
-_is_walkable :: #force_inline proc(asg: ^AStar_Grid, p: IVector2) -> bool {
+_is_walkable :: #force_inline proc(asg: ^Grid, p: IVector2) -> bool {
 	return p not_in asg.blocked_points
 }
 
 @(private = "file")
-_get_cost :: #force_inline proc(asg: ^AStar_Grid, p: IVector2) -> f32 {
+_get_cost :: #force_inline proc(asg: ^Grid, p: IVector2) -> f32 {
 	return asg.cost_points[p] or_else 0.
 }
 
-
-//
-//
 @(private = "file")
-_Astar_Node :: struct {
+_Node :: struct {
 	point: IVector2,
 	cost:  f32,
 }
 @(private = "file")
-_cmp_node :: proc(a, b: _Astar_Node) -> bool {return a.cost < b.cost}
-//
-//
+_cmp_node :: proc(a, b: _Node) -> bool {return a.cost < b.cost}
 
-
-astar_get_path :: proc(
-	asg: ^AStar_Grid,
+get_path :: proc(
+	asg: ^Grid,
 	from, to: IVector2,
 	max_distance := max(f32),
 	path_alloc := context.allocator,
@@ -147,7 +145,7 @@ astar_get_path :: proc(
 	path: []IVector2,
 	ok: bool,
 ) {
-	area: pq.Priority_Queue(_Astar_Node)
+	area: pq.Priority_Queue(_Node)
 	neighbors: []IVector2
 	visitors: map[IVector2]IVector2
 	current_cost: map[IVector2]f32
@@ -173,8 +171,8 @@ astar_get_path :: proc(
 
 	//
 	// Priority queue to store node info
-	pq.init(&area, _cmp_node, pq.default_swap_proc(_Astar_Node), allocator = tmp_alloc)
-	pq.push(&area, _Astar_Node{from, 0.})
+	pq.init(&area, _cmp_node, pq.default_swap_proc(_Node), allocator = tmp_alloc)
+	pq.push(&area, _Node{from, 0.})
 
 	// Visitor map to track where each point was entered from
 	visitors = make(type_of(visitors), allocator = tmp_alloc)
@@ -212,7 +210,7 @@ astar_get_path :: proc(
 				dist := asg.compute_heuristic(n, to)
 				mod := _get_cost(asg, n)
 				// Push this point and cost to the node queue.
-				pq.push(&area, _Astar_Node{n, new_cost + dist + mod})
+				pq.push(&area, _Node{n, new_cost + dist + mod})
 
 				// Mark off that we visited this neighbor from the central point.
 				visitors[n] = current
@@ -238,25 +236,27 @@ astar_get_path :: proc(
 	return pdyn[:], true
 }
 
-
-astar_grid_clear :: proc(asg: ^AStar_Grid) {
+grid_clear :: proc(asg: ^Grid) {
 	clear(&asg.blocked_points)
 	clear(&asg.cost_points)
 }
 
-astar_block :: proc(asg: ^AStar_Grid, p: IVector2) {
+block :: proc(asg: ^Grid, p: IVector2) {
 	if !_in_bounds(asg, p) {return}
 	asg.blocked_points[p] = {}
 }
-astar_unblock :: proc(asg: ^AStar_Grid, p: IVector2) {
+
+unblock :: proc(asg: ^Grid, p: IVector2) {
 	if !_in_bounds(asg, p) {return}
 	delete_key(&asg.blocked_points, p)
 }
-astar_set_cost :: proc(asg: ^AStar_Grid, p: IVector2, c: f32 = 0.) {
+
+set_cost :: proc(asg: ^Grid, p: IVector2, c: f32 = 0.) {
 	if !_in_bounds(asg, p) {return}
 	asg.cost_points[p] = c
 }
-astar_delete_cost :: proc(asg: ^AStar_Grid, p: IVector2) {
+
+delete_cost :: proc(asg: ^Grid, p: IVector2) {
 	if !_in_bounds(asg, p) {return}
 	delete_key(&asg.cost_points, p)
 }

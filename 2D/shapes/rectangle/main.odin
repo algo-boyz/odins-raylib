@@ -1,5 +1,23 @@
 package main
 
+/*******************************************************************************************
+*
+*   raylib [shapes] example - rectangle scaling by mouse
+*
+*   Example originally created with raylib 2.5, last time updated with raylib 2.5
+*
+*   Example contributed by Vlad Adrian (@demizdor) and reviewed by Ramon Santamaria (@raysan5)
+*
+*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
+*   BSD-like license that allows static linking with closed source software
+*
+*   Copyright (c) 2018-2024 Vlad Adrian (@demizdor) and Ramon Santamaria (@raysan5)
+*   Translation to Odin by Evan Martinez (@Nave55)
+*
+*   https://github.com/Nave55/Odin-Raylib-Examples/blob/main/Shapes/rectangle_scaling.odin
+*
+********************************************************************************************/
+
 import rl "vendor:raylib"
 
 MOUSE_SCALE_MARK_SIZE :: 12

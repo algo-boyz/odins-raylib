@@ -21,10 +21,10 @@ main :: proc() {
     }
 
     // Load model and texture
-    model := rl.LoadModel("assets/castle.obj")
+    model := rl.LoadModel("assets/boat.obj")
     defer rl.UnloadModel(model)
 
-    texture := rl.LoadTexture("assets/castle_diffuse.png")
+    texture := rl.LoadTexture("assets/textures/boat_diffuse.png")
     defer rl.UnloadTexture(texture)
 
     // Set model texture

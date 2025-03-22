@@ -8,6 +8,8 @@ is_texture_valid :: proc(texture: ^rl.Texture2D) -> bool {
     return texture.id > 0
 }
 
+// todo add sounds: https://keasigmadelta.com/assets/Uploads/2D-Character2.c
+// sfx: https://www.fesliyanstudios.com/royalty-free-sound-effects-download/footsteps-on-grass-284
 main :: proc() {
     // Window constants
     SCREEN_WIDTH :: 800
