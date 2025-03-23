@@ -1,6 +1,6 @@
 
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
-<h2 align="center">𓂀aᛉlib 🔆 (100+ examples and counting)</h2>
+<h2 align="center">𓂀aᛉlib 🔆 (125+ examples and counting)</h2>
 
 <p align="center">and Odin bespoke unto thee: " Mortals ⚡ let's plunge y'a into the exciting world of game development, for I bestow upon thee Odin's tongue, to render worlds crisp and beautiful as Freyja's hall, handling physics steady as Mjölnir's flight. No more shall y'a wrestle with the serpents of lake memory or the Garm of undefined behavior! Rise now, and build thy games, forge thy digital realm with the strength of Asgard, for Odin's language bears the blessing of both low-level mastery and high-level grace...💥"</p>
 
@@ -13,24 +13,21 @@
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=UoAsDlUwjy0">
+    The ultimate introduction to 𓂀aᛉlib
+  </a>
+  <a href="3D/astro/shooter/main.odin">
+    <img src="3D/astro/shooter/assets/preview.gif" alt="asteroids" width="960">
+  </a>
+</p>
+
+- [Game Programming Patterns](https://gameprogrammingpatterns.com/contents.html)
+- [Ashish's intro to 𓂀aᛉlib](https://github.com/AshishAanand/Raylib/blob/master/Raylib.md)
+- [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
 - [𓂀aᛉlib 🔆 v5.5 cheat sheet](https://www.raylib.com/cheatsheet/cheatsheet.html)
-
-- [Building and Linking Google's ANGLE with 𓂀aᛉlib 🔆 on MacOS](https://dev.to/grplyler/building-and-linking-googles-angle-with-raylib-on-macos-11kp) todo make dedicated ODIN guide
-
-## [𓂀aᛉlib 🔆 basics](https://github.com/Falconerd/raylib_introduction/blob/master/main.odin)
- 1. Create a Window
- 2. Draw Simple Shapes
- 3. Handle Input
- 4. Loading and Drawing Textures
- 5. Basic animation
- 6. Playing sound
- 7. Text rendering
- 8. Basic collision detection
- 9. Using the camera (2D)
- 10. Render Textures, Post Processing Shaders
- 11. [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
-
-[Game Programming Patterns](https://gameprogrammingpatterns.com/contents.html)
+- [Building and Linking Google's ANGLE with 𓂀aᛉlib 🔆 on MacOS](https://dev.to/grplyler/building-and-linking-googles-angle-with-raylib-on-macos-11kp) todo dedicated ODIN guide
 
 ## 𓂀aᛉlib 🔆 2D
 
@@ -281,11 +278,11 @@
 
 <hr>
 <p align="center">
-  <a href="2D/gui/clock/clock.odin">
+  <a href="2D/gui/clock/analog/main.odin">
     Analog Clock
   </a>
-  <a href="2D/gui/clock/clock.odin">
-    <img src="2D/gui/clock/assets/preview.gif" alt="clock" width="960">
+  <a href="2D/gui/clock/analog/main.odin">
+    <img src="2D/gui/clock/analog/preview.gif" alt="clock" width="960">
   </a>
 </p>
 
@@ -552,11 +549,6 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
 - [Graphics Programmer Weekly](https://www.jendrikillner.com/article_database/)
-
-- [Ashish's intro to Raylib](https://github.com/AshishAanand/Raylib/blob/master/Raylib.md)
-
-### Pretty cool
-
 - [Sorting Visualizer](https://github.com/wmpowell8/RaylibSortingVisualizer)
 - [Orbitz](https://github.com/quonic/Odin-Orbitz)
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
