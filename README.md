@@ -192,6 +192,26 @@
 
 <hr>
 <p align="center">
+  <a href="2D/algos/voronoi/map/main.odin">
+    Voronoi Cells
+  </a>
+  <a href="2D/algos/voronoi/map/main.odin">
+    <img src="2D/algos/voronoi/map/assets/preview.gif" alt="voronoi" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="2D/algos/wave/main.odin">
+    Wave Function Collapse
+  </a>
+  <a href="2D/algos/wave/main.odin">
+    <img src="2D/algos/wave/assets/preview.gif" alt="wave function" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="https://github.com/jmarron7/odin-boids/blob/main/src/main.odin">
     Boids Algorithm
   </a>
