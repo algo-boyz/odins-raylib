@@ -461,11 +461,21 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
-  <a href="3D/glsl/main.odin">
+  <a href="3D/glsl/torus/main.odin">
     Glsl shaders
   </a>
-  <a href="3D/glsl/main.odin">
-    <img src="3D/glsl/assets/preview.gif"  alt="glsl torus" width="960">
+  <a href="3D/glsl/torus/main.odin">
+    <img src="3D/glsl/torus/assets/preview.gif"  alt="glsl torus" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="3D/glsl/instancing/main.odin">
+    Gpu Instancing
+  </a>
+  <a href="3D/glsl/instancing/main.odin">
+    <img src="3D/glsl/instancing/assets/preview.gif"  alt="gpu instancing" width="960">
   </a>
 </p>
 
