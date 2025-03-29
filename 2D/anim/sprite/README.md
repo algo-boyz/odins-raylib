@@ -50,3 +50,5 @@
 - [Lobster asset packs](https://o-lobster.itch.io/)
 
 - [Spriter's Resource](https://www.spriters-resource.com/)
+
+- [Sprite Mancer](https://spritemancer.com/) ultimate sprite animations

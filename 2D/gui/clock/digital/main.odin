@@ -2,6 +2,7 @@ package main
 
 import "core:time"
 import rl "vendor:raylib"
+import "../../../../rlutil"
 
 draw_separator :: proc(offset, led_width, screen_height: i32, color: rl.Color) -> i32 {
     pad := (screen_height - 2 * led_width) / 3
@@ -148,13 +149,7 @@ main :: proc() {
         v_led_length := (screen_height - led_width * 5) / 2
 
         // Get current time
-        // current_time := time.now()
-        // hour := time.hour(current_time)
-        // minute := time.minute(current_time)
-        // second := time.second(current_time)
-        hour := 12
-        minute := 36
-        second := 27
+        hour, minute, second, _ := rlutil.clock_from_nano(time.now()._nsec)
         // Handle input
         if rl.IsKeyPressed(.SPACE) {
             if selected_color == option_size - 1 {

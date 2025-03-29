@@ -6,4 +6,6 @@ Having a universal ticker frees our program from it's dependency on FPS which ca
 
 - [Fixed timestep without interpolation](https://jakubtomsu.github.io/posts/fixed_timestep_without_interpolation/)
 
+- [Fixed timestep update loops for everything!](https://jakubtomsu.github.io/posts/input_in_fixed_timestep)
+
 - [Fixed Timestep Demo](https://github.com/jakubtomsu/fixed-timestep-demo) git

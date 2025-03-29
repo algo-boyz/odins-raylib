@@ -1,5 +1,6 @@
 package color
 
+import "core:math/rand"
 import rl "vendor:raylib"
 
 // CSS 1 Colors
@@ -200,3 +201,27 @@ color_alpha :: proc(color: rl.Color, alpha: f32) -> (res: rl.Color) {
 color_to_bw :: proc(a: rl.Color) -> rl.Color {
 	return max(a.r, a.g, a.b) < 125 ? rl.WHITE : rl.BLACK
 }
+
+gradient :: proc(start, end: rl.Color, n : int, colors: ^[]rl.Color) {
+    for i in 0 ..< n {
+        f := f32(i) / f32(n)
+        colors[i] = rl.Color{
+			start.r + u8(f32(end.r) - f32(start.r) * f),
+			start.g + u8(f32(end.g) - f32(start.g) * f),
+			start.b + u8(f32(end.b) - f32(start.b) * f),
+			255,
+        }
+    }
+}
+
+random_colors :: proc(n : int, colors: ^[]rl.Color) {
+    for index in 0 ..< n {
+        colors[index] = rl.Color{
+			cast(u8)rand.float32_uniform(0, 255),
+			cast(u8)rand.float32_uniform(0, 255),
+			cast(u8)rand.float32_uniform(0, 255),
+			255,
+        }
+    }
+}
+

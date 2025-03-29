@@ -1,7 +1,7 @@
 ## A* path finder
 
 ## Todo
-- D Lite Pathfinding*
+- [D* Lite Pathfinding](https://github.com/RodrigoJara25/algortimo-dijkstra-d-star-lite-lp/blob/main/cpp/main.cpp)
 
 ## Reference
 

@@ -587,6 +587,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [Super Mario](https://github.com/jfcode4/mario)
 
+- [Billiard](https://github.com/parodyband/odin-billiards)
+
 ### Toolz
 
 - [Spall](https://github.com/colrdavidson/spall-web) profiler
@@ -602,6 +604,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Dimensions](https://www.dimensions.com/) visual references of scale across objects.
 
 - [glTF Viewer](https://gltf-viewer.donmccurdy.com/)
+
+- [Cascadeur: 3D model animator](https://cascadeur.com/)
 
 - [ZTME](https://github.com/Z7-Z7L/ZTME) 𓂀aᛉlib Tile Editor
 

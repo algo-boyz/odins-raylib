@@ -2,7 +2,6 @@
     Curves
 </h2>
 
-<hr>
 <p align="center">
   <a href="curves/ease/main.odin">
     Choose your poison
@@ -44,14 +43,40 @@
 
 <hr>
 <p align="center">
-  <a href="hexgrid/main.odin">
-    Hexgrid
+  <a href="circle/main.odin">
+    Circles
   </a>
-  <a href="hexgrid/main.odin">
-    <img src="hexgrid/preview.png" alt="hexgrid" width="960">
+  <a href="circle/main.odin">
+    <img src="circle/preview.gif" alt="sprites" width="960">
   </a>
 </p>
 
-- [Hexagonal Grids](https://www.redblobgames.com/grids/hexagons/)
+<hr>
+<p align="center">
+  <a href="drops/main.odin">
+    Rain Drops
+  </a>
+  <a href="drops/main.odin">
+    <img src="drops/preview.gif" alt="sprites" width="960">
+  </a>
+</p>
 
-- [Hex Grids and Cube Coordinates](https://backdrifting.net/post/064_hex_grids)
+<hr>
+<p align="center">
+  <a href="rainbow/main.odin">
+    Rainbows
+  </a>
+  <a href="rainbow/main.odin">
+    <img src="rainbow/preview.gif" alt="rainbows" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="poly/main.odin">
+    Polygons
+  </a>
+  <a href="poly/main.odin">
+    <img src="poly/preview.gif" alt="polygons" width="960">
+  </a>
+</p>

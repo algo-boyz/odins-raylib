@@ -28,3 +28,23 @@
     <img src="terminator/assets/preview.gif" alt="terminator" width="960">
   </a>
 </p>
+
+<hr>
+<p align="center">
+  <a href="light/cone/main.odin">
+    Cone Light
+  </a>
+  <a href="light/cone/main.odin">
+    <img src="light/cone/preview.gif" alt="sprites" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
+  <a href="light/omni/main.odin">
+    Omni Light
+  </a>
+  <a href="light/omni/main.odin">
+    <img src="light/omni/preview.gif" alt="sprites" width="960">
+  </a>
+</p>
