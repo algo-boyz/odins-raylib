@@ -488,11 +488,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
-  <a href="3D/glsl/torus/main.odin">
+  <a href="3D/glsl/README.md">
     Glsl shaders
   </a>
-  <a href="3D/glsl/torus/main.odin">
-    <img src="3D/glsl/torus/assets/preview.gif"  alt="glsl torus" width="960">
+  <a href="3D/glsl/README.md">
+    <img src="3D/glsl/shaderbox/assets/black_hole.gif"  alt="black_hole" width="960">
   </a>
 </p>
 
