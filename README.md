@@ -346,6 +346,16 @@
   </a>
 </p>
 
+<hr>
+<p align="center">
+  <a href="2D/games/casino/jack/main.odin">
+    BlackJack
+  </a>
+  <a href="2D/games/casino/jack/main.odin">
+    <img src="2D/games/casino/jack/assets/preview.gif" alt="blackjack" width="960">
+  </a>
+</p>
+
 <div align="center">
   <h2>𓂀aᛉlib 🔆 3D </h2>
 </div>
