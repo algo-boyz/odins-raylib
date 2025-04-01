@@ -254,7 +254,7 @@ load :: proc() {
     PLANE_MESH = rl.GenMeshPlane(1.0, 1.0, 2, 2)
     
     // materials
-    PLANE_MESH_SHADER_INFO = load_shader("base.vs", "worms.fs")
+    PLANE_MESH_SHADER_INFO = load_shader("base.vs", "clouds.fs")
     ERROR_SHADER_INFO = load_shader("base.vs", "error.fs")
     
     PLANE_MESH_MATERIAL = rl.LoadMaterialDefault()

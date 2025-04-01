@@ -8,4 +8,5 @@ todo/
 2D/games/life/settings.json
 3D/models/fbx/deps
 audio/bass/libbass.dylib
-audio/openal/libopenal.dylib
+audio/openal/libopenal.1.dylib
+audio/openal/al/openal-soft
