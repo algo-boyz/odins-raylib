@@ -2,15 +2,20 @@ package fft
 
 import "core:math"
 
+// fft impl - based on CARL distribution: https://github.com/crolbar/auvi/blob/master/chuck_fft.c
+
 // Complex type
 Complex :: struct {
     re: f32,
     im: f32,
 }
 
-// Constants
 FFT_FORWARD :: 1
 FFT_INVERSE :: 0
+
+PI: f32
+TWOPI: f32
+is_first := true
 
 // Complex absolute value
 cmp_abs :: proc(x: Complex) -> f32 {
@@ -62,11 +67,6 @@ apply_window :: proc(data, window: []f32) {
     }
 }
 
-// Global variables (package variables in Odin)
-PI: f32
-TWOPI: f32
-is_first := true
-
 // Bit reverse places float array x containing N/2 complex values into bit-reversed order
 bit_reverse :: proc(x: []f32) {
     N := len(x)
@@ -114,7 +114,7 @@ cfft :: proc(x: []f32, forward: bool) {
                 rtemp := wr * x[j] - wi * x[j+1]
                 itemp := wr * x[j+1] + wi * x[j]
                 
-                // Safety check (adapted from original code)
+                // Safety check
                 if j >= len(x) - 1 || i >= len(x) - 1 {
                     continue
                 }
