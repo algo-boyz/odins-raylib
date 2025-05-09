@@ -1,8 +1,8 @@
 <p align="center">
-    <a href="2D/games/life/main.odin">
+    <a href="main.odin">
         Fast Fourier Transform
     </a>
-    <a href="fft.odin">
+    <a href="main.odin">
         <img src="preview.gif" alt="fft" width="960">
     </a>
 </p>

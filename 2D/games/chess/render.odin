@@ -57,7 +57,7 @@ render_guide_text :: proc() {
     }
     // Render h-a characters (columns)
     for j := 0; j < 8; j += 1 {
-        text := fmt.ctprintf("%c", 'a' + (7 - j))
+        text := fmt.ctprintf("%c", 'a' + j)
         rl.DrawText(text,
             i32((j + 1) * CELL_SIZE - character_size - padding),
             i32(WINDOW_HEIGHT - f32(character_size) * 1.75 - f32(padding)),

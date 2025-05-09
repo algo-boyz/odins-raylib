@@ -39,6 +39,7 @@ Game :: struct {
     state: GameState,
     round: int,
     time: f32,
+    ai_player: ^AI,
 }
 
 init:: proc() -> ^Game {
@@ -57,6 +58,7 @@ init:: proc() -> ^Game {
     g.state = .Running
     calculate_all_possible_moves(g)
     g.previewed_move = true
+    g.ai_player = new_ai() 
     return g
 }
 
@@ -72,6 +74,9 @@ destroy :: proc(g: ^Game) {
     delete(g.sounds)
     destroy_board(g.board)
     delete(g.possible_moves_per_piece)
+    if g.ai_player != nil {
+        free(g.ai_player)
+    }
     free(g)
     rl.CloseAudioDevice()
     rl.CloseWindow()
@@ -123,33 +128,100 @@ run :: proc(g: ^Game) {
 
     for !rl.WindowShouldClose() {
         rl.UpdateMusicStream(g.music)
-        // Input handling
-        if g.state == .Running {
-            handle_input(g)
-            g.time += rl.GetFrameTime()
-        } else if g.state == .Promotion {
+
+        // --- AI Turn Logic ---
+        if g.state == .Running && g.turn == .Black && g.ai_player != nil {
+            // It's AI's turn (Black)
+            best_move := find_best_move(g.board, true) // Get the best move value
+
+            // Find the piece that makes this move
+            ai_piece: ^Piece = nil
+            for piece, moves in g.possible_moves_per_piece { // Use pre-calculated moves for the turn
+                 if piece.color == .Black { // Only check AI pieces
+                     for &p_move in moves {
+                         // Compare position and type (essential for distinguishing walk/attack etc.)
+                         if p_move.position == best_move.position && p_move.type == best_move.type {
+                             // Special check for castling start/end positions if needed, but type+pos is usually enough
+                             ai_piece = piece
+                             break
+                         }
+                     }
+                 }
+                 if ai_piece != nil {
+                     break
+                 }
+            }
+
+
+            if ai_piece != nil {
+                // We found the piece and the move
+                g.selected_piece = ai_piece // Set selected piece for consistency if needed
+                rl.PlaySound(g.sounds["move"]) // Optional: AI move sound
+
+                // Need a pointer to the move for do_move_on_board
+                move_ptr := new(Move)
+                move_ptr^ = best_move // Copy the value
+                defer free(move_ptr) // Free the temporary pointer after use
+
+                do_move_on_board(g, move_ptr) // Execute the move
+
+                // Note: do_move_on_board now handles swap_turns internally,
+                // including AI's automatic promotion.
+
+                g.selected_piece = nil // Deselect after AI move
+
+            } else {
+                 // This case indicates an issue: AI suggested a move, but no piece can make it.
+                 // Could happen if move generation/filtering differs between game and AI?
+                 // Or if best_move returned was invalid (e.g., Move{} from mate/stalemate)
+                 fmt.eprintf("AI Error: Could not find piece for best move: %v\n", best_move)
+                 // Decide how to handle: skip turn, declare error state? For now, maybe just log.
+                 // If best_move == Move{}, it likely means game should have ended, check state.
+                 if best_move == (Move{}) {
+                     check_for_end_of_game(g) // Re-check state
+                 }
+            }
+
+        } else if g.state == .Running && g.turn == .White {
+             // --- Human Turn Logic ---
+             handle_input(g) // Only handle human input on White's turn
+        } else if g.state == .Promotion && g.turn == .White { // Only handle human promotion for White
             handle_promotion_input(g)
+        } // AI promotion is handled automatically in do_move_on_board
+
+        // Update game time if running
+        if g.state == .Running {
+            g.time += rl.GetFrameTime()
         }
+
+        // --- Rendering ---
         moves_of_selected_piece: []Move
-        if g.selected_piece != nil {
-            moves_of_selected_piece = g.possible_moves_per_piece[g.selected_piece]
+        if g.selected_piece != nil && g.turn == .White { // Only show human moves
+            // Check if the key exists before accessing
+             if moves, ok := g.possible_moves_per_piece[g.selected_piece]; ok {
+                 moves_of_selected_piece = moves
+             }
         }
-        // Rendering
+
         rl.BeginDrawing()
         {
-            change_mouse_cursor(g.board, moves_of_selected_piece, g.turn, g.state == .Promotion)
+            // Only change cursor based on human interaction possibilities
+            change_mouse_cursor(g.board, moves_of_selected_piece, g.turn, (g.state == .Promotion && g.turn == .White))
+
             rl.ClearBackground(rl.WHITE)
             render_background()
             render_pieces(g.board, g.textures)
-            if g.selected_piece != nil {
+            if g.selected_piece != nil && g.turn == .White { // Only render human moves
                 render_moves_selected_piece(g.textures, moves_of_selected_piece)
             }
-            if g.state == .Promotion {
+
+            // Render promotion/end screens
+            if g.state == .Promotion && g.turn == .White { // Only show human promotion screen
                 render_promotion_screen(g.textures, g.selected_piece.color)
-            } else if g.state == .Running {
+            } else if g.state == .Running || g.turn == .Black { // Show info bar during AI turn too
                 render_guide_text()
                 render_info_bar(g.round, g.time)
-            } else {
+            } else { // End screens (WhiteWins, BlackWins, Stalemate)
                 render_end_screen(g)
             }
         }
@@ -158,6 +230,9 @@ run :: proc(g: ^Game) {
 }
 
 handle_input :: proc(g: ^Game) {
+    if g.turn != .White || g.state != .Running {
+        return // Only process input for White during Running state
+    }
     if rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
         mouse_pos := rl.GetMousePosition()
         mouse_pos.y -= INFO_BAR_HEIGHT
@@ -189,6 +264,9 @@ handle_input :: proc(g: ^Game) {
 }
 
 handle_promotion_input :: proc(g: ^Game) {
+    if g.turn != .White || g.state != .Promotion {
+        return // Only process input for White during Promotion state
+    }
     if rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
         mouse_pos := rl.GetMousePosition()
         mouse_pos.y -= INFO_BAR_HEIGHT
@@ -211,12 +289,11 @@ handle_promotion_input :: proc(g: ^Game) {
                 new_piece = new_knight(pos, color)
             }
             rl.PlaySound(g.sounds["promote"])
-            destroy_piece_at(g.board, g.selected_piece.position)
+            destroy_piece_at(g.board, g.selected_piece.position) // Use g.selected_piece
             add_piece(g.board, new_piece)
             g.state = .Running
-            g.selected_piece = nil
-            // clear_map(&g.possible_moves_per_piece)
-            swap_turns(g)
+            g.selected_piece = nil // Deselect piece after promotion
+            swap_turns(g) // Swap turns AFTER promotion is complete
         }
     }
 }
@@ -236,15 +313,6 @@ swap_turns :: proc(g: ^Game) {
     calculate_all_possible_moves(g)
     check_for_end_of_game(g)
 }
-
-// calculate_all_possible_moves :: proc(g: ^Game) {
-//     pieces := get_pieces_by_color(g.board, g.turn)
-//     for piece in dyn.array_slice(&pieces) {
-//         g.possible_moves_per_piece[piece] = get_possible_moves(piece, g.board)
-//     }
-//     filter_moves_that_attack_opposite_king(g)
-//     filter_moves_that_lead_to_check(g)
-// }
 
 calculate_all_possible_moves :: proc(g: ^Game) {
     // Clear existing moves to avoid dangling pointers

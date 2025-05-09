@@ -1,5 +1,6 @@
 package color
 
+import "core:math"
 import "core:math/rand"
 import rl "vendor:raylib"
 
@@ -212,6 +213,25 @@ gradient :: proc(start, end: rl.Color, n : int, colors: ^[]rl.Color) {
 			255,
         }
     }
+}
+
+@(private)
+srgb :: proc(component: f32) -> f32 {
+    return (component / 255 <= 0.03928) ? component / 255 / 12.92 : math.pow((component / 255 + 0.055) / 1.055, 2.4)
+}
+
+luminance :: proc(color: rl.Color) -> f32 {
+    return(
+        ((0.2126 * srgb(cast(f32)color.r)) +
+            (0.7152 * srgb(cast(f32)color.g)) +
+            (0.0722 * srgb(cast(f32)color.b))) / 255)
+}
+
+@(private)
+contrast :: proc(fg, bg: rl.Color) -> f32 {
+    l1 := luminance(fg)
+    l2 := luminance(bg)
+    return (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
 }
 
 random_colors :: proc(n : int, colors: ^[]rl.Color) {

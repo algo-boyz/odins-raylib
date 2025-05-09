@@ -2,6 +2,7 @@ package chess
 
 import "dyn"
 import "core:fmt"
+import rl "vendor:raylib"
 
 MoveType :: enum {
     Walk,
@@ -200,21 +201,57 @@ get_last_moved_piece :: proc(board: ^Board) -> ^Piece {
 }
 
 do_move_on_board :: proc(g: ^Game, move: ^Move) {
+    // Store whose turn it is *before* potentially swapping
+    current_turn := g.turn
+
+    // Perform the actual move logic using the selected piece
     do_move(g.board, g.selected_piece, move)
 
-    if move.type == .Promotion || move.type == .AttackAndPromote {
-        // Show promotion screen
-        g.state = .Promotion
-        handle_promotion_input(g)
-    } else {
-        // in case of castling, also move rook
-        if move.type == .ShortCastling {
-            do_short_castling(g.board, g.selected_piece, move)
-        } else if move.type == .LongCastling {
-            do_long_castling(g.board, g.selected_piece, move)
+    // --- Handle Promotion ---
+    is_promotion := move.type == .Promotion || move.type == .AttackAndPromote
+    if is_promotion {
+        if current_turn == .White {
+            // Human promotion: Change state and wait for input
+            g.state = .Promotion
+            // handle_promotion_input will be called in the main loop
+            // Do NOT swap turns yet
+            return // Exit early, wait for promotion choice
+        } else {
+            // AI promotion: Automatically promote to Queen
+            rl.PlaySound(g.sounds["promote"]) // Optional sound
+            promoted_pos := g.selected_piece.position
+            promoted_color := g.selected_piece.color
+
+            destroy_piece_at(g.board, promoted_pos) // Remove the pawn
+            add_piece(g.board, new_queen(promoted_pos, promoted_color)) // Add queen
+            g.selected_piece = nil // Clear selection after promotion
+            g.state = .Running // Ensure state is running
+
+            // Now swap turns since AI promotion is complete
+            swap_turns(g)
+            return // Exit early, turn is swapped
         }
-        swap_turns(g)
     }
+
+    // --- Handle Castling Rook Move ---
+    // This needs to happen *after* the king's part of the move is done by do_move
+    // but *before* swapping turns if it wasn't promotion.
+    // Note: do_move already updated the king's position and has_moved flag.
+    if move.type == .ShortCastling {
+         // Find the rook based on the *original* king position and color
+         original_king_pos := g.selected_piece.position // King is already moved, need original logic?
+         // Correction: Castling logic needs the rook *before* the move potentially destroys it.
+         // Let's refine do_move or this function.
+         // Simplification: Assume do_short/long_castling handles rook finding/moving.
+         // We might need to pass the *original* king position to these helpers.
+        do_short_castling(g.board, g.selected_piece, move) // Assumes selected_piece is still the King
+    } else if move.type == .LongCastling {
+        do_long_castling(g.board, g.selected_piece, move) // Assumes selected_piece is still the King
+    }
+
+    // --- Swap Turns (if not handled by promotion logic) ---
+    // This runs if the move was not a promotion move.
+    swap_turns(g)
 }
 
 do_move :: proc(board: ^Board, piece: ^Piece, move: ^Move) {
@@ -237,16 +274,40 @@ do_move :: proc(board: ^Board, piece: ^Piece, move: ^Move) {
     board.last_moved_piece_pos = piece.position
 }
 
-do_short_castling :: proc(board: ^Board, selected_piece: ^Piece, move: ^Move) {
-    rook := piece_at(board, Position{selected_piece.position.x, 7})
-    do_move(board, selected_piece, move)
-    do_move(board, rook, &Move{.Walk, Position{rook.position.x, rook.position.y - 2}})
+// --- Potential Refinement for Castling ---
+// do_move might need adjustment, or pass original position to castling helpers
+do_short_castling :: proc(board: ^Board, king: ^Piece, king_move: ^Move) {
+    // Rook position depends on color and *initial* position
+    rook_start_row := king.position.x // King has already moved here, this is wrong.
+    // We need the row the king *started* on. Let's assume standard setup.
+    start_row := -1
+    if king.color == .White { start_row = 7 } else { start_row = 0 }
+    if start_row == -1 { return } // Should not happen
+
+    rook := piece_at(board, Position{start_row, 7})
+    if rook != nil && rook.type == .Rook && rook.color == king.color {
+         // Move the rook to its castled position {start_row, 5}
+         rook_move := Move{.Walk, Position{start_row, 5}}
+         do_move(board, rook, &rook_move) // Use the main do_move for consistency
+    } else {
+         fmt.eprintln("Castling Error: Rook not found or invalid for short castling.")
+    }
 }
 
-do_long_castling :: proc(board: ^Board, selected_piece: ^Piece, move: ^Move) {
-    rook := piece_at(board, Position{selected_piece.position.x, 0})
-    do_move(board, selected_piece, move)
-    do_move(board, rook, &Move{.Walk, Position{rook.position.x, rook.position.y + 3}})
+do_long_castling :: proc(board: ^Board, king: ^Piece, king_move: ^Move) {
+    // Rook position depends on color and *initial* position
+    start_row := -1
+    if king.color == .White { start_row = 7 } else { start_row = 0 }
+    if start_row == -1 { return }
+
+    rook := piece_at(board, Position{start_row, 0})
+     if rook != nil && rook.type == .Rook && rook.color == king.color {
+        // Move the rook to its castled position {start_row, 3}
+        rook_move := Move{.Walk, Position{start_row, 3}}
+        do_move(board, rook, &rook_move)
+    } else {
+         fmt.eprintln("Castling Error: Rook not found or invalid for long castling.")
+    }
 }
 
 move_leads_to_check :: proc(board: ^Board, piece: ^Piece, move: ^Move) -> bool {

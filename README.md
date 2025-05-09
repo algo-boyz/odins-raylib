@@ -549,6 +549,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 ## (◡̀_◡́)d𓌏nϟ Hall of FAME
 
 - [Graphics Programmer Weekly](https://www.jendrikillner.com/article_database/)
+- [Graphics, Algorithms, low level bookmarks](https://github.com/TheNumbat/Lists)
 - [Sorting Visualizer](https://github.com/wmpowell8/RaylibSortingVisualizer)
 - [Orbitz](https://github.com/quonic/Odin-Orbitz)
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.

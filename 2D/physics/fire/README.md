@@ -13,6 +13,8 @@
   </a>
 </p>
 
+[How DOOM fire was done](https://fabiensanglard.net/doom_fire_psx/)
+
 <hr>
 <p align="center">
   <a href="plasma/main.odin">

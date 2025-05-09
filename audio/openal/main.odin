@@ -14,11 +14,32 @@ import "../../rlutil/fft"
 SAMPLE_RATE :: 10000
 BUFFER_SIZE :: 256  // Number of samples
 
+AVERAGE_TYPE :: enum {
+    // groups the frequencies as avg_size blocks
+    // as the amp being the avg value of the frequencies
+    // in that block
+    BLOCK,
+    // smooths out amps as it takes the average value
+    // of the neighboring frequencies amps and makes it
+    // the result value of each frequency
+    BOX_FILTER,
+    // runs box filter twice
+    DOUBLE_BOX_FILTER,
+    // box filter, the only difference being that
+    // more distant frequencies from each frequency
+    // contribute less to the avarage
+    WEIGHTED_FILTER,
+    // smooths out the fft as it uses the `alpha` value
+    // to control how much the neighboring (left/right)
+    // frequencies contribute to the smoothing
+    EXPONENTIAL_FILTER,
+}
+
 AL :: struct {
-    amplitude:       int,
-    avg_mode:        int,
+    avg_mode:        AVERAGE_TYPE,
     avg_size:        int,
     decay:           int,
+    amplitude:       int,
     filter_constant: f32,
 
     fft:             [BUFFER_SIZE]f32,
@@ -96,104 +117,139 @@ get_alc_err :: proc(err: i32) -> string {
 
 // Apply FFT to captured audio samples
 apply_fft :: proc(a: ^AL, sample_buf: []u8) {
-    // fmt.printf("apply_fft Input Check: buf[0]=%v, buf[%d]=%v, buf[%d]=%v\n",
-    // sample_buf[0], BUFFER_SIZE/2, sample_buf[BUFFER_SIZE/2], BUFFER_SIZE-1, sample_buf[BUFFER_SIZE-1])
-
-    fft_tmp := make([]f32, BUFFER_SIZE * 2)
+    // tmp storage of fft on samples
+    fft_tmp := make([]f32, BUFFER_SIZE)
     defer delete(fft_tmp)
-
+    // since samples are u8, shifting them by 256/2 to the left
+    // gets 0 when there is no sound, instead of a 128
+    shift := f32(256.0 / 2)
     for i := 0; i < BUFFER_SIZE; i += 1 {
-        // Clear buffers
-        fft_tmp[i] = 0
-        // Decay prev values
-        a.fft[i] *= f32(a.decay) / 100.0
+        // scale amplitude a bit for better visuals
+        fft_tmp[i] = (f32(sample_buf[i]) - shift) * (f32(a.amplitude) / shift)
     }
-    for i := 0; i < BUFFER_SIZE * 2; i += 1 {
-        if i/2 < len(sample_buf) {
-            fft_tmp[i] = (f32(sample_buf[i/2]) - (f32(BUFFER_SIZE)/2.0)) * 
-                        (f32(a.amplitude) / (f32(BUFFER_SIZE)/2.0))
-        }
-    }
-    // Run the FFT calc
+    // run the fft
     fft.rfft(fft_tmp, true)
+    // remove dc component
     fft_tmp[0] = fft_tmp[2]
     fft.apply_window(fft_tmp[:BUFFER_SIZE], a.fft_nrml[:])
-
+    // fade out previous amps
+    for i := 0; i < BUFFER_SIZE; i += 1 {
+        a.fft[i] = a.fft[i] * (f32(a.decay) / 100.0)
+    }
+    // Compute FFT magnitude
     for i := 0; i < BUFFER_SIZE/2; i += 2 {
-        // Compute magnitude from real and imaginary components of FFT
+        // Compute magnitude from real and imaginary components of FFT and apply
+        // simple LPF
         fftmag := f32(math.sqrt(f64(fft_tmp[i] * fft_tmp[i] + 
-                                 fft_tmp[i+1] * fft_tmp[i+1])))
-        // Apply slight log filter to minimize noise from low freqs
+                               fft_tmp[i+1] * fft_tmp[i+1])))
+        // Apply a slight logarithmic filter to minimize noise from very low
+        // amplitude frequencies
         fftmag = (0.5 * f32(math.log10(f64(1.1 * fftmag)))) + (0.9 * fftmag)
-        // Limit magnitude
+        // Limit FFT magnitude to 1.0
         if fftmag > 1.0 {
             fftmag = 1.0
         }
-        // Update new values only if greater than prev
+        // Update to new values only if greater than previous values
         if fftmag > a.fft[i*2] {
             a.fft[i*2] = fftmag
         }
-        // Prevent negative values
+        // Prevent from going negative
         if a.fft[i*2] < 0.0 {
             a.fft[i*2] = 0.0
         }
-        // Set odd indexes to match their corresponding even index
+        // Result fft from rfft is N/2 and
+        // half of the result are imaginary numbers
+        // divided into 4 bins of values that are equal
         a.fft[(i*2)+1] = a.fft[i*2]
         a.fft[(i*2)+2] = a.fft[i*2]
         a.fft[(i*2)+3] = a.fft[i*2]
     }
+    // apply an averaging filter
+    avg_fft(a);
+}
 
-    if a.avg_mode == 0 {
-        // Apply averaging over given number of values
-        sum1 := f32(0)
-        sum2 := f32(0)
-        k := 0
-        for k = 0; k < a.avg_size; k += 1 {
-            sum1 += a.fft[k]
-            sum2 += a.fft[BUFFER_SIZE-1-k]
+apply_exponential_smoothing :: proc(a: ^AL, alpha: f32) {
+    tmp := make([]f32, BUFFER_SIZE)
+    defer delete(tmp)
+
+    tmp[0] = a.fft[0]
+    for i := 1; i < BUFFER_SIZE; i += 1 {
+        tmp[i] = alpha * a.fft[i] + (1.0 - alpha) * tmp[i - 1]
+    }
+    a.fft[BUFFER_SIZE - 1] = tmp[BUFFER_SIZE - 1]
+    for i := BUFFER_SIZE - 2; i >= 0; i -= 1 {
+        a.fft[i] = alpha * tmp[i] + (1.0 - alpha) * a.fft[i + 1]
+    }
+}
+
+apply_weighted_avg :: proc(a: ^AL, avg_size: int) {
+    tmp := make([]f32, BUFFER_SIZE)
+    defer delete(tmp)
+
+    for i := 0; i < BUFFER_SIZE; i += 1 {
+        sum := f32(0)
+        weight_sum := f32(0)
+
+        start := math.max(i - avg_size, 0)
+        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        for j := start; j <= end; j += 1 {
+            weight := 1.0 - f32(math.abs(i - j)) / f32(avg_size)
+            sum += a.fft[j] * weight
+            weight_sum += weight
         }
-        // Compute averages of bars
-        sum1 /= f32(k)
-        sum2 /= f32(k)
-        for k = 0; k < a.avg_size; k += 1 {
-            a.fft[k] = sum1
-            a.fft[BUFFER_SIZE-1-k] = sum2
-        }
-        for i := 0; i < (BUFFER_SIZE - a.avg_size); i += a.avg_size {
-            sum := f32(0)
-            for j := 0; j < a.avg_size; j += 1 {
-                sum += a.fft[i+j]
-            }
-            avg := sum / f32(a.avg_size)
-            for j := 0; j < a.avg_size; j += 1 {
-                a.fft[i+j] = avg
-            }
-        }
-    } else if a.avg_mode == 1 {
-        for i := 0; i < a.avg_size; i += 1 {
-            sum1 := f32(0)
-            sum2 := f32(0)
-            j := 0
-            for j = 0; j <= i + a.avg_size; j += 1 {
-                sum1 += a.fft[j]
-                sum2 += a.fft[BUFFER_SIZE-1-j]
-            }
-            a.fft[i] = sum1 / f32(j)
-            a.fft[BUFFER_SIZE-1-i] = sum2 / f32(j)
-        }
-        
-        for i := a.avg_size; i < BUFFER_SIZE-1-a.avg_size; i += 1 {
-            sum := f32(0)
-            for j := 1; j <= a.avg_size; j += 1 {
-                sum += a.fft[i-j]
-                sum += a.fft[i+j]
-            }
-            sum += a.fft[i]
-            a.fft[i] = sum / f32(2 * a.avg_size + 1)
-        }
+        tmp[i] = sum / weight_sum
     }
     for i := 0; i < BUFFER_SIZE; i += 1 {
-        a.fft_fltr[i] = a.fft_fltr[i] + (a.filter_constant * (a.fft[i] - a.fft_fltr[i]))
+        a.fft[i] = tmp[i]
+    }
+}
+
+apply_box_filter :: proc(a: ^AL, avg_size: int) {
+    tmp := make([]f32, BUFFER_SIZE)
+    defer delete(tmp)
+
+    for i := 0; i < BUFFER_SIZE; i += 1 {
+        sum := f32(0)
+        start := math.max(i - avg_size, 0)
+        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        for j := start; j <= end; j += 1 {
+            sum += a.fft[j]
+        }
+        avg := sum / f32((end - start) + 1)
+        tmp[i] = avg
+    }
+    for i := 0; i < BUFFER_SIZE; i += 1 {
+        a.fft[i] = tmp[i]
+    }
+}
+
+apply_block_avg :: proc(a: ^AL, avg_size: int) {
+    for i := 0; i < BUFFER_SIZE; i += avg_size {
+        sum := f32(0)
+        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        for j := i; j <= end; j += 1 {
+            sum += a.fft[j]
+        }
+        avg := sum / f32((end - i) + 1)
+        for j := i; j <= end; j += 1 {
+            a.fft[j] = avg
+        }
+    }
+}
+
+avg_fft :: proc(a: ^AL) {
+    switch a.avg_mode {
+    case AVERAGE_TYPE.BLOCK:
+        apply_block_avg(a, a.avg_size)
+    case AVERAGE_TYPE.BOX_FILTER:
+        apply_box_filter(a, a.avg_size)
+    case AVERAGE_TYPE.DOUBLE_BOX_FILTER:
+        apply_box_filter(a, a.avg_size)
+        apply_box_filter(a, a.avg_size)
+    case AVERAGE_TYPE.WEIGHTED_FILTER:
+        apply_weighted_avg(a, a.avg_size)
+    case AVERAGE_TYPE.EXPONENTIAL_FILTER:
+        apply_exponential_smoothing(a, a.filter_constant)
     }
 }
 
@@ -253,11 +309,11 @@ draw_visualizer :: proc(a: ^AL) {
 
 main :: proc() {
     a := AL{
-        amplitude = 5000,
-        avg_mode = 1,
+        avg_mode = .DOUBLE_BOX_FILTER,
         avg_size = 8,
-        filter_constant = 1.0,
         decay = 80,
+        amplitude = 5000,
+        filter_constant = 1.0,
         device_idx = 0,
     }
     init_devices(&a)
