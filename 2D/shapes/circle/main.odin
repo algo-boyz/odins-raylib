@@ -42,8 +42,8 @@ main :: proc() {
             state = 0
         }
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
         circle_transition(radius, screen_width, screen_height, rl.BLACK)
+        rl.EndDrawing()
     }
 }

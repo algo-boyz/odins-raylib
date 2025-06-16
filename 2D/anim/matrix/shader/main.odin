@@ -22,15 +22,10 @@ random_character :: proc() -> rune {
     // Use a more limited range of "Matrix-like" characters
     // These are from common Unicode blocks that most fonts support
     char_sets := [][]rune{
-        // Latin letters and numbers
-        []rune{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'},
-        // Katakana characters (very Matrix-like)
-        []rune{0x30A1, 0x30A2, 0x30A3, 0x30A4, 0x30A5, 0x30A6, 0x30A7, 0x30A8, 0x30A9, 0x30AA,
-               0x30AB, 0x30AC, 0x30AD, 0x30AE, 0x30AF, 0x30B0, 0x30B1, 0x30B2, 0x30B3, 0x30B4},
-        // Some common symbols
-        []rune{'+', '-', '*', '/', '=', '<', '>', '[', ']', '{', '}', '|', '\\', ':', ';', ',', '.'},
+        []rune{'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к', 'л', 'м', 'н', 'о',
+        'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', 
+            'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К', 'Л', 'М', 'Н', 'О', 'П',
+        'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'},
     }
     
     // First select a character set, then a character from that set
@@ -60,14 +55,11 @@ main :: proc() {
     
     rl.SetTargetFPS(60)
     
-    font := rl.LoadFont("../assets/font.ttf")
-    defer rl.UnloadFont(font)
-
     // Create a render texture to draw the matrix effect on
     target := rl.LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT)
     defer rl.UnloadRenderTexture(target)
     
-    shader := rl.LoadShader("", "../assets/shader.fs")
+    shader := rl.LoadShader("", "../assets/shader/basic2.fs")
     defer rl.UnloadShader(shader)
 
     // Initialize streamers
@@ -143,12 +135,11 @@ main :: proc() {
                 }
                 
                 // Draw the character
-                rl.DrawTextEx(
-                    font,
+                rl.DrawText(
                     fmt.ctprintf("%r", s.text[char_index]),
-                    {f32(s.column), f32(y_pos)},
+                    i32(s.column), 
+                    i32(y_pos),
                     CHAR_SIZE,
-                    2,
                     color,
                 )
                 

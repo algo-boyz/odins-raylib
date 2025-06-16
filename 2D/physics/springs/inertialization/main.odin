@@ -149,8 +149,6 @@ main :: proc() {
         g_prev[0] = g
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         // Draw current positions
@@ -183,5 +181,6 @@ main :: proc() {
             rl.DrawLineV(g_start, g_stop, rl.MAROON)
             rl.DrawCircleV(g_start, 2, rl.MAROON)
         }
+        rl.EndDrawing()
     }
 }

@@ -14,8 +14,6 @@ main :: proc() {
 
     for !rl.WindowShouldClose() {
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.BLACK)
 
         rl.DrawFPS(3, 3)
@@ -43,5 +41,6 @@ main :: proc() {
             rad *= linalg.smoothstep(f32(1), 1 - FADE_IN_OUT, t) // fade out rad
             rl.DrawCircleV(p, rad, rl.YELLOW)
         }
+        rl.EndDrawing()
     }
 }

@@ -83,9 +83,7 @@ main :: proc() {
         }
         
         // Drawing
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.WHITE)
         rl.DrawTexture(texture, 0, 0, rl.WHITE)
 
@@ -111,9 +109,9 @@ main :: proc() {
             fmt.ctprintf("Algorithm: %s", tsp.algo_to_string(current_algorithm)),
             0, 72, 20, rl.BLACK,
         )
-        
         if drawing {
             current_route_idx = (current_route_idx + 1) % total_routes
         }
+        rl.EndDrawing()
     }
 }

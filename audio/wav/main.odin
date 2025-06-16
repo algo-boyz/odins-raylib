@@ -21,7 +21,7 @@ main :: proc() {
 	// }
 
 	// audio_sample_file_path := os.args[1]
-	audio_sample_file_path := "rickroll.wav"
+	audio_sample_file_path := "../stringpluck.wav"
 
 	rl.InitAudioDevice()
 	defer rl.CloseAudioDevice()
@@ -42,13 +42,12 @@ main :: proc() {
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		defer rl.EndDrawing()
-
 		rl.ClearBackground(rl.RAYWHITE)
 
 		draw_waveform(wave_heights, wave_draw_offset = window_height / 2)
 
 		rl.DrawText("Audio Waveform Visualization", 10, 10, 20, rl.DARKGRAY)
+		rl.EndDrawing()
 	}
 }
 

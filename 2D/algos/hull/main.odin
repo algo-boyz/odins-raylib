@@ -233,7 +233,6 @@ main :: proc() {
             hull_size = 0
         }
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
         
         for i := 0; i < sz; i += 1 {
@@ -242,5 +241,6 @@ main :: proc() {
         if hull_size > 0 {
             draw_hull()
         }
+        rl.EndDrawing()
     }
 }

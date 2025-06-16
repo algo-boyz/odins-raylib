@@ -56,17 +56,16 @@ main :: proc() {
         rl.UpdateModelAnimation(model, anim, cast(i32)anim_current_frame)
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         rl.BeginMode3D(camera)
-        defer rl.EndMode3D()
-
         rl.DrawModel(model, position, 1.0, rl.WHITE)
+        rl.EndMode3D()
+
         rl.DrawGrid(10, 1.0)
 
         rl.DrawText("Use LEFT/RIGHT mouse buttons to switch animation", 10, 10, 20, rl.GRAY)
         rl.DrawText(rl.TextFormat("Animation: %s", anim.name), 10, rl.GetScreenHeight() - 20, 10, rl.DARKGRAY)
+        rl.EndDrawing()
     }
 }

@@ -200,9 +200,7 @@ main :: proc() {
         prx := cos_angle * scene.camera.zfar - sin_angle * scene.camera.zfar
         pry := sin_angle * scene.camera.zfar + cos_angle * scene.camera.zfar
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         for i: i32 = 0; i < SCREEN_WIDTH; i += 1 {
@@ -289,5 +287,6 @@ main :: proc() {
         ) {
             scene.map_selector_mode = !scene.map_selector_mode
         }
+        rl.EndDrawing()
     }
 }

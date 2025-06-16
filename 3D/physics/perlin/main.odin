@@ -2,7 +2,7 @@ package main
 
 import "core:math"
 import rl "vendor:raylib"
-import "../../../rlutil"
+import "../../../rlutil/noise"
 
 SCREEN_WIDTH :: 1024
 SCREEN_HEIGHT :: 780
@@ -24,7 +24,7 @@ FLYING_SPEED :: 0.01
 State :: struct {
     camera: rl.Camera3D,
     terrain: [COLS][ROWS]f32,
-    flying: f32,
+    flying: f64,
 }
 
 main :: proc() {
@@ -59,16 +59,16 @@ init :: proc(state: ^State) {
 
 set_terrain :: proc(state: ^State) {
     state.flying += FLYING_SPEED
-    
+    perl := noise.perlin_noise_init()
     yoff := state.flying
     for x := 0; x < COLS; x += 1 {
-        xoff := f32(0)
+        xoff := 0.0
         for y := 0; y < ROWS; y += 1 {
             // Generate noise value using Perlin noise
-            noise_value := rlutil.perlin(xoff, yoff)
+            noise_value := noise.perlin_noise_2d(&perl, xoff, yoff)
             
             // Map the noise value to the desired range
-            state.terrain[x][y] = rlutil.map_range(noise_value, 0, 1, MIN_HEIGHT, MAX_HEIGHT)
+            state.terrain[x][y] = f32(noise.map_range(noise_value, 0, 1, MIN_HEIGHT, MAX_HEIGHT))
             
             xoff += 0.2
         }

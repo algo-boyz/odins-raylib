@@ -2,7 +2,7 @@ package main
 
 import "core:fmt"
 import rl "vendor:raylib"
-import anim "./animator"
+import anim "../"
 
 SCREEN_WIDTH :: 800
 SCREEN_HEIGHT :: 600
@@ -43,9 +43,7 @@ main :: proc() {
         anim.play(&sprite_animator)
         
         // Draw
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         // Draw the current frame of the animated sprite
@@ -55,5 +53,6 @@ main :: proc() {
             location,
             rl.WHITE,
         )
+        rl.EndDrawing()
     }
 }

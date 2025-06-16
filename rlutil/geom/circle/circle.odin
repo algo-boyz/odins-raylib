@@ -358,6 +358,25 @@ to_degrees :: proc(radians: f32) -> f32 {
 }
 
 // Ensures that the added degrees stays in the range [0, 360)
-offset_degrees :: proc(base: i32, add: i32) -> i32 {
+offset_degrees :: proc(base, add: i32) -> i32 {
     return (base + add >= 0) ? (base + add) % 360 : (360 + (base + add))
+}
+
+// Calculate the angle in radians between two points
+angle :: proc(x1, y1, x2, y2: f32) -> f32 {
+    return math.atan2(y2 - y1, x2 - x1)
+}
+
+// takes two radian angles and returns the difference between them,
+// if difference < 0 or left side is shorter than right side.
+// When output > 3 we can assume it aligns with target(rad2) angle.
+angle_difference :: proc(rad1, rad2: f32) -> f32 {
+    diff := rad1 - rad2
+    for diff < -PI {
+        diff += (PI * 2)
+    }
+    for diff > PI {
+        diff -= (PI * 2)
+    }
+    return diff
 }

@@ -86,9 +86,7 @@ main :: proc() {
         
         mouse_grid_position := isometric_to_cartesian(mouse_screen_position) / (tile_width / 2.0)
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         for i in 0..<10 {
@@ -116,7 +114,7 @@ main :: proc() {
                 rl.DrawTexturePro(tile, source_rect, dest_rect, origin, 0.0, rl.WHITE)
             }
         }
-        
         u += 0.05
+        rl.EndDrawing()
     }
 }

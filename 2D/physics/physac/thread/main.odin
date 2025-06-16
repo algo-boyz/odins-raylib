@@ -45,8 +45,6 @@ main :: proc() {
         }
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         bodies_count := GetPhysicsBodiesCount()
@@ -64,8 +62,8 @@ main :: proc() {
 
                 rl.DrawLineV(vertex_a, vertex_b, rl.GREEN)
             }
-
         }
+        rl.EndDrawing()
     }
 
     rl.CloseWindow()

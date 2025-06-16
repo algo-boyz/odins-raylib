@@ -32,9 +32,7 @@ main :: proc() {
     }
     
     for !rl.WindowShouldClose() {
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.BLACK)
         rl.BeginMode3D(camera)
         defer rl.EndMode3D()
@@ -84,5 +82,6 @@ main :: proc() {
                 }
             }
         }
+        rl.EndDrawing()
     }
 }

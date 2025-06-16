@@ -29,10 +29,9 @@ main :: proc() {
     if !is_texture_valid(&texture) {
         for !rl.WindowShouldClose() {
             rl.BeginDrawing()
-            defer rl.EndDrawing()
-
             rl.ClearBackground(rl.WHITE)
             rl.DrawText(fmt.ctprintf("ERROR: Couldn't load %s.", filename), 20, 20, 20, rl.BLACK)
+            rl.EndDrawing()
         }
         return
     }

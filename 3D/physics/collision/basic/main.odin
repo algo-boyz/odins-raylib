@@ -92,8 +92,6 @@ main :: proc() {
 
         // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         rl.BeginMode3D(camera)
@@ -116,6 +114,7 @@ main :: proc() {
         // Draw UI text
         rl.DrawText("Move player with arrow keys to collide", 220, 40, 20, rl.GRAY)
         rl.DrawFPS(10, 10)
+        rl.EndDrawing()
     }
 
     // De-Initialization

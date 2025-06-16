@@ -52,9 +52,7 @@ main :: proc() {
         
         update_timer(&timer)
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.BLACK)
         
         circle_pos := rl.Vector2{400, 400}
@@ -75,5 +73,6 @@ main :: proc() {
         rl.DrawText(fmt.ctprintf("ticker = %d", ticker), 20, 80, 15, rl.WHITE)
         rl.DrawText(fmt.ctprintf("GetTime() = %f\n(unused variable)", rl.GetTime()), 20, 200, 15, rl.WHITE)
         rl.DrawText(fmt.ctprintf("BeatPerMin = %f,\nBeatPerSec = %f", beat_per_min, beat_per_sec), 20, 240, 15, rl.WHITE)
+        rl.EndDrawing()
     }
 }

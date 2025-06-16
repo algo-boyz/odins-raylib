@@ -35,8 +35,6 @@ main :: proc() {
 
         {
             rl.BeginDrawing()
-            defer rl.EndDrawing()
-
             rl.ClearBackground(rl.BLACK)
 
             {
@@ -53,6 +51,7 @@ main :: proc() {
             }
 
             rl.DrawText("Mouse right button drag to move, mouse wheel to zoom", 10, 10, 20, rl.WHITE)
+            rl.EndDrawing()
         }
     }
 }

@@ -122,7 +122,6 @@ main :: proc() {
     for !rl.WindowShouldClose() {
         rl.UpdateCamera(&camera, .FIRST_PERSON)
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.BLACK)
         rl.BeginMode3D(camera)
         {
@@ -136,6 +135,7 @@ main :: proc() {
         }
         rl.EndMode3D()
         rl.DrawFPS(10, 10)
+        rl.EndDrawing()
     }
     rl.UnloadShader(skybox.materials[0].shader)
     rl.UnloadTexture(skybox.materials[0].maps[rl.MaterialMapIndex.CUBEMAP].texture)

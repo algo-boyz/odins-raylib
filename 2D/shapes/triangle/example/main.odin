@@ -45,9 +45,7 @@ main :: proc() {
         }
         timer += rl.GetFrameTime()
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.BLACK)
         
         triangle.draw(net, rl.BLUE, rl.RED)
@@ -86,5 +84,6 @@ main :: proc() {
             text := fmt.tprintf("%3.2f, %3.2f", vert.x, vert.y)
             rl.DrawText(strings.clone_to_cstring(text), 600, 10 + 20 * i32(i), 20, rl.WHITE)
         }
+        rl.EndDrawing()
     }
 }

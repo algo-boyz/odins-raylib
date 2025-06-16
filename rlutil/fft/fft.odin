@@ -2,7 +2,19 @@ package fft
 
 import "core:math"
 
-// fft impl - based on CARL distribution: https://github.com/crolbar/auvi/blob/master/chuck_fft.c
+/*
+Copyright (c) 2025-present https://github.com/algo-boyz
+
+Adaptation to chuck_fft.c which was based on CARL distribution
+this Odin port is a modernized version of the original C code:
+https://github.com/crolbar/auvi/blob/master/chuck_fft.c
+
+Adaptations:
+
+- Modern Cooley-Tukey algorithm with roper complex number handling
+= Power-of-2 design that's more efficient and predictable
+- Real FFT optimized to return only the non-redundant half of the spectrum
+*/
 
 // Complex type
 Complex :: struct {

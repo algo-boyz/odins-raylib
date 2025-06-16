@@ -83,8 +83,6 @@ main :: proc() {
 
         {
             rl.BeginDrawing()
-            defer rl.EndDrawing()
-
             rl.ClearBackground(rl.RAYWHITE)
 
             rl.DrawText("MUSIC PLAYING!", 245, 150, 20, rl.LIGHTGRAY)
@@ -98,6 +96,7 @@ main :: proc() {
 
             rl.DrawText(rl.TextFormat("PRESS F TO TOGGLE LPF EFFECT: %s", enableEffectLPF? "ON" : "OFF"), 200, 320, 20, rl.GRAY)
             rl.DrawText(rl.TextFormat("PRESS D TO TOGGLE DELAY EFFECT: %s", enableEffectDelay? "ON" : "OFF"), 180, 350, 20, rl.GRAY)
+            rl.EndDrawing()
         }
     }
 }

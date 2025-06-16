@@ -56,9 +56,7 @@ main :: proc() {
     for !rl.WindowShouldClose() {
         elapsed := rl.GetFrameTime()
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.BLACK)
         
         for &s in &streamers {
@@ -125,5 +123,6 @@ main :: proc() {
                 prepare_streamer(&s)
             }
         }
+        rl.EndDrawing()
     }
 }

@@ -32,3 +32,10 @@ draw_vertical_line :: proc "contextless" (x: i32, color: rl.Color) {
 draw_horizontal_line :: proc "contextless" (y: i32, color: rl.Color) {
     rl.DrawLine(0, y, rl.GetScreenWidth(), y, color)
 }
+
+draw_polygon_lines :: proc(vertices: []rl.Vector2, color: rl.Color) {
+    for v1, i in vertices {
+        v2 := vertices[(i+1) % len(vertices)]
+        rl.DrawLineV(v1, v2, color)
+    }
+}

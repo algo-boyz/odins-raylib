@@ -1,0 +1,180 @@
+#!/usr/bin/env just --justfile
+# -----------------------------------------------------------------------------
+# This justfile is designed to be cross-platform for Linux and macOS.
+# It automatically detects the OS and sets the correct variables for
+# miniaudio compilation and linking.
+#
+# It assumes a directory structure like:
+# .
+# ├── main.odin
+# ├── build/
+# └── justfile
+#
+# The miniaudio vendor library can be found inside the Odin installation folder.
+# -----------------------------------------------------------------------------
+
+# Set a strict shell for all recipes.
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+# --- Directories ---
+BUILD_DIR := "build"
+ODIN_SRC := "."
+AUDIO_FILE := "../stringpluck.wav"
+
+# --- OS & Build Configuration ---
+os := os()
+
+# Platform-specific linker flags
+# macOS needs CoreAudio and CoreFoundation frameworks
+# Linux needs ALSA and pthread
+macos_flags := "-framework CoreAudio -framework CoreFoundation"
+linux_flags := "-lasound -lpthread -lm -ldl"
+linker_flags := if os == "macos" { macos_flags } else { linux_flags }
+
+# Odin executable name
+odin_exe := "audio_player"
+
+# --- Aliases & Default ---
+default: run
+
+alias r := run
+
+# --- Recipes ---
+
+# Clean up all generated files and recreate the build directory.
+clean:
+    @echo "🧹 Cleaning up generated files..."
+    @rm -rf {{BUILD_DIR}}
+    @mkdir -p {{BUILD_DIR}}
+
+# Check if required files exist
+check:
+    @echo "🔍 Checking required files..."
+    @if [ ! -f "{{AUDIO_FILE}}" ]; then \
+        echo "❌ Audio file '{{AUDIO_FILE}}' not found!"; \
+        echo "   Please ensure you have a WAV file named '{{AUDIO_FILE}}' in the current directory."; \
+        exit 1; \
+    fi
+    @if [ ! -f "main.odin" ]; then \
+        echo "❌ Main Odin file 'main.odin' not found!"; \
+        exit 1; \
+    fi
+    @echo "✅ All required files found"
+
+# Build the miniaudio C library (if needed)
+build_miniaudio:
+    @echo "🔧 Building miniaudio library..."
+    @# Find the Odin installation and miniaudio source
+    @ODIN_ROOT=$(odin root 2>/dev/null || echo "/usr/local/odin"); \
+    MINIAUDIO_SRC="$ODIN_ROOT/vendor/miniaudio/src"; \
+    if [ -d "$MINIAUDIO_SRC" ] && [ -f "$MINIAUDIO_SRC/Makefile" ]; then \
+        echo "📦 Found miniaudio source at: $MINIAUDIO_SRC"; \
+        make -C "$MINIAUDIO_SRC"; \
+    else \
+        echo "ℹ️  Miniaudio source not found or no Makefile - assuming it's already built or not needed"; \
+    fi
+
+# Build the Odin audio application
+build: clean check build_miniaudio
+    @echo "🏗️ Building Odin audio application..."
+    odin build {{ODIN_SRC}} \
+        -out:{{BUILD_DIR}}/{{odin_exe}} \
+        -build-mode:exe \
+        -extra-linker-flags:"{{linker_flags}}"
+
+# Run the audio application
+run: build
+    @echo "🚀 Running audio application..."
+    @echo "🎵 Playing audio... (The program will run indefinitely - press Ctrl+C to stop)"
+    {{BUILD_DIR}}/{{odin_exe}}
+
+# Build in debug mode with more verbose output
+debug: clean check build_miniaudio
+    @echo "🐛 Building in debug mode..."
+    odin build {{ODIN_SRC}} \
+        -out:{{BUILD_DIR}}/{{odin_exe}}_debug \
+        -build-mode:exe \
+        -debug \
+        -extra-linker-flags:"{{linker_flags}}"
+
+# Run in debug mode
+run_debug: debug
+    @echo "🐛 Running in debug mode..."
+    {{BUILD_DIR}}/{{odin_exe}}_debug
+
+# Build optimized release version
+release: clean check build_miniaudio
+    @echo "🚀 Building optimized release..."
+    odin build {{ODIN_SRC}} \
+        -out:{{BUILD_DIR}}/{{odin_exe}}_release \
+        -build-mode:exe \
+        -o:minimal \
+        -extra-linker-flags:"{{linker_flags}}"
+
+# Run optimized release
+run_release: release
+    @echo "🚀 Running optimized release..."
+    {{BUILD_DIR}}/{{odin_exe}}_release
+
+# Show system information
+info:
+    @echo "📋 System Information:"
+    @echo "   OS: {{os}}"
+    @echo "   Odin root: $(odin root 2>/dev/null || echo 'Not found')"
+    @echo "   Linker flags: {{linker_flags}}"
+    @echo "   Build directory: {{BUILD_DIR}}"
+    @echo "   Audio file: {{AUDIO_FILE}}"
+
+# Test if audio file can be loaded
+test_audio:
+    @echo "🎵 Testing audio file..."
+    @if command -v file >/dev/null 2>&1; then \
+        echo "Audio file info:"; \
+        file "{{AUDIO_FILE}}"; \
+    else \
+        echo "File command not available, skipping audio file analysis"; \
+    fi
+    @if command -v ffprobe >/dev/null 2>&1; then \
+        echo "Audio details:"; \
+        ffprobe -v quiet -show_entries format=duration,bit_rate -show_entries stream=channels,sample_rate "{{AUDIO_FILE}}" 2>/dev/null || echo "Could not analyze audio with ffprobe"; \
+    fi
+
+# Install system dependencies (macOS/Linux)
+install_deps:
+    @echo "📦 Installing system dependencies..."
+    @if [ "{{os}}" = "macos" ]; then \
+        if command -v brew >/dev/null 2>&1; then \
+            echo "Installing dependencies via Homebrew..."; \
+            brew install odin; \
+        else \
+            echo "Homebrew not found. Please install Odin manually."; \
+        fi; \
+    elif [ "{{os}}" = "linux" ]; then \
+        echo "For Linux, please ensure you have:"; \
+        echo "  - Odin compiler installed"; \
+        echo "  - ALSA development libraries (libasound2-dev on Ubuntu)"; \
+        echo "  - Build essentials (gcc, make)"; \
+    fi
+
+# Show help
+help:
+    @echo "🎵 Miniaudio Odin Example - Available Commands:"
+    @echo ""
+    @echo "  Build & Run:"
+    @echo "    just run           - Build and run the audio player (default)"
+    @echo "    just build         - Build the application only"
+    @echo "    just debug         - Build with debug symbols"
+    @echo "    just run_debug     - Build and run in debug mode"
+    @echo "    just release       - Build optimized release"
+    @echo "    just run_release   - Build and run optimized release"
+    @echo ""
+    @echo "  Utilities:"
+    @echo "    just clean         - Clean build directory"
+    @echo "    just check         - Check for required files"
+    @echo "    just info          - Show system information"
+    @echo "    just test_audio    - Test and analyze audio file"
+    @echo "    just install_deps  - Install system dependencies"
+    @echo "    just help          - Show this help message"
+    @echo ""
+    @echo "  Aliases:"
+    @echo "    just r             - Alias for 'just run'"

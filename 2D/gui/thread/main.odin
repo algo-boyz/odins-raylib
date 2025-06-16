@@ -115,7 +115,6 @@ main :: proc() {
         }
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
 
         switch state {
@@ -135,5 +134,6 @@ main :: proc() {
         }
 
         rl.DrawRectangleLines(150, 200, 500, 60, rl.DARKGRAY)
+        rl.EndDrawing()
     }
 }

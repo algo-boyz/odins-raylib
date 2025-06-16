@@ -139,9 +139,7 @@ main :: proc() {
         trajx_prev[0] = trajx
         trajy_prev[0] = trajy
 
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         // Draw trajectory history
@@ -174,5 +172,6 @@ main :: proc() {
         rl.DrawCircleV(gamepad_pos, 3, rl.DARKPURPLE)
         rl.DrawCircleV(gamepad_stick_pos, 3, rl.DARKPURPLE)
         rl.DrawLineV(gamepad_pos, gamepad_stick_pos, rl.DARKPURPLE)
+        rl.EndDrawing()
     }
 }

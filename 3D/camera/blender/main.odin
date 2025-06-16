@@ -23,8 +23,6 @@ main :: proc() {
         blender.camera_update(&bl)
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(blender.BLENDER_DARK_GREY)
 
         rl.BeginMode3D(bl.camera)
@@ -41,5 +39,6 @@ main :: proc() {
             rl.DrawText("Blender Camera Mode: GIMBAL_ORBIT", 10, 10, 20, blender.BLENDER_GREY)
         }
         rl.DrawFPS(10, screen_height - 30)
+        rl.EndDrawing()
     }
 }

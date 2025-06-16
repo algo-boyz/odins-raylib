@@ -15,15 +15,16 @@ main :: proc() {
     for !rl.WindowShouldClose() {
         defer free_all(context.temp_allocator)
 
-        rl.BeginDrawing(); defer rl.EndDrawing()
+        rl.BeginDrawing()
         rl.ClearBackground(rl.BLACK)
         
-        rlmu.begin_scope();
+        rlmu.begin_scope()
         
         if mu.begin_window(ctx, "Test Window", { 100, 100, 100, 100 }) {
             defer mu.end_window(ctx)
             
             mu.label(ctx, "Hello, world")
         }
+        rl.EndDrawing()
     } 
 }

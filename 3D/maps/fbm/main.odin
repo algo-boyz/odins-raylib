@@ -187,8 +187,6 @@ main :: proc() {
 
         // Drawing
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.SKYBLUE)
         rl.BeginMode3D(camera)
 
@@ -233,5 +231,6 @@ main :: proc() {
         rl.DrawText(rl.TextFormat("Camera Angle Y: %.2f", camera_angle.y), 20, 135, 10, rl.BLACK)
         rl.DrawText(rl.TextFormat("Camera Distance: %.2f", camera_distance), 20, 150, 10, rl.BLACK)
         rl.DrawFPS(10, 180)
+        rl.EndDrawing()
     }
 }

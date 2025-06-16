@@ -219,10 +219,7 @@ camera_update :: proc(bcamera: ^Camera) {
 //         camera_update(&bcam)
 
 //         rl.BeginDrawing()
-//         defer rl.EndDrawing()
-
 //         rl.ClearBackground(BLENDER_DARK_GREY)
-
 //         rl.BeginMode3D(bcam.camera)
 //         {
 //             rl.DrawCube(cube_position, 2, 2, 2, BLENDER_GREY)
@@ -237,5 +234,6 @@ camera_update :: proc(bcamera: ^Camera) {
 //             rl.DrawText("Blender Camera Mode: GIMBAL_ORBIT", 10, 10, 20, BLENDER_GREY)
 //         }
 //         rl.DrawFPS(10, screen_height - 30)
+//         rl.EndDrawing()
 //     }
 // }

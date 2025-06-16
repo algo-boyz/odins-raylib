@@ -109,7 +109,6 @@ main :: proc() {
 
         // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.BLACK)
 
         // Draw fire pixels
@@ -126,5 +125,6 @@ main :: proc() {
                 )
             }
         }
+        rl.EndDrawing()
     }
 }

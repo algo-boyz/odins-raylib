@@ -239,11 +239,22 @@
 
 <hr>
 <p align="center">
-  <a href="2D/games/asteroids/main.odin">
+  <a href="2D/algos/mcts/example/main.odin">
+    Monte Carlo Tree Search
+  </a>
+  <a href="2D/algos/mcts/example/main.odin">
+    <img src="2D/algos/mcts/example/preview.gif" alt="pong" width="960">
+  </a>
+</p>
+<hr>
+
+<hr>
+<p align="center">
+  <a href="games/asteroids/main.odin">
     In a world filled with space rocks, one ship can make a difference...
   </a>
-  <a href="2D/games/asteroids/main.odin">
-    <img src="2D/games/asteroids/assets/preview.gif" alt="asteroids" width="960">
+  <a href="games/asteroids/main.odin">
+    <img src="games/asteroids/assets/preview.gif" alt="asteroids" width="960">
   </a>
 </p>
 
@@ -255,8 +266,8 @@
 </div>
 
 <p align="center">
-  <a href="2D/games/racing/main.odin">
-    <img src="2D/games/racing/assets/preview.png" alt="racer" width="960">
+  <a href="games/racing/main.odin">
+    <img src="games/racing/assets/preview.png" alt="racer" width="960">
   </a>
 </p>
 
@@ -288,61 +299,61 @@
 
 <hr>
 <p align="center">
-  <a href="2D/games/pong/main.odin">
+  <a href="games/pong/main.odin">
     Pong
   </a>
-  <a href="2D/games/pong/main.odin">
-    <img src="2D/games/pong/assets/preview.gif" alt="pong" width="960">
+  <a href="games/pong/main.odin">
+    <img src="games/pong/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/snake/README.md">
+  <a href="games/snake/README.md">
     Snake
   </a>
-  <a href="2D/games/snake/README.md">
-    <img src="2D/games/snake/assets/preview.gif" alt="tetris" width="960">
+  <a href="games/snake/README.md">
+    <img src="games/snake/assets/preview.gif" alt="tetris" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">
-    Conway's Game of Life
+  <a href="games/moonlander/main.odin">
+    Moonlander
   </a>
-  <a href="2D/games/conway/main.odin">
-    <img src="2D/games/conway/assets/preview.gif" alt="pong" width="960">
+  <a href="games/moonlander/main.odin">
+    <img src="games/moonlander/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/tetris/README.md">
+  <a href="games/tetris/README.md">
     Tetris
   </a>
-  <a href="2D/games/tetris/README.md">
-    <img src="2D/games/tetris/assets/preview.gif" alt="tetris" width="960">
+  <a href="games/tetris/README.md">
+    <img src="games/tetris/assets/preview.gif" alt="tetris" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/chess/play/main.odin">
+  <a href="games/chess/play/main.odin">
     Chess
   </a>
-  <a href="2D/games/chess/play/main.odin">
-    <img src="2D/games/chess/assets/preview.gif" alt="chess" width="960">
+  <a href="games/chess/play/main.odin">
+    <img src="games/chess/assets/preview.gif" alt="chess" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/games/life/main.odin">
+  <a href="games/life/main.odin">
     Life From Simple Rules
   </a>
-  <a href="2D/games/life/main.odin">
-    <img src="2D/games/life/assets/preview.gif" alt="pong" width="960">
+  <a href="games/life/main.odin">
+    <img src="games/life/assets/preview.gif" alt="pong" width="960">
   </a>
 </p>
 
@@ -553,6 +564,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Sorting Visualizer](https://github.com/wmpowell8/RaylibSortingVisualizer)
 - [Orbitz](https://github.com/quonic/Odin-Orbitz)
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
+- [Odin Geometry Collection](https://github.com/nahumfarchi/odin-geometry)
 
 ### Gamez
 

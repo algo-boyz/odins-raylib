@@ -336,9 +336,7 @@ main :: proc() {
         t_prev[0] = t
         g_prev[0] = g
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         rl.DrawCircleV(rl.Vector2{goal_offset, g}, 5, rl.MAROON)
@@ -359,5 +357,6 @@ main :: proc() {
             rl.DrawLineV(g_start, g_stop, rl.MAROON)
             rl.DrawCircleV(g_start, 2, rl.MAROON)
         }
+        rl.EndDrawing()
     }
 }

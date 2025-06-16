@@ -83,8 +83,6 @@ main :: proc() {
 
         // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         rl.BeginMode3D(camera)
@@ -106,5 +104,6 @@ main :: proc() {
 
         rl.DrawText("(c) Castle 3D model by Alberto Cano", screen_width - 200, screen_height - 20, 10, rl.GRAY)
         rl.DrawFPS(10, 10)
+        rl.EndDrawing()
     }
 }

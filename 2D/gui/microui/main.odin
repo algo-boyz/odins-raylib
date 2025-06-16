@@ -24,7 +24,7 @@ main :: proc() {
     for !rl.WindowShouldClose() {
         defer free_all(context.temp_allocator)
 
-        rl.BeginDrawing(); defer rl.EndDrawing()
+        rl.BeginDrawing()
         rl.ClearBackground({ bg.r, bg.g, bg.b, 255 })
         
         rlmu.begin_scope()  // same as calling, `rlmu.begin(); defer rlmu.end()`
@@ -32,6 +32,7 @@ main :: proc() {
         style_window(ctx)
         test_window(ctx)
         log_window(ctx)
+        rl.EndDrawing()
     } 
 }
 

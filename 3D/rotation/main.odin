@@ -71,7 +71,6 @@ main :: proc() {
         model.transform = rl.MatrixRotateXYZ(rotation)
         // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
 
         // Draw 3D model
@@ -87,6 +86,7 @@ main :: proc() {
         rl.DrawText("Roll controlled with: KEY_LEFT / KEY_RIGHT", 40, 400, 10, rl.DARKGRAY)
         rl.DrawText("Yaw controlled with: KEY_A / KEY_S", 40, 420, 10, rl.DARKGRAY)
         rl.DrawText("(c) WWI Plane Model by GiaHanLam", SCREEN_WIDTH - 240, SCREEN_HEIGHT - 20, 10, rl.DARKGRAY)
+        rl.EndDrawing()
     }
     rl.UnloadModel(model)
     rl.UnloadTexture(texture)

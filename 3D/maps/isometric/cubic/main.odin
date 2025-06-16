@@ -77,8 +77,6 @@ main :: proc() {
 
     for !rl.WindowShouldClose() {
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.BLACK)
 
         mouse := rl.GetMousePosition()
@@ -128,5 +126,6 @@ main :: proc() {
                 )
             }
         }
+        rl.EndDrawing()
     }
 }

@@ -1,5 +1,9 @@
 package geom
 
+import "core:math/linalg"
+import "core:math/rand"
+import rl "vendor:raylib"
+
 RelativeDirection :: enum {
 	FACING_EACH_OTHER,
 	A_BEHIHD_B, 
@@ -27,4 +31,12 @@ getRelativeDirection :: proc(a:  i32, d1: i32, b: i32, d2: i32) -> RelativeDirec
 	 }
 	
 	 return .NEITHER_FACING_EACH_OTHER
+}
+
+rand_direction :: proc() -> (dir: rl.Vector2) {
+    dir = {
+        rand.float32_range(-1, 1),
+        rand.float32_range(-1, 1),
+    }
+    return linalg.normalize(dir)
 }

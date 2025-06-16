@@ -63,8 +63,6 @@ main :: proc() {
 
         {
             rl.BeginDrawing()
-            defer rl.EndDrawing()
-
             rl.ClearBackground(rl.RAYWHITE)
 
             rl.DrawText("MUSIC SHOULD BE PLAYING!", 255, 150, 20, rl.LIGHTGRAY)
@@ -80,6 +78,7 @@ main :: proc() {
 
             rl.DrawText("PRESS SPACE TO PLAY OTHER SOUND", 200, 250, 20, rl.LIGHTGRAY)
             rl.DrawText("USE LEFT AND RIGHT ARROWS TO ALTER DISTORTION", 140, 280, 20, rl.LIGHTGRAY)
+            rl.EndDrawing()
         }
     }
 }

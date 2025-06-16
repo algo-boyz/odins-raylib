@@ -32,3 +32,13 @@ get_string_width :: proc(font: rl.Font, font_size: f32, text: string) -> int {
     }
     return max(line_width, max_width)
 }
+
+// Checks if the character is a continuation byte in UTF-8 encoding.
+// In UTF-8, any byte where the top two bits are 10 (binary 0x80 in hexadecimal) is a continuation byte.
+is_utf8_continuation_byte :: proc(char : rune) -> bool {
+    return char & 0xc0 == 0x80
+}
+
+char_to_ascii :: proc(char : rune) -> int {
+    return min(int(char), 127)
+}

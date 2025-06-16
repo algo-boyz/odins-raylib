@@ -442,9 +442,7 @@ main :: proc() {
         if planet.seasons != nil do update_seasons(planet.seasons, &planet.mesh)
         if planet.clouds != nil do update_clouds(planet)  // Pass planet reference
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.BLACK)
         
         rl.BeginMode3D(camera)
@@ -455,5 +453,6 @@ main :: proc() {
         draw_planet_gui(planet)
         if planet.clouds != nil do draw_clouds_gui(planet.clouds)
         if planet.seasons != nil do draw_seasons_gui(planet.seasons)
+        rl.EndDrawing()
     }
 }

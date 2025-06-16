@@ -58,8 +58,6 @@ main :: proc() {
         }
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
         // We only draw a white full-screen rectangle,
         // frame is generated in shader using raymarching
@@ -72,6 +70,7 @@ main :: proc() {
                     rl.GetScreenHeight() - 20, 
                     10, 
                     rl.BLACK)
+        rl.EndDrawing()
     }
 
     // De-Initialization

@@ -62,12 +62,11 @@ main :: proc() {
         
         is_colliding := rl.CheckCollisionRecs(get_dino_rect(&dino), obstacle)
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.WHITE)
         rl.DrawRectangleLinesEx(obstacle, 5, rl.BLACK)
         draw_dino(&dino)
         draw_dino_hitbox(&dino, is_colliding)
+        rl.EndDrawing()
     }
 }

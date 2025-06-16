@@ -83,7 +83,6 @@ main :: proc() {
             pause = !pause
         }
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.BLACK)
 
         mouse_pos = rl.GetMousePosition()
@@ -114,6 +113,7 @@ main :: proc() {
 
         rl.DrawText("Press SPACE to PAUSE/RESUME", 20, screen_height - 35, 20, rl.LIGHTGRAY)
         rl.DrawFPS(10, 10)
+        rl.EndDrawing()
     }
     rl.CloseWindow()
 }

@@ -62,6 +62,7 @@ P := [512]u8{
     0xDE, 0x72, 0x43, 0x1D, 0x18, 0x48, 0xF3, 0x8D, 0x80, 0xC3, 0x4E, 0x42, 0xD7, 0x3D, 0x9C, 0xB4,
 }
 
+// map range function to map a value from one range to another
 map_range :: proc(value, in_min, in_max, out_min, out_max: f32) -> f32 {
     t := (value - in_min) / (in_max - in_min)
     return out_min + t * (out_max - out_min)

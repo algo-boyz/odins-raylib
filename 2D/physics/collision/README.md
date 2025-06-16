@@ -1,5 +1,7 @@
 ## Collision Detection
 
+- [Awesome Collision Detection](https://github.com/GuvaCode/awesome-collision-detection)
+
 <p align="center">
   <a href="dino/dino.odin">
     <img src="dino/assets/preview.jpg" alt="collision detection" width="960">

@@ -128,8 +128,6 @@ main :: proc() {
         }
 
         rl.BeginDrawing()
-        defer rl.EndDrawing()
-
         rl.ClearBackground(rl.RAYWHITE)
 
         rl.BeginMode3D(camera)
@@ -155,5 +153,6 @@ main :: proc() {
             player_unit.position.z,
         )
         rl.DrawText(player_pos_text, 30, 30, 30, rl.DARKGRAY)
+        rl.EndDrawing()
     }
 }

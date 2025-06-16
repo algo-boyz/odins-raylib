@@ -90,7 +90,6 @@ main :: proc() {
         }
         // Render
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.BLACK)
 
         // Draw from furthest to nearest
@@ -124,5 +123,6 @@ main :: proc() {
                 rl.Color{c, c, c, 255},
             )
         }
+        rl.EndDrawing()
     }
 }

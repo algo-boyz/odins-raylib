@@ -69,9 +69,7 @@ main :: proc() {
         rl.GuiSliderBar(frequency_rect, "frequency", rl.TextFormat("%5.3f", frequency), &frequency, 0.0, 3.0)
         rl.GuiSliderBar(halflife_rect, "halflife", rl.TextFormat("%5.3f", halflife), &halflife, 0.0, 1.0)
         
-        rl.BeginDrawing()
-        defer rl.EndDrawing()
-        
+        rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
         // Draw control points and lines
@@ -111,5 +109,6 @@ main :: proc() {
             rl.DrawLineV(start, stop, rl.DARKBLUE)
             rl.DrawCircleV(stop, 2, rl.BLUE)
         }
+        rl.EndDrawing()
     }
 }
