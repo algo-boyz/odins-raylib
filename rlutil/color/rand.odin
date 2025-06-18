@@ -54,3 +54,12 @@ random_u8 :: proc(low, high: u8) -> u8 {
 	if low == high do return low
 	return u8(rand.int_max(int(high - low))) + low
 }
+
+random_pair :: proc(m : int) -> (i, j : int){
+    i = rand.int_max(m)
+    j = rand.int_max(m)
+    if(i == j){
+        return random_pair(m)
+    }
+    return
+}
