@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#resonance
@@ -21,18 +21,16 @@ spring_energy :: proc(
     v_rest := f32(0.0),
     scale := f32(1.0),
 ) -> f32 {
-    s := springs.frequency_to_stiffness(frequency)
+    s := phys.frequency_to_stiffness(frequency)
     return (
-        springs.square(scale * (v - v_rest)) + 
-        s * springs.square(scale * (x - x_rest))
-    ) / 2.0
+        phys.square(scale * (v - v_rest)) + s * phys.square(scale * (x - x_rest))) / 2.0
 }
 
 resonant_frequency :: proc(goal_frequency, halflife: f32) -> f32 {
-    d := springs.halflife_to_damping(halflife)
-    goal_stiffness := springs.frequency_to_stiffness(goal_frequency)
+    d := phys.halflife_to_damping(halflife)
+    goal_stiffness := phys.frequency_to_stiffness(goal_frequency)
     resonant_stiffness := goal_stiffness - (d * d) / 4.0
-    return springs.stiffness_to_frequency(resonant_stiffness)
+    return phys.stiffness_to_frequency(resonant_stiffness)
 }
 
 main :: proc() {
@@ -133,7 +131,7 @@ main :: proc() {
         
         // Update spring
         t += dt
-        springs.spring_damper_exact(&x, &v, g, 0.0, frequency, halflife, dt)
+        phys.spring_damper_exact(&x, &v, g, 0.0, frequency, halflife, dt)
         
         // Update history
         state.x_prev[0] = x

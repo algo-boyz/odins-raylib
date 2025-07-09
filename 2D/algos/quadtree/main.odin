@@ -6,7 +6,7 @@ import "core:math/linalg"
 import "core:math/rand"
 
 ARRAY_SIZE :: 1000
-QUAD_ARRAY_SIZE :: 300
+QUAD_ARRAY_SIZE :: 1000  // Increased from 300 to handle more subdivisions
 NUM_QUAD_POINTS :: 4
 POINT_CIRCLE_MIN_SIZE :: 2
 POINT_CIRCLE_MAX_SIZE :: 6
@@ -20,7 +20,6 @@ Point:: struct{
 	radius: f32,
 	dir: rl.Vector2,
 	color: rl.Color,
-
 }
 
 Rect :: struct{
@@ -34,10 +33,13 @@ Quad :: struct{
 	points: [NUM_QUAD_POINTS]int,
 	is_subdivide : bool,
 	child_quads: [4]int,
+	active: bool, // Add flag to track if quad is in use
 }
 
 quads: [QUAD_ARRAY_SIZE]Quad
 points: [ARRAY_SIZE]Point
+num_active_quads: int = 0 // Track number of active quads
+quad_array_full: bool = false // Track if we ran out of quad space
 
 main :: proc(){
 	rl.InitWindow(1280, 720, "quatree")
@@ -52,45 +54,77 @@ main :: proc(){
 		dt = rl.GetFrameTime()
 		fps = rl.GetFPS()
 		MovePoints(dt)
+		
+		// Toggle between naive and quadtree collision detection
 		if rl.IsKeyPressed(.SPACE){
-			QuadTreeCheckCollision()
-			//doQuads = !doQuads
+			doQuads = !doQuads
 		}
-		NaiveCheckCollision()	
-		//if !doQuads{
-		//	NaiveCheckCollision(&points)	
-		//}else{
-		//	QuadTreeCheckCollision(&points,&quadsList)
-		//}
-		//QuadTreeCheckCollision()
+		
+		if doQuads {
+			QuadTreeCheckCollision()
+		} else {
+			NaiveCheckCollision()	
+		}
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.GRAY)
 
+		// Draw quadtree visualization if enabled
+		if doQuads {
+			// Draw quad boundaries
+			for i in 0..<num_active_quads {
+				if quads[i].active {
+					// Draw quad rectangle
+					rl.DrawRectangleLines(
+						cast(i32)(quads[i].quad_rect.position.x - quads[i].quad_rect.half_dimensions.x),
+						cast(i32)(quads[i].quad_rect.position.y - quads[i].quad_rect.half_dimensions.y),
+						cast(i32)(quads[i].quad_rect.half_dimensions.x * 2),
+						cast(i32)(quads[i].quad_rect.half_dimensions.y * 2),
+						rl.BLUE
+					)
+					
+					// Draw quad center point
+					rl.DrawCircle(
+						cast(i32)quads[i].quad_rect.position.x,
+						cast(i32)quads[i].quad_rect.position.y,
+						2, rl.YELLOW
+					)
+					
+					// Show number of points in each quad
+					if quads[i].num_points > 0 {
+						point_count_str := fmt.ctprintf("%d", quads[i].num_points)
+						rl.DrawText(point_count_str, 
+							cast(i32)(quads[i].quad_rect.position.x - 10),
+							cast(i32)(quads[i].quad_rect.position.y - 10),
+							12, rl.WHITE
+						)
+					}
+				}
+			}
+		}
+
+		// Draw points
 		for p in points{
 			rl.DrawCircle(cast(i32)p.pos.x,cast(i32)p.pos.y,p.radius,p.color)
 		}
-		//pos_str := fmt.ctprintf("pos.x: %v, pos.y: %v - dir.x: %v, dir.y %v",points[0].pos.x,points[0].pos.y,points[0].dir.x,points[0].pos.y)
-		//rl.DrawText(pos_str, 4, 4, 25, rl.GREEN)
-		rl.DrawRectangle(0,0,200,100,rl.BLACK)
-		dt_str := fmt.ctprintf("dt: %v", dt)
+		
+		// Draw UI
+		rl.DrawRectangle(0,0,250,120,rl.BLACK)
+		dt_str := fmt.ctprintf("dt: %.3f", dt)
 		fps_str := fmt.ctprintf("fps: %v", fps)
-		rl.DrawText(dt_str, 4, 4, 25, rl.GREEN)
-		rl.DrawText(fps_str, 4, 25, 25, rl.GREEN)
+		quad_count_str := fmt.ctprintf("active quads: %d", num_active_quads)
+		
+		rl.DrawText(dt_str, 4, 4, 20, rl.GREEN)
+		rl.DrawText(fps_str, 4, 25, 20, rl.GREEN)
+		rl.DrawText(quad_count_str, 4, 46, 20, rl.GREEN)
+		
 		if doQuads{
-			rl.DrawText("Quad Tree", 4, 50, 25, rl.GREEN)
-			for i in 0..<QUAD_ARRAY_SIZE{
-				rl.DrawRectangleLines(cast(i32)quads[i].quad_rect.position.x,
-					cast(i32)quads[i].quad_rect.position.y,
-					cast(i32)quads[i].quad_rect.half_dimensions.x,
-					cast(i32)quads[i].quad_rect.half_dimensions.y,
-					rl.BLUE)
-			}
-			//fmt.println(fmt.ctprintf("x: %v",quads[0].quad_rect.position.x))
-
+			rl.DrawText("Mode: Quad Tree", 4, 67, 20, rl.GREEN)
 		}else{
-			rl.DrawText("Naive", 4, 50, 25, rl.GREEN)
+			rl.DrawText("Mode: Naive", 4, 67, 20, rl.GREEN)
 		}
+		rl.DrawText("Press SPACE to toggle", 4, 88, 16, rl.LIGHTGRAY)
+		
 		rl.EndDrawing()
 	}
 	rl.CloseWindow()
@@ -98,7 +132,6 @@ main :: proc(){
 
 GenPoints :: proc()
 {
-	
 	for i in 0..<ARRAY_SIZE{
 		ran_y:= cast(f32)rand.int31_max(720)
 		ran_x:= cast(f32)rand.int31_max(1280)
@@ -114,28 +147,30 @@ GenPoints :: proc()
 		points[i].dir.y = cast(f32)(rand.int31_max(199)-100)/100
 	}
 
+	// Initialize all quads as inactive
 	for i in 0..<QUAD_ARRAY_SIZE{
 		SetupQuad(i)
+		quads[i].active = false
 	}
 }
 
 SetupQuad :: proc(quad_index : int)
 {
-	quad := quads[quad_index]
-	quad.quad_rect.position.x = 0
-	quad.quad_rect.position.y = 0
-	quad.quad_rect.half_dimensions.x = 0
-	quad.quad_rect.half_dimensions.y = 0
-	quad.num_points = 0
-	quad.points[0] = 0
-	quad.points[1] = 0
-	quad.points[2] = 0
-	quad.points[3] = 0
-	quad.is_subdivide = false
-	quad.child_quads[0] = 0
-	quad.child_quads[1] = 0
-	quad.child_quads[2] = 0
-	quad.child_quads[3] = 0
+	quads[quad_index].quad_rect.position.x = 0
+	quads[quad_index].quad_rect.position.y = 0
+	quads[quad_index].quad_rect.half_dimensions.x = 0
+	quads[quad_index].quad_rect.half_dimensions.y = 0
+	quads[quad_index].num_points = 0
+	quads[quad_index].points[0] = 0
+	quads[quad_index].points[1] = 0
+	quads[quad_index].points[2] = 0
+	quads[quad_index].points[3] = 0
+	quads[quad_index].is_subdivide = false
+	quads[quad_index].child_quads[0] = 0
+	quads[quad_index].child_quads[1] = 0
+	quads[quad_index].child_quads[2] = 0
+	quads[quad_index].child_quads[3] = 0
+	quads[quad_index].active = false
 }
 
 MovePoints:: proc(dt : f32)
@@ -144,22 +179,18 @@ MovePoints:: proc(dt : f32)
 		points[i].pos.x += (points[i].dir.x * 100) * dt
 		points[i].pos.y += (points[i].dir.y * 100) * dt
 		if points[i].pos.x >= 1280.0 {
-			//p.dir = ReflectDirection(p.dir,HitDirection.right)
 			points[i].pos.x = 1280
 			points[i].dir.x = -points[i].dir.x
 		}else if points[i].pos.x <= 0.0{
-			//p.dir = ReflectDirection(p.dir,HitDirection.left)
 			points[i].pos.x = 0.0
-			points[i].dir.x = points[i].dir.x +1.0
+			points[i].dir.x = -points[i].dir.x  // Fixed: was adding 1.0
 		}
 		if points[i].pos.y >= 720{
-			//p.dir = ReflectDirection(p.dir,HitDirection.bottom)
 			points[i].pos.y = 720
 			points[i].dir.y = -points[i].dir.y
 		}else if points[i].pos.y <= 0{
-			//p.dir = ReflectDirection(p.dir,HitDirection.top)
 			points[i].pos.y = 0
-			points[i].dir.y = points[i].dir.y + 1.0
+			points[i].dir.y = -points[i].dir.y  // Fixed: was adding 1.0
 		}
 	}
 }
@@ -181,6 +212,12 @@ ReflectDirection:: proc(dir : rl.Vector2, hitDir:HitDirection) -> rl.Vector2
 }
 
 QuadTreeCheckCollision :: proc(){
+	// Reset all quads
+	for i in 0..<QUAD_ARRAY_SIZE {
+		quads[i].active = false
+	}
+	
+	// Setup root quad
 	SetupQuad(0)
 	quads[0].quad_rect.position.x = 1280.0/2.0
 	quads[0].quad_rect.position.y = 720.0/2.0
@@ -188,26 +225,24 @@ QuadTreeCheckCollision :: proc(){
 	quads[0].quad_rect.half_dimensions.y = 720.0/2.0
 	quads[0].num_points = 0
 	quads[0].is_subdivide = false
+	quads[0].active = true
 
 	next_free_quad_index := 1
-	////build quad tree
+	num_active_quads = 1
+	
+	// Build quad tree
 	for i in 0..<ARRAY_SIZE{
 		BuildQuadTree(points[i],i,0,&next_free_quad_index)	
 	}
 
-	for i in 0..<QUAD_ARRAY_SIZE{
-		fmt.println(fmt.ctprintf("half: %v, %v",quads[i].quad_rect.half_dimensions.x,quads[i].quad_rect.half_dimensions.y))
-		fmt.println(fmt.ctprintf("pos: %v, %v",quads[i].quad_rect.position.x,quads[i].quad_rect.position.y))
+	// Query quad tree for collisions
+	for i in 0..<ARRAY_SIZE{
+		if(QueryQuadTreeForCollision(i,0)){
+			points[i].color = rl.GREEN
+		}else{
+			points[i].color = rl.RED
+		}
 	}
-	////query quad tree
-	//for i in 0..<ARRAY_SIZE{
-	//	if(QueryQuadTreeForCollision(i,0)){
-	//		points[i].color = rl.GREEN
-	//	}else{
-	//		points[i].color = rl.RED
-	//	}
-	//}
-	
 }
 
 BuildQuadTree :: proc(point: Point,
@@ -229,80 +264,101 @@ BuildQuadTree :: proc(point: Point,
 		return true
 	}	
 	
-	if(!quads[quad_index].is_subdivide){
+	// Only subdivide if we have enough space for 4 new quads
+	if(!quads[quad_index].is_subdivide && next_free_quad_index^ + 4 < QUAD_ARRAY_SIZE){
 		next_free_quad_index^ = SubdivideQuadTree(quad_index,next_free_quad_index^)
 		quads[quad_index].is_subdivide = true
 	}
-	//try add point to child quads
-	for i in 0..<4{
-		if(BuildQuadTree(point,point_index,quads[quad_index].child_quads[i],next_free_quad_index)){
-			return true
-		}	
+	
+	// Only try child quads if we successfully subdivided
+	if quads[quad_index].is_subdivide {
+		//try add point to child quads
+		for i in 0..<4{
+			if(BuildQuadTree(point,point_index,quads[quad_index].child_quads[i],next_free_quad_index)){
+				return true
+			}	
+		}
 	}
+	
+	// If we can't subdivide and quad is full, we have to force add to this quad
+	// This isn't ideal but prevents crashes
+	if quads[quad_index].num_points < NUM_QUAD_POINTS {
+		quad_point_index := quads[quad_index].num_points
+		quads[quad_index].points[quad_point_index] = point_index
+		quads[quad_index].num_points += 1
+		return true
+	}
+	
 	return false
 }
-//TODO: need to replace the top left etc with quads[new_quad_index].
-SubdivideQuadTree :: proc(quad_index:int, next_free_quad_index:int)-> int {
 
-	fmt.println(fmt.ctprintf("next free %v",next_free_quad_index))
-    
+SubdivideQuadTree :: proc(quad_index:int, next_free_quad_index:int)-> int {
+	// Check if we have enough space for 4 new quads
+	if next_free_quad_index + 4 >= QUAD_ARRAY_SIZE {
+		fmt.println("Warning: Not enough space in quad array for subdivision!")
+		return next_free_quad_index
+	}
+	
 	new_quad_index := next_free_quad_index
-	//TODO: print half dimensions to see if the divide is working
-	//setup top left
 	half_x := quads[quad_index].quad_rect.half_dimensions.x / 2
 	half_y := quads[quad_index].quad_rect.half_dimensions.y / 2
 
-	pos_x := quads[quad_index].quad_rect.position.x - half_x
-	pos_y := quads[quad_index].quad_rect.position.y - half_y
-
+	//setup top left
 	quads[new_quad_index].quad_rect.half_dimensions.x = half_x
 	quads[new_quad_index].quad_rect.half_dimensions.y = half_y
-	quads[new_quad_index].quad_rect.position.x = pos_x
-	quads[new_quad_index].quad_rect.position.y = pos_y
-
-	//fmt.println(fmt.ctprintf("half: %v, %v  pos: %v %v",half_x,half_y,pos_x,pos_y))
+	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x - half_x
+	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y - half_y
 	quads[new_quad_index].num_points = 0
 	quads[new_quad_index].is_subdivide = false
+	quads[new_quad_index].active = true
 	quads[quad_index].child_quads[0] = new_quad_index
 	new_quad_index += 1
 
 	//setup top right
-	quads[new_quad_index].quad_rect.half_dimensions.x = quads[quad_index].quad_rect.half_dimensions.x / 2
-	quads[new_quad_index].quad_rect.half_dimensions.y = quads[quad_index].quad_rect.half_dimensions.y / 2
-	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x + quads[new_quad_index].quad_rect.half_dimensions.x
-	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y - quads[new_quad_index].quad_rect.half_dimensions.y
+	quads[new_quad_index].quad_rect.half_dimensions.x = half_x
+	quads[new_quad_index].quad_rect.half_dimensions.y = half_y
+	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x + half_x
+	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y - half_y
 	quads[new_quad_index].num_points = 0
 	quads[new_quad_index].is_subdivide = false
+	quads[new_quad_index].active = true
 	quads[quad_index].child_quads[1] = new_quad_index
 	new_quad_index += 1
 
 	//setup bottom left
-	quads[new_quad_index].quad_rect.half_dimensions.x = quads[quad_index].quad_rect.half_dimensions.x / 2
-	quads[new_quad_index].quad_rect.half_dimensions.y = quads[quad_index].quad_rect.half_dimensions.y / 2
-	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x - quads[new_quad_index].quad_rect.half_dimensions.x
-	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y + quads[new_quad_index].quad_rect.half_dimensions.y
+	quads[new_quad_index].quad_rect.half_dimensions.x = half_x
+	quads[new_quad_index].quad_rect.half_dimensions.y = half_y
+	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x - half_x
+	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y + half_y
 	quads[new_quad_index].num_points = 0
 	quads[new_quad_index].is_subdivide = false
+	quads[new_quad_index].active = true
 	quads[quad_index].child_quads[2] = new_quad_index
 	new_quad_index += 1
 
 	//setup bottom right
-	quads[new_quad_index].quad_rect.half_dimensions.x = quads[quad_index].quad_rect.half_dimensions.x / 2
-	quads[new_quad_index].quad_rect.half_dimensions.y = quads[quad_index].quad_rect.half_dimensions.y / 2
-	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x + quads[new_quad_index].quad_rect.half_dimensions.x
-	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y + quads[new_quad_index].quad_rect.half_dimensions.y
+	quads[new_quad_index].quad_rect.half_dimensions.x = half_x
+	quads[new_quad_index].quad_rect.half_dimensions.y = half_y
+	quads[new_quad_index].quad_rect.position.x = quads[quad_index].quad_rect.position.x + half_x
+	quads[new_quad_index].quad_rect.position.y = quads[quad_index].quad_rect.position.y + half_y
 	quads[new_quad_index].num_points = 0
 	quads[new_quad_index].is_subdivide = false
+	quads[new_quad_index].active = true
 	quads[quad_index].child_quads[3] = new_quad_index
 	new_quad_index += 1
 
-	//return next free element
+	// Update active quad count
+	num_active_quads = new_quad_index
+	
 	return new_quad_index
 }
 
-QueryQuadTreeForCollision :: proc(point_index:int,
-	quad_index:int) -> bool
+QueryQuadTreeForCollision :: proc(point_index:int, quad_index:int) -> bool
 {
+	if !quads[quad_index].active {
+		return false
+	}
+	
 	quad := quads[quad_index]
 	
 	//if the point is not in the bounds of this quad return false
@@ -310,21 +366,21 @@ QueryQuadTreeForCollision :: proc(point_index:int,
 		return false
 	}
 
-	//check quad points fo collision
-	//if point index is == quad index skip and dont check self collsion
-	//if collision set red and return
+	//check quad points for collision
 	for i in 0..<quad.num_points{
 		if(quad.points[i] != point_index){
-			if(CirclesIntersect(points[i],points[point_index])){
+			if(CirclesIntersect(points[quad.points[i]],points[point_index])){
 				return true
 			}
 		}
 	}
 
-	//loop and check child quads
-	for i in 0..<4{
-		if(QueryQuadTreeForCollision(point_index,quads[quad_index].child_quads[i])){
-			return true
+	//loop and check child quads if subdivided
+	if quad.is_subdivide {
+		for i in 0..<4{
+			if(QueryQuadTreeForCollision(point_index,quads[quad_index].child_quads[i])){
+				return true
+			}
 		}
 	}
 
@@ -343,7 +399,6 @@ NaiveCheckCollision :: proc()
 			}
 		}
 	}
-
 }
 
 CheckPointInQuadBounds :: proc(quad : Quad, point : Point) -> bool{

@@ -15,7 +15,7 @@ gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32
     rbo := rlgl.LoadTextureDepth(size, size, true)
     id: i32
     cubemap.id = rlgl.LoadTextureCubemap(&id, size, i32(format))
-    fbo := rlgl.LoadFramebuffer(screen_width, screen_height)
+    fbo := rlgl.LoadFramebuffer()
     rlgl.FramebufferAttach(fbo, rbo, i32(rlgl.FramebufferAttachType.DEPTH), i32(rlgl.FramebufferAttachTextureType.RENDERBUFFER), 0)
     rlgl.FramebufferAttach(fbo, cubemap.id, i32(rlgl.FramebufferAttachType.COLOR_CHANNEL0), i32(rlgl.FramebufferAttachTextureType.CUBEMAP_POSITIVE_X), 0)
     // Check if framebuffer is complete

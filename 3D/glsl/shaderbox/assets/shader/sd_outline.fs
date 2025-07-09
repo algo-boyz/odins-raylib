@@ -28,7 +28,6 @@ float get_sd_shape(vec3 p) {
 #define RM_MAX_N_STEPS 64
 #define RM_EPS 0.0001
 RayMarchResult march(vec3 ro, vec3 rd) {
-    // ------------------------------------------
     // Signed distances
     RayMarchResult rm = RayMarchResult(
             0, // i - ray march last iteration index
@@ -60,8 +59,6 @@ RayMarchResult march(vec3 ro, vec3 rd) {
             break;
         }
     }
-
-    // ------------------------------------------
     // Normals
     if (rm.sd_last < RM_EPS) {
         float h = RM_EPS;
@@ -78,7 +75,6 @@ float sin01(float x, float a, float f, float phase) {
     return a * 0.5 * (sin(f * (x + phase)) + 1.0);
 }
 
-// -----------------------------------------------------------------------
 void main() {
     // Point on the screen x, y in [-1, 1], z == 0.0
     vec2 screen_pos = vs_uv * 2.0 - 1.0;

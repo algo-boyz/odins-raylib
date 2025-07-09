@@ -3,11 +3,6 @@ package color
 import "core:math"
 import "core:c/libc"
 
-// Define RGB struct if not already defined
-RGB :: struct {
-    r, g, b: f32,
-}
-
 // Define HSL struct for return value
 HSL :: struct {
     h, s, l: f32,

@@ -12,6 +12,23 @@ State :: struct {
     turn_speed: f32,
 }
 
+Animations :: [14]string{
+    "Robot_Dance",
+    "Robot_Yes",
+    "Robot_Wave",
+    "Robot_WalkJump",
+    "Robot_Walking",
+    "Robot_ThumbsUp",
+    "Robot_Standing",
+    "Robot_Sitting",
+    "Robot_Running",
+    "Robot_Punch",
+    "Robot_No",
+    "Robot_Jump",
+    "Robot_Idle",
+    "Robot_Death",
+}
+
 main :: proc() {
     rl.InitWindow(800, 600, "3D Model Example")
     defer rl.CloseWindow()

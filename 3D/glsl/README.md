@@ -24,6 +24,8 @@
 
 - [The Book of Shaders](https://thebookofshaders.com/)
 
+- [Journey Into Shaders](https://www.mayerowitz.io/blog/a-journey-into-shaders)
+
 - [The best darn shader yet](https://bgolus.medium.com/the-best-darn-grid-shader-yet-727f9278b9d8)
 
 - [Shadered](https://shadered.org/) The most powerful shader IDE

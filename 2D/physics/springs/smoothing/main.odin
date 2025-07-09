@@ -2,7 +2,7 @@ package main
 
 import "core:fmt"
 import "core:math/rand"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#smoothing
@@ -104,7 +104,7 @@ main :: proc() {
         
         t += dt
         
-        springs.simple_spring_damper_exact(&x, &v, g, halflife, dt)
+        phys.simple_spring_damper_exact(&x, &v, g, halflife, dt)
         
         state.x_prev[0] = x
         state.v_prev[0] = v

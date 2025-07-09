@@ -1,3 +1,4 @@
+// plot.fs
 #version 330
 in vec2 vs_uv;
 
@@ -15,15 +16,11 @@ float hash(float n) {
 
 void main() {
     vec3 color;
-
-    // -------------------------------------------------------------------
     vec2 screen_sp;
     {
         screen_sp = vs_uv * 2.0 - 1.0;
         screen_sp.x *= u_aspect;
     }
-
-    // -------------------------------------------------------------------
     float axis_thickness = 0.0025;
     float axis_smoothness = 0.001;
 
@@ -36,8 +33,6 @@ void main() {
             );
         axis_color = vec3(line);
     }
-
-    // -------------------------------------------------------------------
     float circles_density = 50.0;
     float circle_radius = 0.015;
     float circle_smoothness = 0.05;
@@ -56,8 +51,6 @@ void main() {
 
         circle_color = circle * circle_base_color;
     }
-
-    // -------------------------------------------------------------------
     color = axis_color + circle_color;
     fs_color = vec4(color, 1.0);
 }

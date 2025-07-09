@@ -7,7 +7,7 @@ main :: proc() {
     SCREEN_WIDTH :: 800
     SCREEN_HEIGHT :: 450
 
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [models] example - plane rotations (yaw, pitch, roll)")
+    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Rotations (yaw, pitch, roll)")
 
     camera := rl.Camera3D{
         position = {0.0, 50.0, -120.0},    // Camera position perspective

@@ -73,10 +73,10 @@
 
 <hr>
 <p align="center">
-  <a href="poly/main.odin">
+  <a href="poly/disco/main.odin">
     Polygons
   </a>
-  <a href="poly/main.odin">
-    <img src="poly/preview.gif" alt="polygons" width="960">
+  <a href="poly/disco/main.odin">
+    <img src="poly/disco/preview.gif" alt="polygons" width="960">
   </a>
 </p>

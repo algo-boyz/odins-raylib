@@ -76,7 +76,7 @@ main :: proc() {
         show_velocity(&c)
         show_collision(&c)
         show_time()
-        // circle.draw_hitbox(&c)
+        circle.draw_hitbox(&c)
         rl.DrawRectangleRec(platform, rl.BLACK)
         circle.draw(&c)
         

@@ -33,3 +33,8 @@ a type of [Physics Based Bloom](https://learnopengl.com/Guest-Articles/2022/Phys
 
 6. **Collision Detection Algorithms**
 Various collision detection algorithms such as Separating Axis Theorem (SAT) and Gilbert–Johnson–Keerthi (GJK) are fundamental for realistic interactions between game entities. They are crucial for detecting and resolving collisions, ensuring accurate and engaging gameplay.
+
+7. **Wave Function Collapse** 
+WFC (Wave Function Collapse) is a type of PCG (Procedural Contents Generation) algorithm that analyzes the connectivity patterns of source material to generate output with identical connectivity relationships. Texture Synthesis is the general term for this technique, which creates large result images from small source images.
+
+[Nurikabe Map Generation with WFC algorithm](https://sublevelgames.github.io/blogs/2025-06-22-nurikabe-map-gen-with-wfc/) Captcha solver

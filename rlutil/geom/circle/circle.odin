@@ -380,3 +380,8 @@ angle_difference :: proc(rad1, rad2: f32) -> f32 {
     }
     return diff
 }
+
+// Calculate the circumference of a circle given its radius
+circum :: proc(c: Circle) -> f32 {
+    return 2 * PI * c.radius
+}

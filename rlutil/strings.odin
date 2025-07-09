@@ -6,9 +6,9 @@ import "core:strings"
 import "core:unicode/utf8"
 import rl "vendor:raylib"
 
-// Returns the approximate width, in pixels, of a string written in the given font.
+// Returns approximate width, in pixels, of a string written in the given font.
 // Based off of Raylib's DrawText functions
-get_string_width :: proc(font: rl.Font, font_size: f32, text: string) -> int {
+str_width :: proc(font: rl.Font, font_size: f32, text: string) -> int {
     scale_factor := font_size / f32(font.baseSize)
     max_width, line_width, byte_count:int
     codepoint:rune
@@ -41,4 +41,21 @@ is_utf8_continuation_byte :: proc(char : rune) -> bool {
 
 char_to_ascii :: proc(char : rune) -> int {
     return min(int(char), 127)
+}
+
+concat :: proc(string_inp: ..string, allocator := context.allocator) -> string {
+    builder := strings.builder_make(0, 10, allocator)
+
+    for str in string_inp do strings.write_string(&builder, str)
+
+    return strings.to_string(builder)
+}
+
+concat_c :: proc(c_str: ..cstring) -> cstring {
+    builder := strings.builder_make()
+    defer strings.builder_destroy(&builder)
+
+    for str in c_str do strings.write_string(&builder, string(str))
+
+    return strings.to_cstring(&builder)
 }

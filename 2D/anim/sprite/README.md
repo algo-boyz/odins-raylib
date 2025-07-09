@@ -52,3 +52,7 @@
 - [Spriter's Resource](https://www.spriters-resource.com/)
 
 - [Sprite Mancer](https://spritemancer.com/) ultimate sprite animations
+
+## Tipa N Tricks
+
+- [How the ship for Plunder was made](https://www.youtube.com/shorts/FS_18bPSDME)

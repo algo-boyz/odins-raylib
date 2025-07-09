@@ -1,7 +1,7 @@
 package main
 
 import "core:fmt"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#velocityspring
@@ -95,7 +95,7 @@ main :: proc() {
         rl.SetTargetFPS(i32(1.0 / dt))
         
         t += dt
-        springs.velocity_spring_damper_exact(&x, &v, &xi, g, goal_velocity, halflife, dt)
+        phys.velocity_spring_damper_exact(&x, &v, &xi, g, goal_velocity, halflife, dt)
         
         x_prev[0] = x
         v_prev[0] = v

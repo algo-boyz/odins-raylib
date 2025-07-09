@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // https://theorangeduck.com/page/spring-roll-call#interpolation
@@ -49,7 +49,7 @@ main :: proc() {
         if rl.IsMouseButtonPressed(.RIGHT) {
             best_dist := f32(math.F32_MAX)
             for i in 0..<CTRL_MAX {
-                dist := springs.square(ctrlx[i] - mouse_pos.x) + springs.square(ctrly[i] - mouse_pos.y)
+                dist := phys.square(ctrlx[i] - mouse_pos.x) + phys.square(ctrly[i] - mouse_pos.y)
                 if dist < best_dist {
                     best_dist = dist
                     ctrl_selected = i
@@ -101,8 +101,8 @@ main :: proc() {
             goaly, goalvy := piecewise_interpolation(t, ctrly[:])
             
             dt := f32(CTRL_MAX) / f32(subsamples)
-            springs.spring_damper_exact(&sx, &svx, goalx, goalvx, halflife, frequency, dt)
-            springs.spring_damper_exact(&sy, &svy, goaly, goalvy, halflife, frequency, dt)
+            phys.spring_damper_exact(&sx, &svx, goalx, goalvx, halflife, frequency, dt)
+            phys.spring_damper_exact(&sy, &svy, goaly, goalvy, halflife, frequency, dt)
             
             stop := rl.Vector2{sx, sy}
             

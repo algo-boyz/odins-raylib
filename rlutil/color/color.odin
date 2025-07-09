@@ -7,6 +7,10 @@ import "core:math/rand"
 import "core:strconv"
 import rl "vendor:raylib"
 
+RGB :: struct {
+    r, g, b: f32,
+}
+
 add :: proc(a, b: rl.Color) -> rl.Color {
     a := linalg.array_cast(a, i32)
     b := linalg.array_cast(b, i32)
@@ -114,6 +118,11 @@ darken :: proc(color : rl.Color, amount : int = 20) -> rl.Color {
 	}
 }
 
+is_dark :: proc(c: rl.Color) -> b64 {
+   	x: f64 = (cast(f64)c.r * 0.2126) + (cast(f64)c.g * 0.7152) + (cast(f64)c.b * 0.0722)
+	return x < 40
+}
+
 // Lighten a color by a given amount
 lighten :: proc(color : rl.Color, amount : int = 20) -> rl.Color {
 	return rl.Color{
@@ -122,6 +131,11 @@ lighten :: proc(color : rl.Color, amount : int = 20) -> rl.Color {
 		u8(math.min(255, cast(int)color.b + amount)),
 		color.a,
 	}
+}
+
+is_light :: proc(c: rl.Color) -> b64 {
+	x: f64 = (cast(f64)c.r * 0.2126) + (cast(f64)c.g * 0.7152) + (cast(f64)c.b * 0.0722)
+	return x >= 40
 }
 
 // Set the alpha value of a color (transparency)
@@ -174,4 +188,15 @@ from_hex :: proc(hex: string) -> (color: rl.Color, ok: bool) {
 		a = 255
 	}
 	return rl.Color{u8(r_val), u8(g_val), u8(b_val), a}, true
+}
+
+@(require_results)
+lerp :: proc(ac, bc: rl.Color, t: f32) -> rl.Color {
+    a := linalg.array_cast(ac, f32)
+    b := linalg.array_cast(bc, f32)
+
+    v := linalg.lerp(a, b, t)
+    v = linalg.clamp(v, a, b)
+
+    return rl.Color(linalg.array_cast(v, u8))
 }

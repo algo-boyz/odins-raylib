@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#timedspring
@@ -30,7 +30,7 @@ timed_spring_damper_exact :: proc(
     t_goal_future := dt + apprehension * halflife
     x_goal_future := t_goal_future < t_goal ? xi^ + v_goal * t_goal_future : x_goal
         
-    springs.simple_spring_damper_exact(x, v, x_goal_future, halflife, dt)
+    phys.simple_spring_damper_exact(x, v, x_goal_future, halflife, dt)
     
     xi^ += v_goal * dt
 }

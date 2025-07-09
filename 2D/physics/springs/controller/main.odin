@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 spring_character_update :: proc(
@@ -12,10 +12,10 @@ spring_character_update :: proc(
     halflife: f32,
     dt: f32,
 ) {
-    y := springs.halflife_to_damping(halflife) / 2.0
+    y := phys.halflife_to_damping(halflife) / 2.0
     j0 := v^ - v_goal
     j1 := a^ + j0 * y
-    eydt := springs.fast_negexp(y * dt)
+    eydt := phys.fast_negexp(y * dt)
 
     x^ = eydt * (((-j1)/(y*y)) + ((-j0 - j1*dt)/y)) + 
          (j1/(y*y)) + j0/y + v_goal * dt + x^

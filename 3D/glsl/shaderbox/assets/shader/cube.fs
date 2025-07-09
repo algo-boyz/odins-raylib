@@ -3,9 +3,7 @@ in vec2 vs_uv;
 
 uniform float u_time;
 uniform float u_aspect;
-
 out vec4 fs_color;
-
 #define PI 3.141592
 
 struct RayMarchResult {
@@ -29,9 +27,7 @@ float get_sd_shape(vec3 p) {
 #define RM_MAX_N_STEPS 64
 #define RM_EPS 0.0001
 #define NORMAL_DERIVATIVE_STEP 0.015
-RayMarchResult march(vec3 ro, vec3 rd) {
-    // ------------------------------------------
-    // Signed distances
+RayMarchResult march(vec3 ro, vec3 rd) { // Signed distances
     RayMarchResult rm = RayMarchResult(
             0, // i - ray march last iteration index
             ro, // p - ray's last position
@@ -43,7 +39,6 @@ RayMarchResult march(vec3 ro, vec3 rd) {
             RM_MAX_DIST, // sd_min - min sd ever seen
             RM_MAX_DIST // sd_min_shape - min sd to the shape ever seen
         );
-
     for (; rm.i < RM_MAX_N_STEPS; ++rm.i) {
         rm.p = rm.p + rm.rd * rm.sd_last;
 
@@ -62,8 +57,6 @@ RayMarchResult march(vec3 ro, vec3 rd) {
             break;
         }
     }
-
-    // ------------------------------------------
     // Normals
     if (rm.sd_last < RM_EPS) {
         float h = RM_EPS;
@@ -79,7 +72,6 @@ RayMarchResult march(vec3 ro, vec3 rd) {
                     ));
         }
     }
-
     return rm;
 }
 
@@ -91,7 +83,6 @@ float attenuate(float d, vec3 coeffs) {
     return 1.0 / (coeffs.x + coeffs.y * d + coeffs.z * d * d);
 }
 
-// -----------------------------------------------------------------------
 void main() {
     // Point on the screen x, y in [-1, 1], z == 0.0
     vec2 screen_pos = vs_uv * 2.0 - 1.0;
@@ -109,8 +100,7 @@ void main() {
     vec3 right = normalize(cross(forward, world_up));
     vec3 up = normalize(cross(right, forward));
 
-    RayMarchResult rm;
-    {
+    RayMarchResult rm; {
         // Perspective
         vec3 screen_center = cam_pos + forward * screen_dist;
         vec3 sp = screen_center +
@@ -119,24 +109,18 @@ void main() {
 
         vec3 ro0 = cam_pos;
         vec3 rd0 = normalize(sp - cam_pos);
-
         // Orthographic
         vec3 ro1 = sp * 4.0;
         vec3 rd1 = normalize(look_at - cam_pos);
-
         // Mix
         vec3 ro = mix(ro0, ro1, 1.0);
         vec3 rd = mix(rd0, rd1, 1.0);
         rm = march(ro, rd);
     }
-
     // Color
     vec3 color = vec3(0.0);
-
     float d = abs(max(0.0, rm.sd_min_shape));
     float a = attenuate(d, vec3(0.01, 8.0, 8.0));
-
     color = 1.0 * abs(rm.n);
-
     fs_color = vec4(color, 1.0);
 }

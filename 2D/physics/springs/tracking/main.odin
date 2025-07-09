@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#trackingspring
@@ -58,9 +58,9 @@ tracking_spring_update_improved :: proc(
     x_halflife, v_halflife, a_halflife: f32,
     dt: f32,
 ) {
-    v^ = springs.damper_exact(v^, v^ + a_goal * dt, a_halflife, dt)
-    v^ = springs.damper_exact(v^, v_goal, v_halflife, dt)
-    v^ = springs.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
+    v^ = phys.damper_exact(v^, v^ + a_goal * dt, a_halflife, dt)
+    v^ = phys.damper_exact(v^, v_goal, v_halflife, dt)
+    v^ = phys.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
     x^ = x^ + dt * v^
 }
 
@@ -70,8 +70,8 @@ tracking_spring_update_no_acceleration_improved :: proc(
     x_halflife, v_halflife: f32,
     dt: f32,
 ) {
-    v^ = springs.damper_exact(v^, v_goal, v_halflife, dt)
-    v^ = springs.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
+    v^ = phys.damper_exact(v^, v_goal, v_halflife, dt)
+    v^ = phys.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
     x^ = x^ + dt * v^
 }
 
@@ -81,7 +81,7 @@ tracking_spring_update_no_velocity_acceleration_improved :: proc(
     x_halflife: f32,
     dt: f32,
 ) {
-    v^ = springs.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
+    v^ = phys.damper_exact(v^, (x_goal - x^) / dt, x_halflife, dt)
     x^ = x^ + dt * v^
 }
 
@@ -101,7 +101,7 @@ tracking_spring_update_exact :: proc(
     spring_x_goal := x_goal
     spring_v_goal := (t2 * v_goal + t1 * a_goal) / ((1.0 - t0) / gain_dt)
     
-    springs.spring_damper_exact_stiffness_damping(
+    phys.spring_damper_exact_stiffness_damping(
         x, v,
         spring_x_goal,
         spring_v_goal,
@@ -126,7 +126,7 @@ tracking_spring_update_no_acceleration_exact :: proc(
     spring_x_goal := x_goal
     spring_v_goal := t2 * v_goal / ((1.0 - t0) / gain_dt)
 
-    springs.spring_damper_exact_stiffness_damping(
+    phys.spring_damper_exact_stiffness_damping(
         x, v,
         spring_x_goal,
         spring_v_goal,
@@ -150,7 +150,7 @@ tracking_spring_update_no_velocity_acceleration_exact :: proc(
     spring_x_goal := x_goal
     spring_v_goal:f32
   
-    springs.spring_damper_exact_stiffness_damping(
+    phys.spring_damper_exact_stiffness_damping(
         x, v,
         spring_x_goal,
         spring_v_goal,

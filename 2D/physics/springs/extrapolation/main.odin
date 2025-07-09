@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // https://theorangeduck.com/page/spring-roll-call#extrapolation
@@ -15,8 +15,8 @@ g_prev: [HISTORY_MAX]f32
 
 extrapolate :: proc(x: ^f32, v: ^f32, dt: f32, halflife: f32, eps: f32 = 1e-5) {
     y := 0.69314718056 / (halflife + eps)
-    x^ = x^ + (v^ / (y + eps)) * (1.0 - springs.fast_negexp(y * dt))
-    v^ = v^ * springs.fast_negexp(y * dt)
+    x^ = x^ + (v^ / (y + eps)) * (1.0 - phys.fast_negexp(y * dt))
+    v^ = v^ * phys.fast_negexp(y * dt)
 }
 
 extrapolate_function :: proc(g: ^f32, gv: ^f32, t: f32, freq: f32, amp: f32, phase: f32, off: f32) {

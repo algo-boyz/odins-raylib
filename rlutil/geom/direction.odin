@@ -40,3 +40,17 @@ rand_direction :: proc() -> (dir: rl.Vector2) {
     }
     return linalg.normalize(dir)
 }
+
+// calculates the slope between two vectors
+slope :: proc(x1, y1, x2, y2: f32, dx, dy: ^f32) {
+    steps := max(abs(x1 - x2), abs(y1 - y2))
+    if steps == 0 {
+        dx^ = 0
+        dy^ = 0
+        return
+    }
+    dx^ = x1 - x2
+    dx^ /= steps
+    dy^ = y1 - y2
+    dy^ /= steps
+}

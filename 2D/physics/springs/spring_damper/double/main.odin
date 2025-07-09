@@ -1,7 +1,7 @@
 package main
 
 import "core:fmt"
-import "../../../../../rlutil/physics/springs"
+import "../../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#doublespring
@@ -24,8 +24,8 @@ double_spring_damper_exact :: proc(
     dt: f32,
 ) {
     // Assuming simple_spring_damper_exact is defined in common
-    springs.simple_spring_damper_exact(xi, vi, x_goal, 0.5 * halflife, dt)
-    springs.simple_spring_damper_exact(x, v, xi^, 0.5 * halflife, dt)
+    phys.simple_spring_damper_exact(xi, vi, x_goal, 0.5 * halflife, dt)
+    phys.simple_spring_damper_exact(x, v, xi^, 0.5 * halflife, dt)
 }
 
 main :: proc() {

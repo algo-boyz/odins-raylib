@@ -1,7 +1,7 @@
 package main
 
 import "core:fmt"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // based on: https://theorangeduck.com/page/spring-roll-call#exactdamper
@@ -70,7 +70,7 @@ main :: proc() {
         // Update spring
         rl.SetTargetFPS(i32(1.0 / dt))
         t += dt
-        x = springs.damper_exact(x, g, halflife, dt)
+        x = phys.damper_exact(x, g, halflife, dt)
         
         x_prev[0] = x
         t_prev[0] = t

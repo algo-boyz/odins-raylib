@@ -1,7 +1,7 @@
 package main
 
 import "core:math"
-import "../../../../rlutil/physics/springs"
+import "../../../../rlutil/phys"
 import rl "vendor:raylib"
 
 // https://theorangeduck.com/page/spring-roll-call#inertialization
@@ -23,7 +23,7 @@ inertialize_update :: proc(
     in_x, in_v: f32,
     halflife, dt: f32,
 ) {
-    springs.decay_spring_damper_exact(off_x, off_v, halflife, dt)
+    phys.decay_spring_damper_exact(off_x, off_v, halflife, dt)
     out_x^ = in_x + off_x^
     out_v^ = in_v + off_v^
 }

@@ -36,7 +36,6 @@ frames_counter: int
 main :: proc() {
     rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Template")
     defer rl.CloseWindow()
-    rl.SetTargetFPS(60)
     initGame()
 
     for !rl.WindowShouldClose() do updateGame()
@@ -88,6 +87,7 @@ drawGame :: proc() {
             rl.DrawText("ENDING SCREEN", 20, 20, 40, rl.DARKBLUE)
             rl.DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, rl.DARKBLUE)   
     }
+    rl.DrawFPS(10, 10)
 }
 
 updateGame :: proc() {

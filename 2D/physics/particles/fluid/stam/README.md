@@ -1,0 +1,1 @@
+Fluid simulation based on the 2003 paper ["Real-Time Fluid Dynamics for Games" by Jos Stam](https://www.researchgate.net/publication/2560062_Real-Time_Fluid_Dynamics_for_Games)

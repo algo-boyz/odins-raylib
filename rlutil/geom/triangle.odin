@@ -1,8 +1,23 @@
 package geom
 
 import "core:math"
-
 import rl "vendor:raylib"
+
+// https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+point_in_triangle :: proc(p, a, b, c: rl.Vector2) -> bool {
+    sign :: proc(p1, p2, p3: rl.Vector2) -> f32 {
+        return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y)
+    }
+
+    d1 := sign(p, a, b)
+    d2 := sign(p, b, c)
+    d3 := sign(p, c, a)
+
+    has_negative := d1 < 0 || d2 < 0 || d3 < 0
+    has_positive := d1 > 0 || d2 > 0 || d3 > 0
+
+    return !(has_negative && has_positive)
+}
 
 // http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
 

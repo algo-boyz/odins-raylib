@@ -1,6 +1,7 @@
 package noise
 
 import "core:math"
+import "core:math/linalg"
 import "core:math/rand"
 import "core:math/noise"
 import "core:slice"
@@ -95,7 +96,7 @@ perlin_noise_1d :: proc(noise: ^Perlin, x: f64) -> f64 {
     B := noise.p[X + 1]
     
     // Blend results from 2 corners of interval
-    res := lerp(u, grad_1d(A, rel_x), grad_1d(B, rel_x - 1.0))
+    res := linalg.lerp(u, grad_1d(A, rel_x), grad_1d(B, rel_x - 1.0))
     
     return (res + 1.0) / 2.0
 }
@@ -141,9 +142,9 @@ perlin_noise_2d :: proc(noise: ^Perlin, x, y: f64) -> f64 {
     B := noise.p[X + 1] + Y
     
     // Blend results from 4 corners of square
-    res := lerp(v,
-        lerp(u, grad_2d(noise.p[A], rel_x, rel_y), grad_2d(noise.p[B], rel_x - 1, rel_y)),
-        lerp(u, grad_2d(noise.p[A + 1], rel_x, rel_y - 1), grad_2d(noise.p[B + 1], rel_x - 1, rel_y - 1)))
+    res := linalg.lerp(v,
+        linalg.lerp(u, grad_2d(noise.p[A], rel_x, rel_y), grad_2d(noise.p[B], rel_x - 1, rel_y)),
+        linalg.lerp(u, grad_2d(noise.p[A + 1], rel_x, rel_y - 1), grad_2d(noise.p[B + 1], rel_x - 1, rel_y - 1)))
     
     return (res + 1.0) / 2.0
 }
@@ -203,19 +204,19 @@ perlin_noise_3d :: proc(noise: ^Perlin, x, y, z: f64) -> f64 {
     BB := noise.p[B + 1] + Z
     
     // Add blended results from 8 corners of cube
-    res := lerp(w, 
-        lerp(v, 
-            lerp(u, 
+    res := linalg.lerp(w, 
+        linalg.lerp(v, 
+            linalg.lerp(u, 
                 grad_3d(noise.p[AA], rel_x, rel_y, rel_z), 
                 grad_3d(noise.p[BA], rel_x - 1, rel_y, rel_z)), 
-            lerp(u, 
+            linalg.lerp(u, 
                 grad_3d(noise.p[AB], rel_x, rel_y - 1, rel_z), 
                 grad_3d(noise.p[BB], rel_x - 1, rel_y - 1, rel_z))),
-        lerp(v, 
-            lerp(u, 
+        linalg.lerp(v, 
+            linalg.lerp(u, 
                 grad_3d(noise.p[AA + 1], rel_x, rel_y, rel_z - 1), 
                 grad_3d(noise.p[BA + 1], rel_x - 1, rel_y, rel_z - 1)), 
-            lerp(u, 
+            linalg.lerp(u, 
                 grad_3d(noise.p[AB + 1], rel_x, rel_y - 1, rel_z - 1),
                 grad_3d(noise.p[BB + 1], rel_x - 1, rel_y - 1, rel_z - 1))))
     
@@ -332,11 +333,6 @@ fade :: proc(t: f64) -> f64 {
     return t * t * t * (t * (t * 6 - 15) + 10)
 }
 
-// Linear interpolation
-lerp :: proc(t, a, b: f64) -> f64 {
-    return a + t * (b - a)
-}
-
 // Helper procedure to free a 2D graph
 free_graph :: proc(graph: [][]f64) {
     for row in graph {
@@ -354,23 +350,3 @@ map_range :: proc(value, in_min, in_max, out_min, out_max: f64) -> f64 {
 // Convenience procedure overloads for different dimensions
 perlin_noise :: proc{perlin_noise_1d, perlin_noise_2d, perlin_noise_3d}
 get_noise_with_octaves :: proc{get_noise_1d_with_octaves, get_noise_2d_with_octaves, get_noise_3d_with_octaves}
-
-/*
-    simplex noise, might be preferable over perlin noise
-    due to the lower computational overhead
-*/
-simplex_noise :: proc (x, y: f32, octaves: int, persistence: f32, lacunarity: f32, seed: i64) -> f32
-{
-    freq: f32 = 1
-    amp: f32 = 1
-    max: f32 = 1
-    total: f32 = noise.noise_2d(seed, {f64(x), f64(y)})
-    for i := 1; i < octaves; i += 1
-    {
-        freq *= lacunarity
-        amp *= persistence
-        max += amp
-        total += noise.noise_2d(seed, {f64(x * freq), f64(y * freq)}) * amp
-    }
-    return (1 + total / max) / 2
-}
