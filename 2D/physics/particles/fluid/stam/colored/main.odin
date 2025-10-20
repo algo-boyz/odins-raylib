@@ -7,8 +7,8 @@ import rl "vendor:raylib"
 
 N :: 256 // Grid size (N x N)
 ARRAY_SIZE :: (N + 2) * (N + 2)
-SCREEN_WIDTH :: 900
-SCREEN_HEIGHT :: 900
+WIDTH :: 900
+HEIGHT :: 900
 
 Fluid :: struct {
     size:        int,
@@ -312,13 +312,13 @@ calculate_flow_properties :: proc(fluid: ^Fluid) {
 // Color mapping function for fluid dynamics visualization
 get_fluid_color :: proc(density, velocity, vorticity: f64) -> rl.Color {
     // Normalize values
-    density_norm := math.min(density * 2.0, 1.0)  // Increased sensitivity
-    velocity_norm := math.min(velocity * 50.0, 1.0)  // Scale velocity
-    vorticity_norm := math.min(math.abs(vorticity) * 100.0, 1.0)  // Scale vorticity
+    density_norm := min(density * 2.0, 1.0)  // Increased sensitivity
+    velocity_norm := min(velocity * 50.0, 1.0)  // Scale velocity
+    vorticity_norm := min(abs(vorticity) * 100.0, 1.0)  // Scale vorticity
     
     // Combine different flow properties for coloring
     combined_intensity := (density_norm * 0.4) + (velocity_norm * 0.4) + (vorticity_norm * 0.2)
-    combined_intensity = math.min(combined_intensity, 1.0)
+    combined_intensity = min(combined_intensity, 1.0)
     
     if combined_intensity < 0.01 {
         return rl.Color{0, 0, 0, 255}  // Black background
@@ -366,9 +366,9 @@ get_fluid_color :: proc(density, velocity, vorticity: f64) -> rl.Color {
     b *= brightness_factor
     
     return rl.Color{
-        u8(math.min(r * 255.0, 255.0)),
-        u8(math.min(g * 255.0, 255.0)),
-        u8(math.min(b * 255.0, 255.0)),
+        u8(min(r * 255.0, 255.0)),
+        u8(min(g * 255.0, 255.0)),
+        u8(min(b * 255.0, 255.0)),
         255
     }
 }
@@ -385,7 +385,7 @@ update_fluid :: proc(fluid: ^Fluid) {
 }
 
 main :: proc() {
-    // Initialize fluid - now returns pointer to heap-allocated fluid
+    // Init fluid - now returns pointer to heap-allocated fluid
     fluid := new_fluid(N, 0.0001, 0.00001)  // Added small diffusion and viscosity
     defer destroy_fluid(fluid)
     
@@ -408,8 +408,8 @@ main :: proc() {
         fluid.sources[ix(i, N)] = 10.0  // Reduced from 100
     }
     
-    // Initialize Raylib
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Enhanced Fluid Simulator")
+    // Init Raylib
+    rl.InitWindow(WIDTH, HEIGHT, "Enhanced Fluid Simulator")
     rl.SetTargetFPS(60)
     
     // Create image and texture for rendering
@@ -450,7 +450,7 @@ main :: proc() {
         rl.ClearBackground(rl.BLACK)
         
         // Scale texture to fill window
-        rl.DrawTextureEx(texture, {0, 0}, 0, f32(SCREEN_WIDTH) / f32(N), rl.WHITE)
+        rl.DrawTextureEx(texture, {0, 0}, 0, f32(WIDTH) / f32(N), rl.WHITE)
         
         // Display some info
         rl.DrawText("Enhanced Fluid Dynamics Visualization", 10, 10, 20, rl.WHITE)

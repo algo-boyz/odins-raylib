@@ -5,7 +5,6 @@ import "core:thread"
 import "core:math"
 import "core:simd"
 import "core:sync"
-
 import rl "vendor:raylib"
 
 WIDTH :: 800
@@ -64,7 +63,6 @@ update_grid :: proc(grid: ^Grid, particles: []Particle) {
             clear(&grid.cells[y][x].particles)
         }
     }
-    
     // Insert particles
     for &p in particles {
         x := int(p.pos.x / grid.cell_size)
@@ -111,7 +109,6 @@ mov_particles :: proc(particles: []Particle, grid: ^Grid, dt: f32) {
         dt: f32,
         start, end: int,
     }
-    
     worker :: proc(t: ^thread.Thread) {
         data := (^Thread_Data)(t.data)
         
@@ -122,7 +119,6 @@ mov_particles :: proc(particles: []Particle, grid: ^Grid, dt: f32) {
             force_on_boundary(&data.particles[i], {0, -HEIGHT * 5, WIDTH, HEIGHT * 6})
         }
     }
-    
     threads := make([]^thread.Thread, thread_count)
     thread_data := make([]Thread_Data, thread_count)
     
@@ -139,18 +135,15 @@ mov_particles :: proc(particles: []Particle, grid: ^Grid, dt: f32) {
             start = start,
             end = end,
         }
-        
         threads[i] = thread.create(worker)
         assert(threads[i] != nil)
         threads[i].data = &thread_data[i]
         thread.start(threads[i])
     }
-    
     for t in threads {
         thread.join(t)
         thread.destroy(t)
     }
-    
     delete(threads)
     delete(thread_data)
 }
@@ -232,7 +225,7 @@ collide_boundary :: proc(p : ^Particle, boundary : rl.Rectangle) {
 }
 
 main :: proc() {
-    // Initialize particles
+    // Init particles
     particles: [PARTICLE_COUNT]Particle
     grid := new_grid()
     
@@ -263,7 +256,6 @@ main :: proc() {
             rl.DrawCircleV(particle.pos, PRESSURE_RADIUS, rl.ColorAlpha(PARTICLE_COLOR, 0.05))
             rl.DrawCircleV(particle.pos, PARTICLE_RADIUS, PARTICLE_COLOR)
         }
-        
         rl.DrawFPS(WIDTH - 100, 10)
         rl.EndDrawing()
     }

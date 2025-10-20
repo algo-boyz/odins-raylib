@@ -24,7 +24,7 @@ main :: proc() {
     // Load font
     font := rl.LoadFontEx("assets/monogram.ttf", 64, nil, 0)
     
-    // Initialize game
+    // Init game
     g := init_game()
     defer destroy_game(&g)
     

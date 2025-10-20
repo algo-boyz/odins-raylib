@@ -58,7 +58,7 @@ main :: proc() {
     music := rl.LoadMusicStream("../a-faded-folk-song.mp3")
     defer rl.UnloadMusicStream(music)
 
-    // Initialize delay buffer
+    // Init delay buffer
     delay_slice := make([]f32, audio_state.delay_buffer_size)
     audio_state.delay_buffer = &delay_slice[0]
     defer delete(delay_slice)
@@ -195,8 +195,8 @@ distortion_filter :: proc "c" (buffer: rawptr, frames: u32) {
         left := &samples[frame * 2]
         right := &samples[frame * 2 + 1]
 
-        left^ = math.pow(math.abs(left^), exp) * (left^ < 0.0 ? -1.0 : 1.0)
-        right^ = math.pow(math.abs(right^), exp) * (right^ < 0.0 ? -1.0 : 1.0)
+        left^ = math.pow(abs(left^), exp) * (left^ < 0.0 ? -1.0 : 1.0)
+        right^ = math.pow(abs(right^), exp) * (right^ < 0.0 ? -1.0 : 1.0)
     }
 }
 

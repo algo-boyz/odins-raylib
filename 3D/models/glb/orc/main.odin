@@ -33,7 +33,7 @@ main :: proc() {
     rl.InitWindow(800, 600, "3D Model Example")
     defer rl.CloseWindow()
 
-    // Initialize state
+    // Init state
     state := State{
         position = {0, 0, 0},
         rotation = 0,

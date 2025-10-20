@@ -77,8 +77,8 @@ Particle :: struct {
 }
 particles : [dynamic]Particle
 
-screen_width  : i32 = 1280
-screen_height : i32 = 720
+WIDTH  : i32 = 1280
+HEIGHT : i32 = 720
 perl := noise.perlin_noise_init()
 
 noise2d :: proc(x, y: f32) -> f32 {
@@ -156,7 +156,7 @@ init_simulation :: proc() {
 	sediment     = make_2d_array_f32(Grid_Dim_Y, Grid_Dim_X, 0.0)
 	new_sediment = make_2d_array_f32(Grid_Dim_Y, Grid_Dim_X, 0.0)
 
-	// Initialize terrain (bed) and water
+	// Init terrain (bed) and water
 	for y in 0..<N {
 		for x in 0..<N {
 			tx := (cast(f32)x + 0.5) / N
@@ -170,7 +170,7 @@ init_simulation :: proc() {
 
 			// // Island (Placeholder noise)
 			// dist_center := math.sqrt( (tx-0.5)^2 + (ty-0.5)^2 )
-			// n := 4.0 * math.max(0.0, 1.0 - 3.0 * dist_center + (2.0 * noise2d(tx, ty) - 1.0) * 0.25)
+			// n := 4.0 * max(0.0, 1.0 - 3.0 * dist_center + (2.0 * noise2d(tx, ty) - 1.0) * 0.25)
 
 			// // Delta (Placeholder noise)
 			// n := 4.0 * abs(2.0 * noise2d(tx, ty) - 1.0) * (1.0 - tx)
@@ -179,7 +179,7 @@ init_simulation :: proc() {
             bed[y][x] = n
 
 			// --- Initial water (Example: fill depressions up to level 1.0) ---
-            water[y][x] = math.max(0.0, 1.0 - bed[y][x]) * (0.5 + 0.5 * noise2d(tx, ty)) // Add some noise to water
+            water[y][x] = max(0.0, 1.0 - bed[y][x]) * (0.5 + 0.5 * noise2d(tx, ty)) // Add some noise to water
 
 			// --- Initial flow (Example from C++) ---
             flowx[y][x] = (2.0 * ty - 1.0) * water[y][x] * 10.0 / N
@@ -234,15 +234,15 @@ update_simulation :: proc() {
 		for x in 0..<N {
 			x_plus_1 := (x + 1) % N // Wrap index for right neighbor flow
 
-			outflow := math.max(0.0, -flowx[y][x])         // Outflow left
-			outflow += math.max(0.0,  flowx[y][x_plus_1])  // Outflow right
-			outflow += math.max(0.0, -flowy[y][x])         // Outflow up
-			outflow += math.max(0.0,  flowy[y+1][x])      // Outflow down (y+1 is safe due to N+1 dim)
+			outflow := max(0.0, -flowx[y][x])         // Outflow left
+			outflow += max(0.0,  flowx[y][x_plus_1])  // Outflow right
+			outflow += max(0.0, -flowy[y][x])         // Outflow up
+			outflow += max(0.0,  flowy[y+1][x])      // Outflow down (y+1 is safe due to N+1 dim)
 
             max_outflow := water[y][x] * dx * dy / DT // Max water that can leave cell in dt
 
 			if outflow > 1e-9 { // Avoid scaling if no outflow
-				scale := math.min(1.0, max_outflow / outflow)
+				scale := min(1.0, max_outflow / outflow)
 				if scale < 0.999 { // Apply scaling only if significant
 					if flowx[y][x] < 0.0      { flowx[y][x] *= scale }      // Scale outflow left
 					if flowx[y][x_plus_1] > 0.0 { flowx[y][x_plus_1] *= scale } // Scale outflow right
@@ -265,7 +265,7 @@ update_simulation :: proc() {
             outflow_y := flowy[y+1][x]      // To bottom (y+1)
 
             water[y][x] += (inflow_x - outflow_x + inflow_y - outflow_y) * dt_over_area
-            water[y][x] = math.max(0.0, water[y][x]) // Ensure non-negative water
+            water[y][x] = max(0.0, water[y][x]) // Ensure non-negative water
 
             // Compute average velocity in cell (x, y)
             w_avg := (w_old + water[y][x]) * 0.5
@@ -317,13 +317,13 @@ update_simulation :: proc() {
                 if capacity >= current_sed { // Potential for erosion
                     // Erode bed material, amount limited by availability and rate
                     potential_erosion := (capacity - current_sed) * EROSION_RATE * DT
-                    delta = math.min(bed[y][x], potential_erosion)
+                    delta = min(bed[y][x], potential_erosion)
                     bed[y][x]      -= delta
                     sediment[y][x] += delta
                 } else { // Potential for deposition
                     // Deposit sediment, amount limited by availability and rate
                     potential_deposition := (current_sed - capacity) * DEPOSITION_RATE * DT
-                    delta = math.min(current_sed, potential_deposition)
+                    delta = min(current_sed, potential_deposition)
                     bed[y][x]      += delta
                     sediment[y][x] -= delta
                 }
@@ -509,7 +509,7 @@ draw_simulation :: proc(camera: rl.Camera2D) {
                 v_len := vec2_length(v)
 
                 if v_len > 1e-6 {
-					display_len := math.min(v_len, max_vel_display_length)
+					display_len := min(v_len, max_vel_display_length)
 					v_norm := rl.Vector2Normalize(v)
 					d := v_norm * display_len * 0.5 // Half length for centered line
 
@@ -573,7 +573,7 @@ draw_simulation :: proc(camera: rl.Camera2D) {
     particle_text := fmt.ctprintf("%d particles", len(particles))
     rl.DrawText(particle_text, 10, 10, 20, rl.BLACK)
 	controls_text :: "[SPACE] Pause [W] Water [V] Velocity [P] Particles [E] Erosion [R] Rain"
-	rl.DrawText(controls_text, 10, screen_height - 20, 10, rl.DARKGRAY)
+	rl.DrawText(controls_text, 10, HEIGHT - 20, 10, rl.DARKGRAY)
 
 }
 
@@ -588,7 +588,7 @@ handle_input :: proc() {
 
 main :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT, .VSYNC_HINT})
-    rl.InitWindow(screen_width, screen_height, "Odin Water 2D - Shader Rendering")
+    rl.InitWindow(WIDTH, HEIGHT, "Odin Water 2D - Shader Rendering")
     rl.SetTargetFPS(60)
 
     init_simulation() // Creates bed, water, etc. arrays
@@ -649,7 +649,7 @@ main :: proc() {
     update_sim_texture(bed, water, sediment)
 	
     camera := rl.Camera2D{
-		offset = rl.Vector2{f32(screen_width) / 2, f32(screen_height) / 2},
+		offset = rl.Vector2{f32(WIDTH) / 2, f32(HEIGHT) / 2},
 		target = rl.Vector2{ // Center of simulation area
 			Simulation_Area.x + Simulation_Area.width / 2,
 			Simulation_Area.y + Simulation_Area.height / 2,
@@ -658,11 +658,11 @@ main :: proc() {
 		zoom = 1.0, // Initial zoom
 	}
     // Calculate zoom to fit the simulation area width or height, whichever is larger relative to screen aspect
-    Aspect_Ratio = f32(screen_width) / f32(screen_height)
-	if Simulation_Area.width / f32(screen_width) > Simulation_Area.height / f32(screen_height) {
-		camera.zoom = f32(screen_width) / Simulation_Area.width
+    Aspect_Ratio = f32(WIDTH) / f32(HEIGHT)
+	if Simulation_Area.width / f32(WIDTH) > Simulation_Area.height / f32(HEIGHT) {
+		camera.zoom = f32(WIDTH) / Simulation_Area.width
 	} else {
-		camera.zoom = f32(screen_height) / Simulation_Area.height
+		camera.zoom = f32(HEIGHT) / Simulation_Area.height
 	}
 	// Add small padding
 	camera.zoom *= 0.9
@@ -681,7 +681,7 @@ main :: proc() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RAYWHITE)
 		draw_simulation(camera)
-		rl.DrawFPS(screen_width - 90, 10)
+		rl.DrawFPS(WIDTH - 90, 10)
 		rl.EndDrawing()
 	}
 	for row in bed { delete(row) }

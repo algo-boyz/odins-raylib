@@ -5,8 +5,8 @@ import "core:time"
 import "core:math/rand"
 import rl "vendor:raylib"
 
-SCREEN_WIDTH  :: 1280
-SCREEN_HEIGHT :: 720
+WIDTH  :: 1280
+HEIGHT :: 720
 
 Animation :: struct {
     texture:                 rl.Texture2D,
@@ -354,8 +354,8 @@ destroy_fog :: proc(fow: ^Fog) {
 
 create_shadows :: proc(num_rows, num_cols: int, color: rl.Color) -> [dynamic][dynamic]^Shadow {
     shadows := make([dynamic][dynamic]^Shadow, num_rows)
-    width := f32(SCREEN_WIDTH) / f32(num_cols)
-    height := f32(SCREEN_HEIGHT) / f32(num_rows)
+    width := f32(WIDTH) / f32(num_cols)
+    height := f32(HEIGHT) / f32(num_rows)
     pos := rl.Vector2{}
 
     for row in 0 ..< num_rows {
@@ -570,11 +570,11 @@ draw_scene :: proc(s: ^Scene, camera_pos: rl.Vector2, remove_vertical_shift: boo
 
 draw_ground_borders :: proc(s: ^Scene, camera_pos: rl.Vector2, thick: f32, top_color, bottom_color: rl.Color) {
     start_pos_top := rl.Vector2{0, s.top_of_ground - camera_pos.y}
-    end_pos_top := rl.Vector2{f32(SCREEN_WIDTH), s.top_of_ground - camera_pos.y}
+    end_pos_top := rl.Vector2{f32(WIDTH), s.top_of_ground - camera_pos.y}
     rl.DrawLineEx(start_pos_top, end_pos_top, thick, top_color)
 
     start_pos_bottom := rl.Vector2{0, s.bottom_of_ground - camera_pos.y}
-    end_pos_bottom := rl.Vector2{f32(SCREEN_WIDTH), s.bottom_of_ground - camera_pos.y}
+    end_pos_bottom := rl.Vector2{f32(WIDTH), s.bottom_of_ground - camera_pos.y}
     rl.DrawLineEx(start_pos_bottom, end_pos_bottom, thick, bottom_color)
 }
 
@@ -605,12 +605,12 @@ input_cam :: proc(c: ^ Cam) {
 
 check_top_down_bound :: proc(c: ^ Cam, vertical_bound: rl.Vector2) {
     if c.pos.y < vertical_bound.x { c.pos.y = vertical_bound.x }
-    if c.pos.y > vertical_bound.y - f32(SCREEN_HEIGHT) { c.pos.y = vertical_bound.y - f32(SCREEN_HEIGHT) }
+    if c.pos.y > vertical_bound.y - f32(HEIGHT) { c.pos.y = vertical_bound.y - f32(HEIGHT) }
 }
 
 check_left_right_bound :: proc(c: ^ Cam, horizontal_bound: rl.Vector2) {
     if c.pos.x < horizontal_bound.x { c.pos.x = horizontal_bound.x }
-    if c.pos.x > horizontal_bound.y - f32(SCREEN_WIDTH) { c.pos.x = horizontal_bound.y - f32(SCREEN_WIDTH) }
+    if c.pos.x > horizontal_bound.y - f32(WIDTH) { c.pos.x = horizontal_bound.y - f32(WIDTH) }
 }
 
 check_bounds :: proc(c: ^ Cam, vertical_bound, horizontal_bound: rl.Vector2) {
@@ -619,7 +619,7 @@ check_bounds :: proc(c: ^ Cam, vertical_bound, horizontal_bound: rl.Vector2) {
 }
 
 camera:           Cam
-vertical_bound:  rl.Vector2 = {-500, f32(SCREEN_HEIGHT) + 500}
+vertical_bound:  rl.Vector2 = {-500, f32(HEIGHT) + 500}
 scene_index:     int
 scenes:          [dynamic]^Scene
 effects:         [dynamic]^Effect
@@ -632,8 +632,8 @@ cave :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 5
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT)
+    scene.bottom_of_ground = f32(HEIGHT)
     
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/cave/7.png"), pos, {0, 0}, 5, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/cave/6.png"), pos, {0, 0}, 4, scale))
@@ -655,8 +655,8 @@ dark_forest :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 1.8
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT - 115)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT - 115)
+    scene.bottom_of_ground = f32(HEIGHT)
 
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/dark_forest/0.png"), pos, {0, 0}, 2.4, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/dark_forest/1.png"), pos, {0, 0}, 2.2, scale))
@@ -682,8 +682,8 @@ dead_forest :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 5
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT - 340)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT - 340)
+    scene.bottom_of_ground = f32(HEIGHT)
 
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/dead_forest/6.png"), pos, {0, 0}, 5, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/dead_forest/5.png"), pos, {0, 0}, 4, scale))
@@ -704,8 +704,8 @@ plains :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 5
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT - 65)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT - 65)
+    scene.bottom_of_ground = f32(HEIGHT)
 
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/plains/8.png"), pos, {0, 0}, 11, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/plains/7.png"), pos, {0, 0}, 9, scale))
@@ -728,8 +728,8 @@ snowy_mountains :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 5
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT)
+    scene.bottom_of_ground = f32(HEIGHT)
     
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/snowy_mountains/5.png"), pos, {0, 0}, 5, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/snowy_mountains/4.png"), pos, {0, 0}, 4, scale))
@@ -748,8 +748,8 @@ sunny_hill :: proc() {
     pos: rl.Vector2 = {0, 0}
     scale: f32 = 4
 
-    scene.top_of_ground = f32(SCREEN_HEIGHT - 65)
-    scene.bottom_of_ground = f32(SCREEN_HEIGHT)
+    scene.top_of_ground = f32(HEIGHT - 65)
+    scene.bottom_of_ground = f32(HEIGHT)
     
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/sunny_hill/1.png"), pos, {0, 0}, 1.8, scale))
     append(&scene.bg_layers, bg_init(rl.LoadTexture("assets/sunny_hill/2.png"), pos, {0, 0}, 1.6, scale))
@@ -887,7 +887,7 @@ destroy :: proc() {
 
 main :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT, .VSYNC_HINT})
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sceneries and Effects")
+    rl.InitWindow(WIDTH, HEIGHT, "Sceneries and Effects")
     rl.SetTargetFPS(120)
     init()
     defer destroy()

@@ -7,10 +7,10 @@ NUM_LINES :: 5
 
 main :: proc() {
     // Initialization
-    SCREEN_WIDTH :: 800
-    SCREEN_HEIGHT :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
     
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [textures] example - sprite explosion")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [textures] example - sprite explosion")
     rl.InitAudioDevice()
     
     // Load resources

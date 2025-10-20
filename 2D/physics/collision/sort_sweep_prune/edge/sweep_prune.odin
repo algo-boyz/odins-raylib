@@ -127,10 +127,10 @@ sweep_prune :: proc() {
 //         enemy.position.x += enemy.velocity.x
 //         enemy.position.y += enemy.velocity.y
 
-//         if enemy.position.x >= (SCREEN_WIDTH - enemy.width/2) || enemy.position.x <= enemy.width/2 {
+//         if enemy.position.x >= (WIDTH - enemy.width/2) || enemy.position.x <= enemy.width/2 {
 //             enemy.velocity.x *= -1
 //         }
-//         if enemy.position.y >= (SCREEN_HEIGHT - enemy.height/2) || enemy.position.y <= enemy.height/2 { 
+//         if enemy.position.y >= (HEIGHT - enemy.height/2) || enemy.position.y <= enemy.height/2 { 
 //             enemy.velocity.y *= -1
 //         }
 //         rect := rl.Rectangle{

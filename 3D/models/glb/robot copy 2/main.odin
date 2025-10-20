@@ -22,11 +22,11 @@ update_light_color :: proc(system: ^sm.ShadowSystem, color: rl.Color) {
 
 main :: proc() {
 	// --- Initialization ---
-	screen_width: i32 = 1280
-	screen_height: i32 = 720
+	WIDTH: i32 = 1280
+	HEIGHT: i32 = 720
 
 	rl.SetConfigFlags({.MSAA_4X_HINT, .VSYNC_HINT})
-	rl.InitWindow(screen_width, screen_height, "Enhanced Shadowmapping Demo")
+	rl.InitWindow(WIDTH, HEIGHT, "Enhanced Shadowmapping Demo")
 	defer rl.CloseWindow()
 
 	// --- Camera Setup ---
@@ -154,13 +154,13 @@ main :: proc() {
 		// Show current light direction
 		light_dir := shadow_system.light.direction
 		light_text := fmt.ctprintf("Light Dir: (%.2f, %.2f, %.2f)", light_dir.x, light_dir.y, light_dir.z)
-		rl.DrawText(light_text, 10, screen_height - 50, 16, rl.DARKGREEN)
+		rl.DrawText(light_text, 10, HEIGHT - 50, 16, rl.DARKGREEN)
         
         // Show current shadow resolution
         res_text := fmt.ctprintf("Shadow Res: %dpx (Quality: %.2f)", 
                                  shadow_system.config.current_resolution, 
                                  shadow_system.config.quality_level)
-		rl.DrawText(res_text, 10, screen_height - 30, 16, rl.DARKGREEN)
+		rl.DrawText(res_text, 10, HEIGHT - 30, 16, rl.DARKGREEN)
 
 		if rl.IsKeyPressed(.F) {
 			rl.TakeScreenshot("shadowmap_demo.png")

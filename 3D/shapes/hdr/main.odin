@@ -7,8 +7,8 @@ import rlgl "vendor:raylib/rlgl"
 
 // NOTE: copy assets/config.h with hdr enabled flag to 
 // vendor:raylib and recompile the library
-screen_width :: 800
-screen_height :: 450
+WIDTH :: 800
+HEIGHT :: 450
 
 // Generate cubemap (6 faces) from equirectangular (panorama) texture
 gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32, format: rl.PixelFormat) -> rl.TextureCubemap {
@@ -21,7 +21,7 @@ gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32
     cubemap.id = rlgl.LoadTextureCubemap(&id, size, i32(format))
     fmt.println("Cubemap generated successfully")
 
-    fbo := rlgl.LoadFramebuffer(screen_width, screen_height)
+    fbo := rlgl.LoadFramebuffer(WIDTH, HEIGHT)
 
     rlgl.FramebufferAttach(fbo, rbo, i32(rlgl.FramebufferAttachType.DEPTH), i32(rlgl.FramebufferAttachTextureType.RENDERBUFFER), 0)
     rlgl.FramebufferAttach(fbo, cubemap.id, i32(rlgl.FramebufferAttachType.COLOR_CHANNEL0), i32(rlgl.FramebufferAttachTextureType.CUBEMAP_POSITIVE_X), 0)
@@ -72,7 +72,7 @@ gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32
 }
 
 main :: proc() {
-    rl.InitWindow(screen_width, screen_height, "hdr skybox")
+    rl.InitWindow(WIDTH, HEIGHT, "hdr skybox")
     camera := rl.Camera {
         position = {1.0, 1.0, 1.0},
         target = {4.0, 1.0, 4.0},

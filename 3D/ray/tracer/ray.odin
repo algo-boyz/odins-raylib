@@ -153,7 +153,7 @@ init :: proc(resolution: rl.Vector2, max_bounces, rays_per_pixel: i32, blur: f32
     engine.raytracing_shader = rl.LoadShader("", "../assets/raytracer.fs")
     engine.post_shader = rl.LoadShader("", "../assets/post.fs")
 
-    // Initialize shader locations
+    // Init shader locations
     engine.tracing_params = TracingParams{
         camera_position = rl.GetShaderLocation(engine.raytracing_shader, "cameraPosition"),
         camera_direction = rl.GetShaderLocation(engine.raytracing_shader, "cameraDirection"),
@@ -183,7 +183,7 @@ init :: proc(resolution: rl.Vector2, max_bounces, rays_per_pixel: i32, blur: f32
     rl.SetShaderValue(engine.raytracing_shader, engine.tracing_params.max_bounces, &engine.max_bounces, rl.ShaderUniformDataType.INT)
     rl.SetShaderValue(engine.raytracing_shader, engine.tracing_params.blur, &engine.blur, rl.ShaderUniformDataType.FLOAT)
 
-    // Initialize SSBOs
+    // Init SSBOs
     engine.sphere_ssbo = u32(rlgl.LoadShaderBuffer(size_of(SphereBuffer), nil, rlgl.DYNAMIC_COPY))
     engine.meshes_ssbo = u32(rlgl.LoadShaderBuffer(size_of(MeshBuffer), nil, rlgl.DYNAMIC_COPY))
     engine.triangles_ssbo = u32(rlgl.LoadShaderBuffer(size_of(TriangleBuffer), nil, rlgl.DYNAMIC_COPY))
@@ -231,14 +231,14 @@ triangle_center_on_axis :: proc(triangle: ^Triangle, axis: int) -> f32 {
 grow_to_include :: proc(box: ^PaddedBoundingBox, point: rl.Vector3) {
     temp := box^
     box.min = {
-        math.min(temp.min.x, point.x),
-        math.min(temp.min.y, point.y),
-        math.min(temp.min.z, point.z),
+        min(temp.min.x, point.x),
+        min(temp.min.y, point.y),
+        min(temp.min.z, point.z),
     }
     box.max = {
-        math.max(temp.max.x, point.x),
-        math.max(temp.max.y, point.y),
-        math.max(temp.max.z, point.z),
+        max(temp.max.x, point.x),
+        max(temp.max.y, point.y),
+        max(temp.max.z, point.z),
     }
 }
 
@@ -257,7 +257,7 @@ split_node :: proc(engine: ^TracingEngine, parent_index: int, depth: i32, max_de
 
     size := engine.nodes[parent_index].bounds.max - engine.nodes[parent_index].bounds.min
     split_axis := 0
-    if size.x > math.max(size.y, size.z) {
+    if size.x > max(size.y, size.z) {
         split_axis = 0
     } else if size.y > size.z {
         split_axis = 1

@@ -21,28 +21,28 @@ Diagonal_Mode :: enum {
 
 // Euclidean is the most accurate but also the most expensive.
 heuristic_euclidean :: proc(a, b: IVector2) -> f32 {
-	dx := f32(math.abs(b.x - a.x))
-	dy := f32(math.abs(b.y - a.y))
+	dx := f32(abs(b.x - a.x))
+	dy := f32(abs(b.y - a.y))
 	return math.sqrt(dx * dx + dy * dy)
 }
 // Manhattan works best in non-diagonal grids where the cost of moving is the same in all directions.
 heuristic_manhattan :: proc(a, b: IVector2) -> f32 {
-	dx := f32(math.abs(b.x - a.x))
-	dy := f32(math.abs(b.y - a.y))
+	dx := f32(abs(b.x - a.x))
+	dy := f32(abs(b.y - a.y))
 	return dx + dy
 }
 // Octile is a good compromise between Euclidean and Manhattan.
 heuristic_octile :: proc(a, b: IVector2) -> f32 {
-	dx := f32(math.abs(b.x - a.x))
-	dy := f32(math.abs(b.y - a.y))
+	dx := f32(abs(b.x - a.x))
+	dy := f32(abs(b.y - a.y))
 	F :: math.SQRT_TWO - 1
 	return (dx < dy) ? (F * dx + dy) : (F * dy + dx)
 }
 // Chebyshev is the most efficient but also the least accurate.
 heuristic_chebyshev :: proc(a, b: IVector2) -> f32 {
-	dx := f32(math.abs(b.x - a.x))
-	dy := f32(math.abs(b.y - a.y))
-	return math.max(dx, dy)
+	dx := f32(abs(b.x - a.x))
+	dy := f32(abs(b.y - a.y))
+	return max(dx, dy)
 }
 
 Grid :: struct {
@@ -198,7 +198,7 @@ get_path :: proc(
 		neighbors = _neighbors_walkable(asg, current, tmp_alloc)
 		for n in neighbors {
 			// Check if cost exists in the map already.
-			new_cost := current_cost[current] //+ ((math.abs(n.x) + math.abs(n.y)) > 1 ? 1.45 : 1.0)
+			new_cost := current_cost[current] //+ ((abs(n.x) + abs(n.y)) > 1 ? 1.45 : 1.0)
 			this_cost, next_exists := current_cost[n]
 
 			// If the cost didn't exist or if the new one is less than the last:

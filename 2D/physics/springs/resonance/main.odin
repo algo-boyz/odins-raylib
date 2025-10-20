@@ -35,17 +35,17 @@ resonant_frequency :: proc(goal_frequency, halflife: f32) -> f32 {
 
 main :: proc() {
     // Window settings
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - resonance")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - resonance")
     defer rl.CloseWindow()
     
-    // Initialize state
+    // Init state
     state := State{}
     
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goal_offset := f32(600)
@@ -60,7 +60,7 @@ main :: proc() {
     
     rl.SetTargetFPS(i32(1.0 / dt))
     
-    // Initialize history arrays
+    // Init history arrays
     for i := 0; i < HISTORY_MAX; i += 1 {
         state.x_prev[i] = x
         state.v_prev[i] = v
@@ -78,7 +78,7 @@ main :: proc() {
         }
         
         // Update goal position
-        g = f32(screen_height) / 2.0 + 
+        g = f32(HEIGHT) / 2.0 + 
             10.0 * math.sin_f32(t * 2.0 * math.PI * goal_frequency)
         
         // GUI Controls
@@ -115,7 +115,7 @@ main :: proc() {
         
         energy = spring_energy(
             x, v, frequency,
-            f32(screen_height) / 2.0,
+            f32(HEIGHT) / 2.0,
             0.0,
             0.01,
         )

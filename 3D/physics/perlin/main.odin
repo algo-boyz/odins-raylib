@@ -4,8 +4,8 @@ import "core:math"
 import rl "vendor:raylib"
 import "../../../rlutil/noise"
 
-SCREEN_WIDTH :: 1024
-SCREEN_HEIGHT :: 780
+WIDTH :: 1024
+HEIGHT :: 780
 GRID_WIDTH :: 2048
 GRID_HEIGHT :: 1560
 CELL_SIZE :: 20
@@ -15,8 +15,8 @@ MIN_HEIGHT :: -10
 MAX_HEIGHT :: 5
 MOVE_SPEED :: 60
 
-CAM_INIT_POS :: rl.Vector3{35.0, SCREEN_WIDTH, 210.0}
-CAM_INIT_TARGET :: rl.Vector3{120.0, SCREEN_WIDTH, 150.0}
+CAM_INIT_POS :: rl.Vector3{35.0, WIDTH, 210.0}
+CAM_INIT_TARGET :: rl.Vector3{120.0, WIDTH, 150.0}
 CAM_UP :: rl.Vector3{0.0, 0.0, 1.0}
 CAM_FOVY :: 45.0
 FLYING_SPEED :: 0.01
@@ -45,7 +45,7 @@ main :: proc() {
 }
 
 init :: proc(state: ^State) {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib - 3D Terrain Generation")
+    rl.InitWindow(WIDTH, HEIGHT, "Raylib - 3D Terrain Generation")
     
     state.camera.position = CAM_INIT_POS
     state.camera.target = CAM_INIT_TARGET

@@ -11,13 +11,13 @@ Perlin :: struct {
     p: [512]int, // Permutation vector (doubled)
 }
 
-// Initialize with the reference values for the permutation vector
+// Init with the reference values for the permutation vector
 // This is a direct translation from the reference Java implementation
 // Original Java implementation is copyright 2002 Ken Perlin
 perlin_noise_init :: proc() -> Perlin {
     noise := Perlin{}
     
-    // Initialize the permutation vector with the reference values
+    // Init the permutation vector with the reference values
     reference_p := [256]int{
         151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
         8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,
@@ -59,7 +59,7 @@ perlin_noise_init_with_seed :: proc(seed: u64) -> Perlin {
         temp_p[i] = i
     }
     
-    // Initialize random state with seed
+    // Init random state with seed
     seeder := rand.create(seed)
     // Shuffle using Fisher-Yates algorithm
     for i := len(temp_p) - 1; i > 0; i -= 1 {

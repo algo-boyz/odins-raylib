@@ -78,14 +78,14 @@ inertialize_2 :: proc(g: ^f32, gv: ^f32, t: f32) {
 
 main :: proc() {
     // Init Window
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - inertialization")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - inertialization")
     
     // Init Variables
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goalOffset := f32(600)
@@ -101,7 +101,7 @@ main :: proc() {
     
     rl.SetTargetFPS(i32(1.0 / dt))
     
-    // Initialize history arrays
+    // Init history arrays
     for i in 0..<HISTORY_MAX {
         x_prev[i] = x
         v_prev[i] = v

@@ -96,7 +96,7 @@ worley_noise :: proc(pos: [3]f32, domain_repeat: f32) -> [3]f32 {
         }
     }
     
-    return {math.sqrt(res.x), math.sqrt(res.y), math.abs(id)}
+    return {math.sqrt(res.x), math.sqrt(res.y), abs(id)}
 }
 
 /*

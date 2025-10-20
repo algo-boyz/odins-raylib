@@ -1,0 +1,8 @@
+package main
+
+WIDTH :: 800
+HEIGHT :: 600
+DEG_TO_RAD :: 0.01745329251
+FOV :: 70
+NEAR_PLANE :: 1.0
+FAR_PLANE :: 100.0

@@ -5,8 +5,8 @@ import "core:math"
 import "core:math/linalg"
 import rl "vendor:raylib"
 
-SCREEN_WIDTH:  i32 = 1200
-SCREEN_HEIGHT: i32 = 900
+WIDTH:  i32 = 1200
+HEIGHT: i32 = 900
 cursor_captured: bool = true
 
 Rail :: struct {
@@ -118,8 +118,8 @@ debug_cam :: proc(c: ^Rail, pos: rl.Vector2) {
 
 debug_trek :: proc() {
     mouse := rl.GetMousePosition()
-    rl.DrawLine(0, i32(mouse.y), SCREEN_WIDTH, i32(mouse.y), rl.LIGHTGRAY)
-    rl.DrawLine(i32(mouse.x), 0, i32(mouse.x), SCREEN_HEIGHT, rl.LIGHTGRAY)
+    rl.DrawLine(0, i32(mouse.y), WIDTH, i32(mouse.y), rl.LIGHTGRAY)
+    rl.DrawLine(i32(mouse.x), 0, i32(mouse.x), HEIGHT, rl.LIGHTGRAY)
 }
 
 debug :: proc() {
@@ -132,7 +132,7 @@ debug :: proc() {
 // EXECUTION
 
 init_game :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "ZBoard")
+    rl.InitWindow(WIDTH, HEIGHT, "ZBoard")
     rails_camera = init_rail(init_cam())
     rl.SetTargetFPS(60)
     rl.DisableCursor()

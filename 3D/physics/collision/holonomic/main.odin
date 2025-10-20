@@ -35,7 +35,7 @@ main :: proc() {
     robotPosition := startPos
     robotRadius: f32 = 1.0
 
-    // Initialize the planner with start, goal, and the environment's obstacles
+    // Init the planner with start, goal, and the environment's obstacles
     planner.initialize_planner(startPos, goalPos, &env.obstacles, robotRadius)
 
     pathPoints := planner.get_full_path()

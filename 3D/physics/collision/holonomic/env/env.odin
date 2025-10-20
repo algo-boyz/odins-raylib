@@ -17,7 +17,7 @@ Obstacle :: struct {
 // A dynamic array to hold all obstacles in the scene.
 obstacles: [dynamic]Obstacle
 
-// Initialize the obstacles. This is called implicitly when the package is loaded.
+// Init the obstacles. This is called implicitly when the package is loaded.
 @(init)
 init_obstacles :: proc() {
     // Use a fixed-size array literal to define the obstacles,

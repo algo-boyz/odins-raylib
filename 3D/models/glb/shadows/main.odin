@@ -31,11 +31,11 @@ draw_scene :: proc(user_data: rawptr) {
 
 main :: proc() {
     // Initialization
-    screen_width: i32 = 800
-    screen_height: i32 = 450
+    WIDTH: i32 = 800
+    HEIGHT: i32 = 450
     
     rl.SetConfigFlags({.MSAA_4X_HINT})
-    rl.InitWindow(screen_width, screen_height, "Shadowmapping Package Example")
+    rl.InitWindow(WIDTH, HEIGHT, "Shadowmapping Package Example")
     defer rl.CloseWindow()
     
     // Set up camera
@@ -47,7 +47,7 @@ main :: proc() {
         projection = .PERSPECTIVE,
     }
     
-    // Initialize shadow system
+    // Init shadow system
     shadow_system, shadow_ok := sm.init_shadow_system("assets/shadow.vs", "assets/shadow.fs")
     if !shadow_ok {
         fmt.println("Failed to initialize shadow system!")
@@ -141,7 +141,7 @@ main :: proc() {
         // Show current light direction
         light_dir := sm.get_light_direction(&shadow_system)
         light_text := fmt.ctprintf("Light: (%.2f, %.2f, %.2f)", light_dir.x, light_dir.y, light_dir.z)
-        rl.DrawText(light_text, 10, screen_height - 25, 16, rl.DARKGREEN)
+        rl.DrawText(light_text, 10, HEIGHT - 25, 16, rl.DARKGREEN)
         
         if rl.IsKeyPressed(.F) {
             rl.TakeScreenshot("shadowmap_example.png")
@@ -168,7 +168,7 @@ example_custom_config :: proc() {
         color     = rl.Color{255, 220, 180, 255}, // Warm light
     }
     
-    // Initialize with custom settings
+    // Init with custom settings
     shadow_system, ok := sm.init_shadow_system_with_config(
         "assets/shadow.vs", 
         "assets/shadow.fs",

@@ -16,6 +16,19 @@ LineDimensions :: struct {
     orient: LineDimensions_Orient
 }
 
+line_midpoint :: proc(l: [2]rl.Vector2) -> rl.Vector2 {
+    return { (l[0].x + l[1].x) / 2, (l[0].y + l[1].y) / 2 }
+}
+
+line_slope :: proc(l: [2]rl.Vector2) -> (result: f32, ok: bool) {
+    num := l[1].y - l[0].y
+    denom := l[1].x - l[0].x
+
+    if denom == 0 { return 0, false }
+
+    return num / denom, true
+}
+
 draw_line :: proc(line: LineDimensions, color: rl.Color) {
     using line
     switch orient {

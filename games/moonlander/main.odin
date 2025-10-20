@@ -11,11 +11,11 @@ main_loop_content :: proc() {
 }
 
 main :: proc() {
-	rl.InitWindow(screen_width, screen_height, "Moonlander")
+	rl.InitWindow(WIDTH, HEIGHT, "Moonlander")
 	rl.InitAudioDevice()
 	rl.SetTargetFPS(60)
 
-	g = init_game(screen_width, screen_height)
+	g = init_game(WIDTH, HEIGHT)
 
 	for !exit_window && !rl.WindowShouldClose() {
 		main_loop_content()

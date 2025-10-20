@@ -4,10 +4,10 @@ import "core:fmt"
 import rl "vendor:raylib"
 
 main :: proc() {
-    screen_width:i32 = 800
-    screen_height:i32 = 450
+    WIDTH:i32 = 800
+    HEIGHT:i32 = 450
 
-    rl.InitWindow(screen_width, screen_height, "gltf animations")
+    rl.InitWindow(WIDTH, HEIGHT, "gltf animations")
     defer rl.CloseWindow()
 
     // Define camera

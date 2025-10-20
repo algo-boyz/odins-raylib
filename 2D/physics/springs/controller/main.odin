@@ -51,7 +51,7 @@ PRED_MAX :: 4
 PRED_SUB :: 4
 
 main :: proc() {
-    // Initialize global arrays
+    // Init global arrays
     trajx_prev := make([]f32, TRAJ_MAX)
     trajy_prev := make([]f32, TRAJ_MAX)
     predx := make([]f32, PRED_MAX)
@@ -71,10 +71,10 @@ main :: proc() {
         delete(predya)
     }
 
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
 
-    rl.InitWindow(screen_width, screen_height, "Odin [springs] example - controller")
+    rl.InitWindow(WIDTH, HEIGHT, "Odin [springs] example - controller")
     defer rl.CloseWindow()
 
     // Init Variables
@@ -85,8 +85,8 @@ main :: proc() {
     rl.SetTargetFPS(i32(1.0 / dt))
 
     // Trajectory
-    trajx := f32(screen_width) / 2.0
-    trajy := f32(screen_height) / 2.0
+    trajx := f32(WIDTH) / 2.0
+    trajy := f32(HEIGHT) / 2.0
     trajxv := f32(0.0)
     trajyv := f32(0.0)
     trajxa := f32(0.0)
@@ -94,10 +94,10 @@ main :: proc() {
     traj_xv_goal := f32(0.0)
     traj_yv_goal := f32(0.0)
     
-    // Initialize trajectory history
+    // Init trajectory history
     for i := 0; i < TRAJ_MAX; i += 1 {
-        trajx_prev[i] = f32(screen_width) / 2.0
-        trajy_prev[i] = f32(screen_height) / 2.0
+        trajx_prev[i] = f32(WIDTH) / 2.0
+        trajy_prev[i] = f32(HEIGHT) / 2.0
     }
     
     for !rl.WindowShouldClose() {
@@ -109,7 +109,7 @@ main :: proc() {
         
         // Gamepad Controller
         // Note: Using a simplified GUI for now since raylib's GuiSliderBar isn't directly available
-        halflife = math.clamp(halflife, 0.0, 1.0)
+        halflife = clamp(halflife, 0.0, 1.0)
 
         // Update Spring
         gamepadx := rl.GetGamepadAxisMovement(0, .LEFT_X)

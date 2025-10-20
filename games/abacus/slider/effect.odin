@@ -179,16 +179,16 @@ reset_animations :: proc(manager: ^Animator) {
 }
 
 // Render all animations
-render_animations :: proc(manager: ^Animator, screen_width: i32) {
+render_animations :: proc(manager: ^Animator, WIDTH: i32) {
     for &animation in manager.animations {
         if animation.is_active || animation.animation_time > 0 {
-            render_animated_text(animation, manager.renderer_config, screen_width)
+            render_animated_text(animation, manager.renderer_config, WIDTH)
         }
     }
 }
 
 // Render individual animated text with gradient
-render_animated_text :: proc(animation: TextAnimation, config: TextRendererConfig, screen_width: i32) {
+render_animated_text :: proc(animation: TextAnimation, config: TextRendererConfig, WIDTH: i32) {
     text_cstr := rl.TextFormat("%s", animation.config.text)
     text_width := rl.MeasureTextEx(config.font, text_cstr, animation.config.font_size, config.letter_spacing)
     
@@ -208,12 +208,12 @@ render_animated_text :: proc(animation: TextAnimation, config: TextRendererConfi
     // Draw gradient text
     render_gradient_text(config.font, text_cstr, rl.Vector2{x, y}, 
                         animation.config.font_size, config.letter_spacing, 
-                        config.gradient, screen_width)
+                        config.gradient, WIDTH)
 }
 
 // Render text with gradient effect
 render_gradient_text :: proc(font: rl.Font, text: cstring, position: rl.Vector2, 
-                           font_size: f32, spacing: f32, gradient: GradientConfig, screen_width: i32) {
+                           font_size: f32, spacing: f32, gradient: GradientConfig, WIDTH: i32) {
     font_height := i32(font_size)
     strip_height := max(1, font_height / 8)
     
@@ -224,7 +224,7 @@ render_gradient_text :: proc(font: rl.Font, text: cstring, position: rl.Vector2,
         clip_rect := rl.Rectangle{
             x = 0,
             y = position.y + f32(strip) * f32(strip_height),
-            width = f32(screen_width),
+            width = f32(WIDTH),
             height = f32(strip_height + 1),
         }
         rl.BeginScissorMode(i32(clip_rect.x), i32(clip_rect.y), i32(clip_rect.width), i32(clip_rect.height))

@@ -19,6 +19,54 @@ point_in_triangle :: proc(p, a, b, c: rl.Vector2) -> bool {
     return !(has_negative && has_positive)
 }
 
+dot :: proc(a, b: rl.Vector3) -> f32 {
+    return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+
+cross :: proc(a, b: rl.Vector3) -> rl.Vector3 {
+    return {
+        a.y*b.z - a.z*b.y,
+        a.z*b.x - a.x*b.z,
+        a.x*b.y - a.y*b.x,
+    };
+}
+
+// fast method to calc intersection of a ray with a triangle
+moller_trumbore :: proc(v1, v2, v0: rl.Vector3, ray: rl.Ray) -> (bool, f32) {
+    e1 := v1 - v0;
+    e2 := v2 - v0;
+
+    p := cross (ray.direction, e2);
+    det := dot(p, e1);
+    epsilon : f32 = 1e-2;
+    if (abs(det) <= epsilon) {
+        return false, 0;
+    }
+    inv_det := 1.0/det;
+
+    t_vec := ray.position - v0;
+
+    u := (dot(t_vec,p)) * inv_det;
+    if u < 0|| u > 1 {
+        return false,0;
+    }
+    q := cross(t_vec,e1);
+
+    v := dot(ray.direction, q)*inv_det;
+    if v < 0|| v > 1 {
+        return false,0;
+    }
+    if u + v > 1 {
+        return false, 0;
+    }
+    t := dot(e2, q) * inv_det;
+    if t > 0 {
+        return true, t;
+    }
+    return false, 0;
+}
+
+
 // http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
 
 // Recursive method for subdividing each face of a polygon.

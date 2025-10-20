@@ -18,7 +18,7 @@ A plug-and-play shadowmapping utility package that makes it easy to add realisti
 ```odin
 import sm "./shadowmap"
 
-// Initialize shadow system
+// Init shadow system
 shadow_system, ok := sm.init_shadow_system("shadow.vs", "shadow.fs")
 if !ok {
     // Handle error
@@ -82,10 +82,10 @@ Main shadow system structure (opaque - use provided procedures to interact with 
 #### Initialization
 
 ```odin
-// Initialize with default settings
+// Init with default settings
 init_shadow_system :: proc(vertex_shader_path, fragment_shader_path: cstring) -> (ShadowSystem, bool)
 
-// Initialize with custom configuration
+// Init with custom configuration
 init_shadow_system_with_config :: proc(vertex_shader_path, fragment_shader_path: cstring, 
                                       config: ShadowConfig, light: DirectionalLight) -> (ShadowSystem, bool)
 

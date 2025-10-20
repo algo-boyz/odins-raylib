@@ -10,8 +10,8 @@ import "slider"
 
 // Constants
 TITLE         :: "🧮 Abacus Adventure 🧮"
-SCREEN_WIDTH  :: 1200
-SCREEN_HEIGHT :: 900
+WIDTH  :: 1200
+HEIGHT :: 900
 
 // Responsive constants
 MIN_SCREEN_MARGIN :: 20
@@ -226,10 +226,10 @@ generate_rod_color_indexes :: proc(rod_count: int) -> []int {
     return palette_selection
 }
 
-calc_font_sizes :: proc(screen_width: i32, screen_height: i32) -> FontSizes {
+calc_font_sizes :: proc(WIDTH: i32, HEIGHT: i32) -> FontSizes {
     sizes: FontSizes
-    width_scale          := f32(screen_width) / f32(SCREEN_WIDTH)
-    height_scale         := f32(screen_height) / f32(SCREEN_HEIGHT)
+    width_scale          := f32(WIDTH) / f32(WIDTH)
+    height_scale         := f32(HEIGHT) / f32(HEIGHT)
     scale_factor         := min(width_scale, height_scale)
     sizes.title           = max(74 * scale_factor, 32)
     sizes.subtitle        = max(32 * scale_factor, 16)
@@ -242,10 +242,10 @@ calc_font_sizes :: proc(screen_width: i32, screen_height: i32) -> FontSizes {
     return sizes
 }
 
-calc_layout :: proc(rod_count: int, screen_width: i32, screen_height: i32) -> Layout {
+calc_layout :: proc(rod_count: int, WIDTH: i32, HEIGHT: i32) -> Layout {
     layout: Layout
-    layout.available_width  = screen_width - 2 * SIDE_MARGIN
-    layout.available_height = screen_height - HEADER_HEIGHT - FOOTER_HEIGHT - 2 * MIN_SCREEN_MARGIN
+    layout.available_width  = WIDTH - 2 * SIDE_MARGIN
+    layout.available_height = HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT - 2 * MIN_SCREEN_MARGIN
     layout.rod_spacing      = layout.available_width / (i32(rod_count) + 1)
     layout.rod_spacing      = max(layout.rod_spacing, 45)
     layout.rod_spacing      = min(layout.rod_spacing, 80)
@@ -256,13 +256,13 @@ calc_layout :: proc(rod_count: int, screen_width: i32, screen_height: i32) -> La
 }
 
 update_abacus_geometry :: proc(a: ^Abacus) {
-    screen_width       := rl.GetScreenWidth()
-    screen_height      := rl.GetScreenHeight()
-    a.layout        = calc_layout(a.rod_count, screen_width, screen_height)
+    WIDTH       := rl.GetScreenWidth()
+    HEIGHT      := rl.GetScreenHeight()
+    a.layout        = calc_layout(a.rod_count, WIDTH, HEIGHT)
     a.frame_width   = i32(a.layout.rod_spacing * (i32(a.rod_count) - 1) + 2 * a.layout.frame_padding)
     a.frame_height  = i32(5 * (a.layout.bead_height + BEAD_VMARGIN) + BAR_HEIGHT + 2 * a.layout.frame_padding + 60)
-    a.frame_x       = (screen_width - a.frame_width) / 2
-    a.frame_y       = HEADER_HEIGHT + (screen_height - HEADER_HEIGHT - FOOTER_HEIGHT - a.frame_height) / 2
+    a.frame_x       = (WIDTH - a.frame_width) / 2
+    a.frame_y       = HEADER_HEIGHT + (HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT - a.frame_height) / 2
     a.bar_y_pos     = a.frame_y + a.layout.frame_padding + a.layout.bead_height + BEAD_VMARGIN + 30
 
     for i in 0..<a.rod_count {
@@ -684,12 +684,12 @@ update_state :: proc(a: ^Abacus, dt: f32, earth_snd, complete_snd: rl.Sound) {
 }
 
 draw_background :: proc(wave_offset: f32) {
-    screen_height := rl.GetScreenHeight()
-    screen_width := rl.GetScreenWidth()
-    for i in 0..<screen_height {
+    HEIGHT := rl.GetScreenHeight()
+    WIDTH := rl.GetScreenWidth()
+    for i in 0..<HEIGHT {
         wave := math.sin(f32(i) * 0.01 + wave_offset) * 10.0
         color := rl.Color{ u8(135 + wave), u8(206 + wave * 0.3), u8(250 - f32(i) * 0.3), 255 }
-        rl.DrawRectangle(0, i32(i), screen_width, 1, color)
+        rl.DrawRectangle(0, i32(i), WIDTH, 1, color)
     }
 }
 
@@ -746,8 +746,8 @@ draw_bead :: proc(bead: ^Bead, color_set: ColorSet, is_hovered: bool) {
 }
 
 draw_header :: proc(a: ^Abacus) {
-    screen_width := rl.GetScreenWidth()
-    slider.render_animations(&a.text_animator, screen_width)
+    WIDTH := rl.GetScreenWidth()
+    slider.render_animations(&a.text_animator, WIDTH)
 }
 
 draw_abacus :: proc(a: ^Abacus) {
@@ -787,17 +787,17 @@ draw_abacus :: proc(a: ^Abacus) {
 }
 
 draw_footer :: proc(a: ^Abacus) {
-    screen_width := i32(rl.GetScreenWidth())
-    screen_height := i32(rl.GetScreenHeight())
+    WIDTH := i32(rl.GetScreenWidth())
+    HEIGHT := i32(rl.GetScreenHeight())
     mouse_pos := rl.GetMousePosition()
-    footer_y := screen_height - FOOTER_HEIGHT - 40
+    footer_y := HEIGHT - FOOTER_HEIGHT - 40
     rod_info_text := fmt.ctprintf("Rods: %d", a.rod_count)
     rl.DrawTextEx(a.font, rod_info_text, {40, f32(footer_y)}, a.font_sizes.info, 1.0, TEXT_COLOR)
     total := calc_total(a)
     total_text := fmt.ctprintf("Total: %v", total)
     total_font_size : f32 = a.font_sizes.total_label
     total_text_size := rl.MeasureTextEx(a.font, total_text, total_font_size, 1.0)
-    text_x := f32(screen_width - i32(total_text_size.x)) / 2
+    text_x := f32(WIDTH - i32(total_text_size.x)) / 2
     rl.DrawTextEx(a.font, total_text, {text_x + 2, f32(footer_y + 30 + 2)}, total_font_size, 1.0, {0, 0, 0, 100})
     rl.DrawTextEx(a.font, total_text, {text_x, f32(footer_y + 30)}, total_font_size, 1.0, TEXT_COLOR)
     challenge_label :: "Goal:"
@@ -820,7 +820,7 @@ draw_footer :: proc(a: ^Abacus) {
     padding: f32 = 15
     panel_width := label_size.x + text_size.x + padding * 3
     panel_height := max(label_size.y, text_size.y) + padding * 2
-    panel_x := f32(screen_width - i32(panel_width)) / 2
+    panel_x := f32(WIDTH - i32(panel_width)) / 2
     panel_y := f32(footer_y + 65)
     scale := a.current_challenge.anim_scale
     scaled_panel_rect := rl.Rectangle{ panel_x + panel_width * (1 - scale) / 2, panel_y + panel_height * (1 - scale) / 2, panel_width * scale, panel_height * scale }
@@ -837,7 +837,7 @@ draw_footer :: proc(a: ^Abacus) {
         button_padding: f32 = 10
         give_up_text :: "I give up!"
         give_up_text_size := rl.MeasureTextEx(a.font, give_up_text, button_font_size, 1.0)
-        give_up_button_rect := rl.Rectangle{ f32(screen_width) - give_up_text_size.x - button_padding * 2 - 40, f32(footer_y), give_up_text_size.x + button_padding * 2, give_up_text_size.y + button_padding * 2 }
+        give_up_button_rect := rl.Rectangle{ f32(WIDTH) - give_up_text_size.x - button_padding * 2 - 40, f32(footer_y), give_up_text_size.x + button_padding * 2, give_up_text_size.y + button_padding * 2 }
         reset_text :: "Reset"
         reset_text_size := rl.MeasureTextEx(a.font, reset_text, button_font_size, 1.0)
         reset_button_rect := rl.Rectangle{ give_up_button_rect.x - reset_text_size.x - button_padding * 2 - 15, f32(footer_y), reset_text_size.x + button_padding * 2, reset_text_size.y + button_padding * 2 }
@@ -870,7 +870,7 @@ draw_game :: proc(a: ^Abacus) {
 
 main :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT, .WINDOW_RESIZABLE, .VSYNC_HINT})
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE)
+    rl.InitWindow(WIDTH, HEIGHT, TITLE)
     defer rl.CloseWindow()
 
     rl.InitAudioDevice()

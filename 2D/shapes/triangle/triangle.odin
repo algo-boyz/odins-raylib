@@ -55,7 +55,7 @@ add_triangles :: proc(net: ^TriNet, triangles: []vec2) {
                 if j == k do continue
                 idx_j := net.indices[j]
                 idx_k := net.indices[k]
-                // Initialize the inner map if it doesn't exist
+                // Init the inner map if it doesn't exist
                 if net.index_to_neighbors[idx_j] == nil {
                     net.index_to_neighbors[idx_j] = make(map[int]int)
                 }

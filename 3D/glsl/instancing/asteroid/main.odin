@@ -8,11 +8,11 @@ import rl "vendor:raylib"
 import "vendor:raylib/rlgl"
 
 main :: proc() {
-    screen_width :: 800
-    screen_height :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
     rl.SetConfigFlags({.WINDOW_RESIZABLE})
-    rl.InitWindow(screen_width, screen_height, "Instanced Asteroids")
+    rl.InitWindow(WIDTH, HEIGHT, "Instanced Asteroids")
 
     rock_shader := rl.LoadShader("assets/asteroid.vs", "assets/asteroid.fs")
 

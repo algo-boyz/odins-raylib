@@ -21,6 +21,8 @@
   </a>
 </p>
 
+- [Awesome 𓂀aᛉlib](https://github.com/GuvaCode/awesome-raylib)
+- [Awesome GameDev](https://github.com/mbrukman/awesome-game-dev)
 - [Game Programming Patterns](https://gameprogrammingpatterns.com/contents.html)
 - [Ashish's intro to 𓂀aᛉlib](https://github.com/AshishAanand/Raylib/blob/master/Raylib.md)
 - [𓂀aᛉlib Todo App](https://github.com/scheinheiser/todo-app)
@@ -178,31 +180,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/physics/fluid/main.odin">
+  <a href="2D/physics/particles/fluid/euler/main.odin">
     Fluid Simulation
   </a>
-  <a href="2D/physics/fluid/main.odin">
-    <img src="2D/physics/fluid/assets/preview.gif" alt="fluid simulation 2D" width="960">
+  <a href="2D/physics/particles/fluid/euler/main.odin">
+    <img src="2D/physics/particles/fluid/euler/assets/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/algos/voronoi/map/main.odin">
+  <a href="algos/voronoi/map/main.odin">
     Voronoi Cells
   </a>
-  <a href="2D/algos/voronoi/map/main.odin">
-    <img src="2D/algos/voronoi/map/assets/preview.gif" alt="voronoi" width="960">
+  <a href="algos/voronoi/map/main.odin">
+    <img src="algos/voronoi/map/assets/preview.gif" alt="voronoi" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/algos/wave/main.odin">
+  <a href="algos/wave/main.odin">
     Wave Function Collapse
   </a>
-  <a href="2D/algos/wave/main.odin">
-    <img src="2D/algos/wave/assets/preview.gif" alt="wave function" width="960">
+  <a href="algos/wave/main.odin">
+    <img src="algos/wave/assets/preview.gif" alt="wave function" width="960">
   </a>
 </p>
 
@@ -218,31 +220,31 @@
 
 <hr>
 <p align="center">
-  <a href="2D/algos/astar/README.md">
+  <a href="algos/astar/README.md">
     Dijkstra's A* Path finder
   </a>
-  <a href="2D/algos/astar/README.md">
-    <img src="2D/algos/astar/naive/assets/preview.gif" alt="path finding" width="960">
+  <a href="algos/astar/README.md">
+    <img src="algos/astar/naive/assets/preview.gif" alt="path finding" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/algos/tsp/README.md">
+  <a href="algos/tsp/README.md">
     Ant Colonies / Travelling Salesman
   </a>
-  <a href="2D/algos/tsp/README.md">
-    <img src="2D/algos/tsp/assets/aco.jpg" alt="tsp" width="960">
+  <a href="algos/tsp/README.md">
+    <img src="algos/tsp/assets/aco.jpg" alt="tsp" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="2D/algos/mcts/example/main.odin">
+  <a href="AI/mcts/example/main.odin">
     Monte Carlo Tree Search
   </a>
-  <a href="2D/algos/mcts/example/main.odin">
-    <img src="2D/algos/mcts/example/preview.gif" alt="pong" width="960">
+  <a href="AI/mcts/example/main.odin">
+    <img src="AI/mcts/example/preview.gif" alt="pong" width="960">
   </a>
 </p>
 <hr>
@@ -418,11 +420,11 @@
 
 <hr>
 <p align="center">
-  <a href="3D/rotation/main.odin">
+  <a href="3D/rotation/fly/main.odin">
     Flight control
   </a>
-  <a href="3D/rotation/main.odin">
-    <img src="3D/rotation/assets/preview.gif" alt="collision detection" width="960">
+  <a href="3D/rotation/fly/main.odin">
+    <img src="3D/rotation/fly/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
 
@@ -441,11 +443,11 @@
 
 <hr>
 <p align="center">
-  <a href="3D/physics/collision/box/main.odin">
+  <a href="3D/physics/collision/bb/main.odin">
     Collision detection
   </a>
-  <a href="3D/physics/collision/box/main.odin">
-    <img src="3D/physics/collision/box/assets/preview.gif" alt="collision detection" width="960">
+  <a href="3D/physics/collision/bb/main.odin">
+    <img src="3D/physics/collision/bb/assets/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
 
@@ -498,11 +500,11 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
-  <a href="3D/glsl/instancing/main.odin">
+  <a href="3D/glsl/instancing/cube/main.odin">
     Gpu Instancing
   </a>
-  <a href="3D/glsl/instancing/main.odin">
-    <img src="3D/glsl/instancing/assets/preview.gif"  alt="gpu instancing" width="960">
+  <a href="3D/glsl/instancing/cube/main.odin">
+    <img src="3D/glsl/instancing/cube/assets/preview.gif"  alt="gpu instancing" width="960">
   </a>
 </p>
 
@@ -564,6 +566,10 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Orbitz](https://github.com/quonic/Odin-Orbitz)
 - [Neural network visualizer](https://github.com/bones-ai/odin-mnist-nn) written from scratch in Odin and 𓂀aᛉlib.
 - [Odin Geometry Collection](https://github.com/nahumfarchi/odin-geometry)
+- [Dusk game template](https://github.com/JerMakesStuff/Dusk.git)
+- [Machine Learning for Games](https://github.com/Alkamist/odin_machine_learning/)
+- [LightMapper](https://github.com/LeonardoTemperanza/lightmapper)
+- [Ctags](https://github.com/GoNZooo/odin-tags)
 
 ### Gamez
 
@@ -665,21 +671,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 - [Raylib and ImGui](https://github.com/Georgefwm/raylib-imgui-odin-template/blob/main/README.md)
 
-## Audio
-
-- [YT Coding Adventure by Sebastian Lague](https://www.youtube.com/watch?v=iA6wRgwl7k0) Sound (and the Fourier Transform)
-
-- [FFTW](https://github.com/joaocarvalhoopen/FFTW_lib_bindings_for_Odin) C Bindings to compute discrete Fourier transform in one or more dimensions.
-
-- [OpenAl - 3d Audio](https://github.com/elvodqa/odin-al/blob/master/openal.odin) C Bindings
-
-- [99sounds](https://99sounds.org/free-sound-effects/)
-
-- [FreeSound.org](https://freesound.org/) collaborative collection of ~700K free sounds
-
-- [Free to Use Sounds](http://freetousesounds.com/) Sounds from around the world!
-
-- [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) 33K free sounds from the BBC Effects archive
+## [Audio Section](./audio/README.md)
 
 ## [Contribute](contributing.md)
 Enter thy hall, where mortals become legends and etch your legacy into the fabric of [Yggdrasil](https://en.wikipedia.org/wiki/Yggdrasil) itself

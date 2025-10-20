@@ -46,12 +46,6 @@ wrap :: proc(value, min, max: f32) -> f32 {
     return result
 }
 
-clamp :: proc(value, min, max: int) -> int {
-    if value < min do return min
-    if value > max do return max
-    return value
-}
-
 main :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT})
     rl.InitWindow(1000, 800, "Dense Injection")

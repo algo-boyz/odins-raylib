@@ -213,7 +213,7 @@ main :: proc() {
     num_spheres := 20
     spheres := make([]Sphere, num_spheres)
 
-    // Initialize mat_array and boundaries
+    // Init mat_array and boundaries
     for i in 0..<xsize {
         for j in 0..<zsize {
             mat_array[i + j * xsize].height = 0
@@ -227,7 +227,7 @@ main :: proc() {
         mat_array[i + 40 * xsize].boundary = true
     }
 
-    // Initialize spheres
+    // Init spheres
     for i in 0..<num_spheres {
         posx := rl.GetRandomValue(0, xsize - 1)
         posz := rl.GetRandomValue(0, zsize - 1)

@@ -4,7 +4,7 @@ import rl "vendor:raylib"
 import "vendor:raylib/rlgl"
 
 main :: proc() {
-    rl.InitWindow(800, 450, "raylib [core] example - 2d camera mouse zoom")
+    rl.InitWindow(800, 450, "Camera 2D mouse zoom")
     defer rl.CloseWindow()
 
     camera: rl.Camera2D

@@ -43,7 +43,7 @@ init :: proc(state := global_state) {
     delete(pixels)
     image = {}
 
-    // Initialize mui with our mui context
+    // Init mui with our mui context
     mu.init(ctx = &state.ctx,)
     // and point the text_width/height callback functions of our context to the default ones since we're using the default atlas
     state.ctx.text_width = mu.default_atlas_text_width

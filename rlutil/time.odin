@@ -1,5 +1,6 @@
 package rlutil
 
+import "core:fmt"
 import "core:time"
 
 CLOCK_H_M_S_MS :: "%02vh:%02vm:%02vs.%03vms"
@@ -39,17 +40,37 @@ time_to_hmsms :: proc(t: i64, buf: []u8) -> (res: string) #no_bounds_check {
 
     buf[11] = '0' + u8(ms % 10); ms /= 10
     buf[10] = '0' + u8(ms % 10); ms /= 10
-    buf[9] =  '0' + u8(ms)
-    buf[8] = '.'
-
-    buf[7] = '0' + u8(s % 10); s /= 10
-    buf[6] = '0' + u8(s)
-    buf[5] = ':'
-    buf[4] = '0' + u8(m % 10); m /= 10
-    buf[3] = '0' + u8(m)
-    buf[2] = ':'
-    buf[1] = '0' + u8(h % 10); h /= 10
-    buf[0] = '0' + u8(h)
+    buf[9]  = '0' + u8(ms)
+    buf[8]  = '.'
+    buf[7]  = '0' + u8(s % 10); s /= 10
+    buf[6]  = '0' + u8(s)
+    buf[5]  = ':'
+    buf[4]  = '0' + u8(m % 10); m /= 10
+    buf[3]  = '0' + u8(m)
+    buf[2]  = ':'
+    buf[1]  = '0' + u8(h % 10); h /= 10
+    buf[0]  = '0' + u8(h)
     defer delete(buf)
     return string(buf[:MIN_HMSMS_LEN]) // len HMSMS
+}
+
+time_print :: proc(t: time.Time) -> string {
+	buf: [time.MIN_YYYY_DATE_LEN]u8
+	ymd := time.to_string_yyyy_mm_dd(t, buf[:])
+	
+	buf2: [time.MIN_HMS_LEN]u8
+	clock := time_to_hmsms(t._nsec, buf2[:])
+	
+	return fmt.tprintf("%v_%v", ymd, clock)
+}
+
+// iso8601: 2023-12-13T15:45:30.123Z or YYYY-MM-DDTHH:MM:SSZ
+time_to_iso :: proc(t: time.Time) -> string {
+	buf: [time.MIN_YYYY_DATE_LEN]u8
+	ymd := time.to_string_yyyy_mm_dd(t, buf[:])
+	
+	buf2: [time.MIN_HMS_LEN]u8
+	clock := time.time_to_string_hms(t, buf2[:])
+	
+	return fmt.tprintf("%vT%vZ", ymd, clock)
 }

@@ -7,8 +7,8 @@ import rl "vendor:raylib"
 import rlgl "vendor:raylib/rlgl"
 import "../../../rlutil"
 
-SCREEN_WIDTH :: 1280
-SCREEN_HEIGHT :: 720
+WIDTH :: 1280
+HEIGHT :: 720
 
 PLANE_MESH: rl.Mesh
 PLANE_MESH_MATERIAL: rl.Material
@@ -39,6 +39,22 @@ ERROR_FRAG_SHADER :: "assets/shader/error.fs"
 
 // List of fragment shaders
 SHADER_FILES := []string{
+	"relativity.fs",
+	"sun_glow.fs",
+	"sun_pulse.fs",
+	"sun_volume.fs",
+	"sun.fs",
+	"lone_planet.fs",
+	"pyramid.fs",
+	"smooth_life.fs",
+	"tunnel.fs",
+	"dragon_ball.fs",
+	"info.fs",
+	"chain_spell.fs",
+	"smoke.fs",
+	"smoke_perf.fs",
+	"flame.fs",
+	"fake_sky.fs",
 	"anisotropic.fs",
 	"beer_lambert.fs",
 	"black_hole.fs",
@@ -74,6 +90,8 @@ SHADER_FILES := []string{
 	"water_fire.fs",
 	"water.fs",
 	"white_hole.fs",
+	"simple_sky.fs",
+	"gardner_ellipsoid.fs",
 	"wind.fs",
 	"worms.fs",
 }
@@ -173,11 +191,11 @@ draw_message :: proc() {
 
 load :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT, .WINDOW_RESIZABLE})
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "shaderbox")
+    rl.InitWindow(WIDTH, HEIGHT, "shaderbox")
     rl.SetTargetFPS(60)
     rlgl.EnableDepthTest()
     PLANE_MESH = rl.GenMeshPlane(1.0, 1.0, 2, 2)
-    // Initialize the watcher
+    // Init the watcher
     ok: bool
     SHADER_WATCHER, ok = rlutil.watcher_create(BASE_VERT_SHADER, ERROR_FRAG_SHADER, SHADER_FILES)
     if !ok {

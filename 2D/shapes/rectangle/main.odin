@@ -21,8 +21,8 @@ package main
 import rl "vendor:raylib"
 
 MOUSE_SCALE_MARK_SIZE :: 12
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 450
+WIDTH :: 800
+HEIGHT :: 450
 
 rec: rl.Rectangle
 mouse_position: rl.Vector2
@@ -30,7 +30,7 @@ mouse_scale_ready: bool
 mouse_scale_mode: bool
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "rectangle scaling")
+    rl.InitWindow(WIDTH, HEIGHT, "rectangle scaling")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
 

@@ -12,16 +12,16 @@ is_texture_valid :: proc(texture: ^rl.Texture2D) -> bool {
 // sfx: https://www.fesliyanstudios.com/royalty-free-sound-effects-download/footsteps-on-grass-284
 main :: proc() {
     // Window constants
-    SCREEN_WIDTH :: 800
-    SCREEN_HEIGHT :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
     
     // Physics constants
     GRAVITY :: 1
     JUMP_VELOCITY :: -13
     SCARFY_SPEED :: 5
     
-    // Initialize window
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Run, run, run as fast as you can")
+    // Init window
+    rl.InitWindow(WIDTH, HEIGHT, "Run, run, run as fast as you can")
     
     // Load Scarfy texture
     filename:cstring = "assets/scarfy.png"
@@ -48,8 +48,8 @@ main :: proc() {
     
     // Set initial position
     scarfy_position := rl.Vector2{
-        f32(SCREEN_WIDTH)/2 - scarfy.width/2,
-        f32(SCREEN_HEIGHT) - scarfy.height,
+        f32(WIDTH)/2 - scarfy.width/2,
+        f32(HEIGHT) - scarfy.height,
     }
     
     // Game state
@@ -79,8 +79,8 @@ main :: proc() {
         }
         
         // Ground check
-        if scarfy_position.y >= f32(SCREEN_HEIGHT) - scarfy.height {
-            scarfy_position.y = f32(SCREEN_HEIGHT) - scarfy.height  // Prevent sinking below ground
+        if scarfy_position.y >= f32(HEIGHT) - scarfy.height {
+            scarfy_position.y = f32(HEIGHT) - scarfy.height  // Prevent sinking below ground
             velocity.y = 0  // Only reset y-velocity
             in_air = false
         } else {
@@ -98,8 +98,8 @@ main :: proc() {
         scarfy_position += velocity
 
         // Prevent falling through floor
-        if scarfy_position.y > f32(SCREEN_HEIGHT) - scarfy.height {
-            scarfy_position.y = f32(SCREEN_HEIGHT) - scarfy.height
+        if scarfy_position.y > f32(HEIGHT) - scarfy.height {
+            scarfy_position.y = f32(HEIGHT) - scarfy.height
         }
 
         frame_delay_counter += 1

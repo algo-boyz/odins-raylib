@@ -48,9 +48,9 @@ to_grid_coordinate :: proc(screen: rl.Vector2) -> rl.Vector2 {
     return rl.Vector2{x, y}
 }
 
-SCREEN_WIDTH :: 1280
-SCREEN_HALF_WIDTH :: SCREEN_WIDTH / 2
-SCREEN_HEIGHT :: 720
+WIDTH :: 1280
+SCREEN_HALF_WIDTH :: WIDTH / 2
+HEIGHT :: 720
 TEX_SCALE :: 4.0
 
 cartesian_to_isometric :: proc(cartesian: rl.Vector2) -> rl.Vector2 {
@@ -68,7 +68,7 @@ isometric_to_cartesian :: proc(isometric: rl.Vector2) -> rl.Vector2 {
 }
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib example - isometric")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib example - isometric")
     defer rl.CloseWindow()
     
     tile := rl.LoadTexture("assets/iso.png")

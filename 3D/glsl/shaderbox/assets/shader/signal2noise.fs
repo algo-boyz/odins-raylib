@@ -8,7 +8,6 @@ out vec4 fs_color;
 
 #define PI 3.141592
 
-// -----------------------------------------------------------------------
 // Simplex 3D Noise
 // by Ian McEwan, Stefan Gustavson (https://github.com/stegu/webgl-noise)
 vec4 permute(vec4 x) {
@@ -91,7 +90,6 @@ float snoise(vec3 v) {
     return n;
 }
 
-// -----------------------------------------------------------------------
 vec3 get_axis_color(vec2 sp) {
     float line_width = 0.02;
     float line_smoothness = 0.01;

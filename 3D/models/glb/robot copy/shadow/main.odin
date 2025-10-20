@@ -57,14 +57,14 @@ draw_scene :: proc(cube, robot: rl.Model) {
 
 main :: proc() {
     // Initialization
-    screen_width: i32 = 800
-    screen_height: i32 = 450
+    WIDTH: i32 = 800
+    HEIGHT: i32 = 450
     
     rl.SetConfigFlags({.MSAA_4X_HINT})
     // Shadows are a HUGE topic, and this example shows an extremely simple implementation of the shadowmapping algorithm,
     // which is the industry standard for shadows. This algorithm can be extended in a ridiculous number of ways to improve
     // realism and also adapt it for different scenes. This is pretty much the simplest possible implementation.
-    rl.InitWindow(screen_width, screen_height, "raylib [shaders] example - shadowmap")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [shaders] example - shadowmap")
     defer rl.CloseWindow()
     
     cam := rl.Camera3D{
@@ -218,7 +218,7 @@ main :: proc() {
         }
         rl.EndMode3D()
 
-        rl.DrawText("Shadows in raylib using the shadowmapping algorithm!", screen_width - 320, screen_height - 20, 10, rl.GRAY)
+        rl.DrawText("Shadows in raylib using the shadowmapping algorithm!", WIDTH - 320, HEIGHT - 20, 10, rl.GRAY)
         rl.DrawText("Use the arrow keys to rotate the light!", 10, 10, 30, rl.RED)
         
         if rl.IsKeyPressed(.F) {

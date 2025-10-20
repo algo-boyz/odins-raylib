@@ -5,10 +5,10 @@ import rl "vendor:raylib"
 
 main :: proc() {
     // Initialization
-    screen_width:i32 = 800
-    screen_height:i32 = 450
+    WIDTH:i32 = 800
+    HEIGHT:i32 = 450
 
-    rl.InitWindow(screen_width, screen_height, "Raylib [models] example - models loading")
+    rl.InitWindow(WIDTH, HEIGHT, "Raylib [models] example - models loading")
     defer rl.CloseWindow()
 
     // Define the camera
@@ -102,7 +102,7 @@ main :: proc() {
             rl.DrawText("MODEL SELECTED", rl.GetScreenWidth() - 110, 10, 10, rl.GREEN)
         }
 
-        rl.DrawText("(c) Castle 3D model by Alberto Cano", screen_width - 200, screen_height - 20, 10, rl.GRAY)
+        rl.DrawText("(c) Castle 3D model by Alberto Cano", WIDTH - 200, HEIGHT - 20, 10, rl.GRAY)
         rl.DrawFPS(10, 10)
         rl.EndDrawing()
     }

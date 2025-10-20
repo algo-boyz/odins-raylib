@@ -4,10 +4,10 @@ import rl "vendor:raylib"
 
 main :: proc() {
     // Initialization
-    SCREEN_WIDTH :: 800
-    SCREEN_HEIGHT :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [models] example - box collision")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [models] example - box collision")
 
     // Define the camera to look into our 3d world
     camera := rl.Camera3D{

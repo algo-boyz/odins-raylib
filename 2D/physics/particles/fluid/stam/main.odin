@@ -7,8 +7,8 @@ import rl "vendor:raylib"
 
 N :: 256
 ARRAY_SIZE :: (N + 2) * (N + 2)
-SCREEN_WIDTH :: 900
-SCREEN_HEIGHT :: 900
+WIDTH :: 900
+HEIGHT :: 900
 
 Fluid :: struct {
     size:        int,
@@ -285,7 +285,7 @@ update_fluid :: proc(fluid: ^Fluid) {
 }
 
 main :: proc() {
-    // Initialize fluid - now returns pointer to heap-allocated fluid
+    // Init fluid - now returns pointer to heap-allocated fluid
     fluid := new_fluid(N, 0, 0)
     defer destroy_fluid(fluid)
     
@@ -308,8 +308,8 @@ main :: proc() {
         fluid.sources[ix(i, N)] = 100
     }
     
-    // Initialize Raylib
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Fluid Simulator")
+    // Init Raylib
+    rl.InitWindow(WIDTH, HEIGHT, "Fluid Simulator")
     rl.SetTargetFPS(60)
     
     // Create image and texture for rendering
@@ -333,7 +333,7 @@ main :: proc() {
         
         for i in 1..=N {
             for j in 1..=N {
-                density_value := math.min(fluid.density[ix(i, j)], 1.0)
+                density_value := min(fluid.density[ix(i, j)], 1.0)
                 color_value := u8(density_value * 255)
                 pixel_index := (i - 1) * N + (j - 1)
                 pixels[pixel_index] = rl.Color{color_value, color_value, color_value, 255}
@@ -348,7 +348,7 @@ main :: proc() {
         rl.ClearBackground(rl.BLACK)
         
         // Scale texture to fill window
-        rl.DrawTextureEx(texture, {0, 0}, 0, f32(SCREEN_WIDTH) / f32(N), rl.WHITE)
+        rl.DrawTextureEx(texture, {0, 0}, 0, f32(WIDTH) / f32(N), rl.WHITE)
         
         rl.EndDrawing()
     }

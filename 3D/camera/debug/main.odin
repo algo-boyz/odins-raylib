@@ -3,8 +3,8 @@ package main
 import "core:math"
 import rl "vendor:raylib"
 
-SCREEN_WIDTH :: 1280
-SCREEN_HEIGHT :: 720
+WIDTH :: 1280
+HEIGHT :: 720
 // Raylib, projecting 3D onto 2D handy for debugging - https://bedroomcoders.co.uk/posts/173
 
 Obj :: struct {
@@ -43,7 +43,7 @@ project :: proc(pos: rl.Vector3, mat_view: rl.Matrix, mat_perps: rl.Matrix) -> r
 
 main :: proc() {
     // Initialization
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib - test (Odin)")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib - test (Odin)")
 
     // Define the camera to look into our 3d world
     camera := rl.Camera{}
@@ -141,7 +141,7 @@ main :: proc() {
 
         // these matrices are used to project 3d to 2d
         view := rl.MatrixLookAt(camera.position, camera.target, camera.up)
-        aspect := f32(SCREEN_WIDTH) / f32(SCREEN_HEIGHT)
+        aspect := f32(WIDTH) / f32(HEIGHT)
         perps := rl.MatrixPerspective(camera.fovy * rl.DEG2RAD, aspect, 0.01, 1000.0)
 
         if rl.IsKeyPressed(.SPACE) {
@@ -215,8 +215,8 @@ main :: proc() {
 
         rl.DrawText("Space : toggle label position,  R : toggle 3d radar", 140, 10, 20, rl.DARKGREEN)
 
-        hsw := f32(SCREEN_WIDTH) / 2.0
-        hsh := f32(SCREEN_HEIGHT) / 2.0
+        hsw := f32(WIDTH) / 2.0
+        hsh := f32(HEIGHT) / 2.0
 
         for i in 0..<8 {
             p := objs[i].proj
@@ -263,7 +263,7 @@ main :: proc() {
                 p.y /= p.w
                 rl.DrawCircle(
                     i32(hsw + p.x * (hsw / 32)), 
-                    i32((f32(SCREEN_HEIGHT) - (hsh / 3)) - p.y * (hsh / 32)), 
+                    i32((f32(HEIGHT) - (hsh / 3)) - p.y * (hsh / 32)), 
                     3, 
                     rl.RED,
                 )

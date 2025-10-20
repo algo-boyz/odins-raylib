@@ -36,7 +36,7 @@ difference :: proc(a, b: f32) -> f32 {
 }
 
 smooth_union :: proc(a, b, k: f32) -> f32 {
-    h := math.clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)
+    h := clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)
     return linalg.lerp(b, a, h) - k * h * (1.0 - h)
 }
 
@@ -67,9 +67,9 @@ raymarch_2d :: proc(origin, direction: rl.Vector2, max_steps: int = 64, max_dist
 }
 
 // Render SDF as heightfield/contour
-render_field :: proc(screen_width, screen_height: i32) {
-    for y in 0..<screen_height {
-        for x in 0..<screen_width {
+render_field :: proc(WIDTH, HEIGHT: i32) {
+    for y in 0..<HEIGHT {
+        for x in 0..<WIDTH {
             p := rl.Vector2{f32(x), f32(y)}
             d := scene_sdf(p)
             
@@ -77,11 +77,11 @@ render_field :: proc(screen_width, screen_height: i32) {
             color: rl.Color
             if d < 0 {
                 // Inside - red tint
-                intensity := u8(math.clamp(-d * 5, 0, 255))
+                intensity := u8(clamp(-d * 5, 0, 255))
                 color = {intensity, 0, 0, 255}
             } else {
                 // Outside - blue gradient
-                intensity := u8(math.clamp(255 - d * 2, 0, 255))
+                intensity := u8(clamp(255 - d * 2, 0, 255))
                 color = {0, 0, intensity, 255}
             }
             
@@ -92,10 +92,10 @@ render_field :: proc(screen_width, screen_height: i32) {
 
 /*
 main :: proc() {
-    screen_width: i32 = 800
-    screen_height: i32 = 600
+    WIDTH: i32 = 800
+    HEIGHT: i32 = 600
     
-    rl.InitWindow(screen_width, screen_height, "Odin SDF Demo")
+    rl.InitWindow(WIDTH, HEIGHT, "Odin SDF Demo")
     rl.SetTargetFPS(60)
     
     for !rl.WindowShouldClose() {
@@ -103,7 +103,7 @@ main :: proc() {
         rl.ClearBackground(rl.BLACK)
         
         // Render the SDF field
-        render_field(screen_width, screen_height)
+        render_field(WIDTH, HEIGHT)
         
         // Draw some debug info
         rl.DrawText("SDF Visualization", 10, 10, 20, rl.WHITE)

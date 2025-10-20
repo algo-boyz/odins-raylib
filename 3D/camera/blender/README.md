@@ -49,7 +49,7 @@ main :: proc() {
 
     rl.InitWindow(screenWidth, screenHeight, "Blender Camera")
 
-    // Initialize the camera (Line 1 of 2!)
+    // Init the camera (Line 1 of 2!)
     bcam := camera_init()
 
     // VSYNC and Hide Cursor

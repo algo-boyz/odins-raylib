@@ -211,7 +211,7 @@ main :: proc() {
     
     rl.SetTargetFPS(60)
     
-    // Initialize simulation state
+    // Init simulation state
     s: SimState
     settings, err  := conf.load_settings(conf.SETTINGS_FILE, context.temp_allocator)
     if err != nil {

@@ -73,9 +73,9 @@ main :: proc () {
     // Process a multiple samples.
     // moog_process(moog_filter, buffer)
 
-    screen_width  : i32 = 800
-    screen_height : i32 = 450
-    rl.InitWindow(screen_width, screen_height, "Moog Ladder Filter");
+    WIDTH  : i32 = 800
+    HEIGHT : i32 = 450
+    rl.InitWindow(WIDTH, HEIGHT, "Moog Ladder Filter");
     rl.InitAudioDevice();
     rl.SetAudioStreamBufferSizeDefault(MAX_SAMPLES_PER_UPDATE)
 
@@ -105,7 +105,7 @@ main :: proc () {
         if rl.IsMouseButtonDown(rl.MouseButton.LEFT) {
             fp : f64 = f64(mouse_pos.y)
             frequency = 40.0 + f64(fp)
-            pan : f64 = f64(mouse_pos.x) / f64(screen_width)
+            pan : f64 = f64(mouse_pos.x) / f64(WIDTH)
             rl.SetAudioStreamPan(stream, f32(pan))
         }
         // Rewrite the sine wave
@@ -141,9 +141,9 @@ main :: proc () {
             rl.DrawText("Click mouse button to change freq. or pan", 10, 10, 17 /* 20 */, rl.DARKGRAY)
 
             // Draw the current buffer state proportionate to screen
-            for i := 0; i < int(screen_width); i += 1 {
+            for i := 0; i < int(WIDTH); i += 1 {
                 position.x = f32(i)
-                position.y = f32(250 + 50 * data[i * MAX_SAMPLES / int(screen_width)] / (32000.0 / 40))
+                position.y = f32(250 + 50 * data[i * MAX_SAMPLES / int(WIDTH)] / (32000.0 / 40))
                 rl.DrawPixelV(position, rl.GRAY)
             }
         rl.EndDrawing();

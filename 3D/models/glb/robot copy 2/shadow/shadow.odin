@@ -114,7 +114,7 @@ ShadowSystem :: struct {
 // Render callback with LOD support
 SceneRenderProc :: proc(user_data: rawptr, shadow_pass: bool)
 
-// Initialize with default optimized settings
+// Init with default optimized settings
 init_shadow_system :: proc(vertex_shader_path, fragment_shader_path: cstring) -> (ShadowSystem, bool) {
     config := ShadowConfig{
         base_resolution     = DEFAULT_SHADOWMAP_RESOLUTION,
@@ -151,14 +151,14 @@ init_shadow_system :: proc(vertex_shader_path, fragment_shader_path: cstring) ->
     return init_shadow_system_with_config(vertex_shader_path, fragment_shader_path, config, light)
 }
 
-// Initialize with custom configuration
+// Init with custom configuration
 init_shadow_system_with_config :: proc(vertex_shader_path, fragment_shader_path: cstring, 
                                       config: ShadowConfig, light: DirectionalLight) -> (ShadowSystem, bool) {
     system := ShadowSystem{}
     system.config = config
     system.light = light
     
-    // Initialize cache
+    // Init cache
     system.cache.update_threshold = 0.01
     system.cache.needs_update = true
     
@@ -183,7 +183,7 @@ init_shadow_system_with_config :: proc(vertex_shader_path, fragment_shader_path:
     system.shader.locs[rl.ShaderLocationIndex.VECTOR_VIEW] = system.view_pos_loc
     system.shader.locs[rl.ShaderLocationIndex.MATRIX_MODEL] = rl.GetShaderLocation(system.shader, "matModel")
     
-    // Initialize shader values
+    // Init shader values
     light_color_normalized := rl.ColorNormalize(system.light.color)
     rl.SetShaderValue(system.shader, system.light_dir_loc, &system.light.direction, .VEC3)
     rl.SetShaderValue(system.shader, system.light_col_loc, &light_color_normalized, .VEC4)

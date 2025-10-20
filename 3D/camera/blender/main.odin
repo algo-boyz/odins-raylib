@@ -7,10 +7,10 @@ import rl "vendor:raylib"
 import rlgl "vendor:raylib/rlgl"
 
 main :: proc() {
-    screen_width :: 800
-    screen_height :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
-    rl.InitWindow(screen_width, screen_height, "Blender Camera")
+    rl.InitWindow(WIDTH, HEIGHT, "Blender Camera")
     defer rl.CloseWindow()
 
     bl := blender.camera_init()
@@ -38,7 +38,7 @@ main :: proc() {
         } else {
             rl.DrawText("Blender Camera Mode: GIMBAL_ORBIT", 10, 10, 20, blender.BLENDER_GREY)
         }
-        rl.DrawFPS(10, screen_height - 30)
+        rl.DrawFPS(10, HEIGHT - 30)
         rl.EndDrawing()
     }
 }

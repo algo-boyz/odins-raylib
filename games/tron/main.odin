@@ -6,8 +6,8 @@ import "core:math/rand"
 import rl "vendor:raylib"
 
 // Game Constants
-SCREEN_WIDTH     :: 1000
-SCREEN_HEIGHT    :: 1000
+WIDTH     :: 1000
+HEIGHT    :: 1000
 PLAYER_SPEED     :: 4.0
 TRAIL_WIDTH      :: 4.0
 AI_LOOKAHEAD     :: 15
@@ -65,11 +65,11 @@ music:            rl.Music
 main :: proc() {
     // Window configuration
     rl.SetConfigFlags({.VSYNC_HINT, .WINDOW_HIGHDPI})
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tron")
+    rl.InitWindow(WIDTH, HEIGHT, "Tron")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
 
-    // NEW: Initialize Audio and Load Music
+    // NEW: Init Audio and Load Music
     rl.InitAudioDevice()
     defer rl.CloseAudioDevice()
 
@@ -90,7 +90,7 @@ main :: proc() {
     defer rl.UnloadShader(shader)
 
     // Create a texture to render the whole game to
-    render_target = rl.LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT)
+    render_target = rl.LoadRenderTexture(WIDTH, HEIGHT)
     defer rl.UnloadRenderTexture(render_target)
 
 
@@ -129,7 +129,7 @@ main :: proc() {
                 // NOTE: The negative height in the source rectangle is to flip the texture
                 // because of how OpenGL (used by shaders) and Raylib handle Y-coordinates.
                 source_rect := rl.Rectangle{0, 0, f32(render_target.texture.width), -f32(render_target.texture.height)}
-                dest_rect := rl.Rectangle{0, 0, f32(SCREEN_WIDTH), f32(SCREEN_HEIGHT)}
+                dest_rect := rl.Rectangle{0, 0, f32(WIDTH), f32(HEIGHT)}
                 rl.DrawTextureRec(render_target.texture, source_rect, rl.Vector2{0, 0}, rl.WHITE)
             rl.EndShaderMode()
         rl.EndDrawing()
@@ -223,19 +223,19 @@ update_game_stage :: proc() {
     render_game()
     // Using neon colors for scores
     draw_text_with_glow(font, fmt.ctprintf("P1 Score: %d", player1.score), rl.Vector2{20, 10}, 30, 10, NEON_RED)
-    draw_text_with_glow(font, fmt.ctprintf("P2 Score: %d", player2.score), rl.Vector2{SCREEN_WIDTH - 320, 10}, 30, 10, NEON_BLUE)
+    draw_text_with_glow(font, fmt.ctprintf("P2 Score: %d", player2.score), rl.Vector2{WIDTH - 320, 10}, 30, 10, NEON_BLUE)
 }
 
 init_players :: proc() {
     player1 = {
-        position      = {SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.2},
+        position      = {WIDTH * 0.5, HEIGHT * 0.2},
         triangle      = {width = 30, height = 15, rotation = 90},
         color         = NEON_RED,
         keys          = {.W, .S, .A, .D},
         score         = 0,
     }
     player2 = {
-        position      = {SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.8},
+        position      = {WIDTH * 0.5, HEIGHT * 0.8},
         triangle      = {width = 30, height = 15, rotation = 270},
         color         = NEON_BLUE,
         keys          = {.UP, .DOWN, .LEFT, .RIGHT},
@@ -245,13 +245,13 @@ init_players :: proc() {
 
 reset_round :: proc() {
     // Reset Player 1's state for the new round
-    player1.position       = {SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.2}
+    player1.position       = {WIDTH * 0.5, HEIGHT * 0.2}
     player1.triangle.rotation = 90
     player1.is_dead        = false
     player1.trail_length   = 0
 
     // Reset Player 2's state for the new round
-    player2.position       = {SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.8}
+    player2.position       = {WIDTH * 0.5, HEIGHT * 0.8}
     player2.triangle.rotation = 270
     player2.is_dead        = false
     player2.trail_length   = 0
@@ -394,7 +394,7 @@ is_colliding :: proc(aggressor: ^Player, victim: ^Player) -> bool {
     head_pos := aggressor.triangle.vertex[0]
 
     // 1. Border Collisions
-    if head_pos.x > SCREEN_WIDTH || head_pos.y > SCREEN_HEIGHT || head_pos.x < 0 || head_pos.y < 0 {
+    if head_pos.x > WIDTH || head_pos.y > HEIGHT || head_pos.x < 0 || head_pos.y < 0 {
         return true
     }
 
@@ -447,7 +447,7 @@ is_path_colliding :: proc(ai: ^Player, rotation: f32, distance: int) -> bool {
         check_pos := ai.position + direction * f32(i) * PLAYER_SPEED
         
         // Check against borders
-        if check_pos.x >= SCREEN_WIDTH || check_pos.y >= SCREEN_HEIGHT || check_pos.x <= 0 || check_pos.y <= 0 {
+        if check_pos.x >= WIDTH || check_pos.y >= HEIGHT || check_pos.x <= 0 || check_pos.y <= 0 {
             return true
         }
         

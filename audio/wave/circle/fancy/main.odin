@@ -63,7 +63,7 @@ main :: proc() {
     circles: [MAX_CIRCLES]CircleWave
     particles: [MAX_PARTICLES]Particle
 
-    // Initialize circles with enhanced properties
+    // Init circles with enhanced properties
     for i := MAX_CIRCLES-1; i >= 0; i -= 1 {
         circles[i].alpha = 0
         circles[i].radius = f32(GetRandomValue(5, 25))
@@ -76,7 +76,7 @@ main :: proc() {
         circles[i].trail_index = 0
     }
 
-    // Initialize particles
+    // Init particles
     for i := 0; i < MAX_PARTICLES; i += 1 {
         particles[i].life = 0
     }

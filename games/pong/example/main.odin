@@ -6,15 +6,15 @@ import rl "vendor:raylib"
 import "../"
 
 main :: proc() {
-    screen_width  :: 800
-    screen_height :: 600
+    WIDTH  :: 800
+    HEIGHT :: 600
     
-    rl.InitWindow(screen_width, screen_height, "Pong")
+    rl.InitWindow(WIDTH, HEIGHT, "Pong")
     defer rl.CloseWindow()
     
     rl.SetTargetFPS(60)
     
-    game_state := pong.init(screen_width, screen_height)
+    game_state := pong.init(WIDTH, HEIGHT)
     
     for !rl.WindowShouldClose() {
         pong.update(&game_state)

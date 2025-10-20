@@ -8,8 +8,8 @@ import g "./gif" // Import the local gif package
 MAPWIDTH :: 14
 MAPHEIGHT :: 20
 
-screen_width: i32 = 1280
-screen_height: i32 = 720
+WIDTH: i32 = 1280
+HEIGHT: i32 = 720
 
 x_axis_color := rl.RED
 y_axis_color := rl.GREEN
@@ -84,7 +84,7 @@ check_floor_tile :: proc(position: rl.Vector2) -> bool {
 
 main :: proc() {
     // Raylib Init
-    rl.InitWindow(screen_width, screen_height, "Odin 3D Game")
+    rl.InitWindow(WIDTH, HEIGHT, "Odin 3D Game")
     rl.InitAudioDevice()
     rl.SetTargetFPS(60)
 
@@ -128,7 +128,7 @@ main :: proc() {
     if rl.FileExists("assets/bg.gif") {
         if g.gif_player_load(&gif_player, "assets/bg.gif") {
             // Scale the GIF to cover the entire screen
-            dest_rect := rl.Rectangle{0, 0, f32(screen_width), f32(screen_height)}
+            dest_rect := rl.Rectangle{0, 0, f32(WIDTH), f32(HEIGHT)}
             g.gif_player_set_dest_rect(&gif_player, dest_rect)
         }
     }
@@ -247,14 +247,14 @@ main :: proc() {
         // Draw battle window if active
         if battling {
             // Draw a semi-transparent overlay
-            rl.DrawRectangle(0, 0, screen_width, screen_height, rl.Color{0, 0, 0, 150})
+            rl.DrawRectangle(0, 0, WIDTH, HEIGHT, rl.Color{0, 0, 0, 150})
             // Draw the battle box
             rl.DrawRectangleV(
-                rl.Vector2{f32(screen_width) / 2 - f32(screen_width) / 4, f32(screen_height) / 2 - f32(screen_height) / 4},
-                rl.Vector2{f32(screen_width) / 2, f32(screen_height) / 2},
+                rl.Vector2{f32(WIDTH) / 2 - f32(WIDTH) / 4, f32(HEIGHT) / 2 - f32(HEIGHT) / 4},
+                rl.Vector2{f32(WIDTH) / 2, f32(HEIGHT) / 2},
                 rl.Color{0, 50, 100, 255},
             )
-             rl.DrawText("BATTLE!", i32(f32(screen_width)/2) - 100, i32(f32(screen_height)/2) - 20, 40, rl.WHITE)
+             rl.DrawText("BATTLE!", i32(f32(WIDTH)/2) - 100, i32(f32(HEIGHT)/2) - 20, 40, rl.WHITE)
         }
         
         // Draw debug info text

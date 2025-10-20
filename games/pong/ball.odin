@@ -13,7 +13,7 @@ ball_draw :: proc(using ball: ^Ball) {
     rl.DrawCircle(i32(x), i32(y), f32(radius), Yellow)
 }
 
-ball_update :: proc(using ball: ^Ball, screen_width, screen_height: i32, player_score, cpu_score: ^i32, 
+ball_update :: proc(using ball: ^Ball, WIDTH, HEIGHT: i32, player_score, cpu_score: ^i32, 
     player_paddle, cpu_paddle: ^Paddle) -> bool {
     x += f32(speed_x)
     y += f32(speed_y)
@@ -21,7 +21,7 @@ ball_update :: proc(using ball: ^Ball, screen_width, screen_height: i32, player_
     reset_required := false
 
     // Wall collisions
-    if y + f32(radius) >= f32(screen_height) || y - f32(radius) <= 0 {
+    if y + f32(radius) >= f32(HEIGHT) || y - f32(radius) <= 0 {
         speed_y *= -1
     }
 
@@ -56,7 +56,7 @@ ball_update :: proc(using ball: ^Ball, screen_width, screen_height: i32, player_
     }
 
     // Scoring
-    if x + f32(radius) >= f32(screen_width) {
+    if x + f32(radius) >= f32(WIDTH) {
         cpu_score^ += 1
         reset_required = true
     }
@@ -69,9 +69,9 @@ ball_update :: proc(using ball: ^Ball, screen_width, screen_height: i32, player_
     return reset_required
 }
 
-ball_reset :: proc(using ball: ^Ball, screen_width, screen_height: i32) {
-    x = f32(screen_width / 2)
-    y = f32(screen_height / 2)
+ball_reset :: proc(using ball: ^Ball, WIDTH, HEIGHT: i32) {
+    x = f32(WIDTH / 2)
+    y = f32(HEIGHT / 2)
     speed_choices := []int{-1, 1}
     speed_x *= i32(speed_choices[rand.int_max(2)])
     speed_y *= i32(speed_choices[rand.int_max(2)])

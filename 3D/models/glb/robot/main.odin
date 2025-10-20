@@ -91,11 +91,11 @@ draw_scene :: proc(user_data: rawptr, shadow_pass: bool) {
 
 main :: proc() {
     // Initialization
-    screen_width: i32 = 1200
-    screen_height: i32 = 800
+    WIDTH: i32 = 1200
+    HEIGHT: i32 = 800
     
     rl.SetConfigFlags({.MSAA_4X_HINT, .VSYNC_HINT})
-    rl.InitWindow(screen_width, screen_height, "Enhanced Shadowmapping System - Debug Version")
+    rl.InitWindow(WIDTH, HEIGHT, "Enhanced Shadowmapping System - Debug Version")
     defer rl.CloseWindow()
     
     // Set up camera
@@ -147,8 +147,8 @@ main :: proc() {
     fmt.println("Step 5: Initializing shadow system...")
     
     // Check if shader files exist
-    vertex_shader_exists := rl.FileExists("assets/shadow.vs")
-    fragment_shader_exists := rl.FileExists("assets/shadow.fs")
+    vertex_shader_exists := rl.FileExists("assets/shadow_skinning.vs")
+    fragment_shader_exists := rl.FileExists("assets/shadow_skinning.fs")
     
     fmt.printf("Vertex shader exists: %t\n", vertex_shader_exists)
     fmt.printf("Fragment shader exists: %t\n", fragment_shader_exists)
@@ -236,7 +236,7 @@ main :: proc() {
     fmt.println("✓ Shadow system initialized successfully!")
     defer sm.destroy_shadow_system(&shadow_system)
     
-    // Initialize scene data
+    // Init scene data
     fmt.println("Step 7: Setting up scene...")
     scene_data := SceneData{}
     scene_data.models = make([dynamic]sm.ModelLOD)
@@ -486,7 +486,7 @@ main :: proc() {
         
         // Performance info
         if show_debug_info {
-            info_x: i32 = screen_width - 250
+            info_x: i32 = WIDTH - 250
             info_y: i32 = 10
             
             rl.DrawRectangle(info_x - 10, info_y - 5, 240, 120, rl.Color{0, 0, 0, 100})

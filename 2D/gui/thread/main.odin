@@ -41,9 +41,9 @@ load_data :: proc(progress_channel: ^chan.Chan(Progress_Data, chan.Direction.Sen
 
 main :: proc() {
     // Initialization
-    screen_width  :: 800
-    screen_height :: 450
-    rl.InitWindow(screen_width, screen_height, "Odin Raylib Threading Example")
+    WIDTH  :: 800
+    HEIGHT :: 450
+    rl.InitWindow(WIDTH, HEIGHT, "Odin Raylib Threading Example")
     defer rl.CloseWindow()
 
     rl.SetTargetFPS(60)

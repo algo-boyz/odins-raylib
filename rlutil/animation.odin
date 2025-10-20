@@ -20,21 +20,21 @@ create_animation :: proc(
 	frame_time: f32,
 	start_frame, end_frame: f32,
 ) -> ^Animation {
-	animation := new(Animation)
-	if animation == nil {
+	anim := new(Animation)
+	if anim == nil {
 		return nil
 	}
-	animation.texture = texture
-	animation.frame_width = frame_width
-	animation.frame_height = frame_height
-	animation.num_frame = num_frames
-	animation.frame_time = frame_time
-	animation.current_frame = start_frame
-	animation.elapsed_time = 0.0
-	animation.start_frame = start_frame
-	animation.end_frame = end_frame
+	anim.texture = texture
+	anim.frame_width = frame_width
+	anim.frame_height = frame_height
+	anim.num_frame = num_frames
+	anim.frame_time = frame_time
+	anim.current_frame = start_frame
+	anim.elapsed_time = 0.0
+	anim.start_frame = start_frame
+	anim.end_frame = end_frame
 
-	return animation
+	return anim
 }
 
 run_animation :: proc(anim: ^Animation, dt: f32, looped: bool) {

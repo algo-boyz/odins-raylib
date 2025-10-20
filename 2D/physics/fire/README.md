@@ -9,7 +9,7 @@
     DOOM effect
   </a>
   <a href="doom/main.odin">
-    <img src="doom/assets/preview.gif" alt="fluid simulation 2D" width="960">
+    <img src="doom/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>
 
@@ -21,6 +21,6 @@
     Plasma effect
   </a>
   <a href="plasma/main.odin">
-    <img src="plasma/assets/preview.gif" alt="fluid simulation 2D" width="960">
+    <img src="plasma/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>

@@ -47,7 +47,7 @@ ShadowSystem :: struct {
 // Render callback type for drawing scenes
 SceneRenderProc :: proc(user_data: rawptr)
 
-// Initialize shadow system with default configuration
+// Init shadow system with default configuration
 init_shadow_system :: proc(vertex_shader_path, fragment_shader_path: cstring) -> (ShadowSystem, bool) {
     config := ShadowConfig{
         resolution     = DEFAULT_SHADOWMAP_RESOLUTION,
@@ -65,7 +65,7 @@ init_shadow_system :: proc(vertex_shader_path, fragment_shader_path: cstring) ->
     return init_shadow_system_with_config(vertex_shader_path, fragment_shader_path, config, light)
 }
 
-// Initialize shadow system with custom configuration
+// Init shadow system with custom configuration
 init_shadow_system_with_config :: proc(vertex_shader_path, fragment_shader_path: cstring, 
                                       config: ShadowConfig, light: DirectionalLight) -> (ShadowSystem, bool) {
     system := ShadowSystem{}
@@ -91,7 +91,7 @@ init_shadow_system_with_config :: proc(vertex_shader_path, fragment_shader_path:
     system.shader.locs[rl.ShaderLocationIndex.VECTOR_VIEW] = system.view_pos_loc
     system.shader.locs[rl.ShaderLocationIndex.MATRIX_MODEL] = rl.GetShaderLocation(system.shader, "matModel")
     
-    // Initialize shader values
+    // Init shader values
     light_color_normalized := rl.ColorNormalize(system.light.color)
     rl.SetShaderValue(system.shader, system.light_dir_loc, &system.light.direction, .VEC3)
     rl.SetShaderValue(system.shader, system.light_col_loc, &light_color_normalized, .VEC4)
@@ -281,7 +281,7 @@ example_custom_config :: proc() {
         color     = rl.Color{255, 220, 180, 255}, // Warm light
     }
     
-    // Initialize with custom settings
+    // Init with custom settings
     shadow_system, ok := sm.init_shadow_system_with_config(
         "../assets/shadow.vs", 
         "../assets/shadow.fs",

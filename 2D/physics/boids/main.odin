@@ -35,8 +35,7 @@ main :: proc() {
     rl.SetTargetFPS(60)
     
     flock := init_boids()
-    
-    // Main loop
+
     for !rl.WindowShouldClose() {
         update_boids(flock)
         rl.BeginDrawing()
@@ -44,14 +43,13 @@ main :: proc() {
         draw_boids(flock)
         rl.EndDrawing()
     }
-    
     rl.CloseWindow()
 }
 
 init_boids :: proc() -> []Boid {
     boids := new([NUM_BOIDS]Boid)
     
-    // Initialize boids with random positions and velocities
+    // Init boids with random positions and velocities
     for i in 0..<NUM_BOIDS {
         boids[i] = Boid{
             position = rl.Vector2{f32(rl.GetRandomValue(0, WIDTH)), f32(rl.GetRandomValue(0, HEIGHT))},
@@ -59,16 +57,13 @@ init_boids :: proc() -> []Boid {
             acceleration = rl.Vector2{0, 0},
         }
     }
-    
     return boids[:]
 }
 
 separation :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
     perception_radius: f32 = SEPARATION_RADIUS
-
-    steer := rl.Vector2{0, 0}
-    
-    //  Count how many boids are in the perception radius
+    steer: rl.Vector2
+    // Count how many boids are in the perception radius
     total := 0
     for other in boids {
         if other != boid {
@@ -84,14 +79,12 @@ separation :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
                 total += 1
             }
         }
-        
         // Average the steering vector
         if total > 0 {
             steer = steer * (1/f32(total))
             steer = rl.Vector2Normalize(steer)
             steer = steer * 0.8
         }
-        
     }
     return steer
 }
@@ -111,14 +104,12 @@ alignment :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
             }
         }
     }
-    
     // Average the velocity vector
     if total > 0 {
         avg_velocity = avg_velocity * (1/f32(total))
         avg_velocity -= boid.velocity
         avg_velocity = rl.Vector2Normalize(avg_velocity) * 0.3
     }
-    
     return avg_velocity
 }
 
@@ -141,7 +132,6 @@ cohesion :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
             }
         }
     }
-    
     // Average the center vector
     if total > 0 {
         center = center * (1/f32(total))
@@ -153,7 +143,6 @@ cohesion :: proc(boids: []Boid, boid: Boid) -> rl.Vector2 {
         
         return steer
     }
-    
     return center 
 }
 
@@ -171,17 +160,14 @@ draw_boids :: proc(boids: []Boid) {
             boid.position.x + vel_normalized.x * size * 2, 
             boid.position.y + vel_normalized.y * size * 2
         }
-
         left := rl.Vector2{
             boid.position.x + math.cos(math.atan2(vel_normalized.y, vel_normalized.x) + 2.5) * size, 
             boid.position.y + math.sin(math.atan2(vel_normalized.y, vel_normalized.x) + 2.5) * size
         }
-
         right := rl.Vector2{
             boid.position.x + math.cos(math.atan2(vel_normalized.y, vel_normalized.x) - 2.5) * size, 
             boid.position.y + math.sin(math.atan2(vel_normalized.y, vel_normalized.x) - 2.5) * size
         }
-
         rl.DrawTriangleLines(front, left, right, rl.LIGHTGRAY)
     }
 }
@@ -209,13 +195,11 @@ update_boids :: proc(boids: []Boid) {
         } else if boid.position.x > WIDTH + 10 {
             boid.position.x = -10
         }
-
         if boid.position.y < -10 {
             boid.position.y = HEIGHT + 10
         } else if boid.position.y > HEIGHT + 10 {
             boid.position.y = -10
         }
-
         // Apply friction/drag
         boid.acceleration = boid.acceleration * 0.8
     }

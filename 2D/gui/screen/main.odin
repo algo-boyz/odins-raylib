@@ -20,8 +20,8 @@ package scene_manager
 
 import rl "vendor:raylib"
 
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 450
+WIDTH :: 800
+HEIGHT :: 450
 
 Gamescene :: enum {
     LOGO, 
@@ -34,7 +34,7 @@ scene: Gamescene
 frames_counter: int
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Template")
+    rl.InitWindow(WIDTH, HEIGHT, "Template")
     defer rl.CloseWindow()
     initGame()
 
@@ -71,19 +71,19 @@ drawGame :: proc() {
 
         case .TITLE:
             // TODO: Draw TITLE screen here!
-            rl.DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, rl.GREEN)
+            rl.DrawRectangle(0, 0, WIDTH, HEIGHT, rl.GREEN)
             rl.DrawText("TITLE SCREEN", 20, 20, 40, rl.DARKGREEN)
             rl.DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, rl.DARKGREEN)
         
         case .GAMEPLAY:
             // TODO: Draw GAMEPLAY screen here!
-            rl.DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, rl.PURPLE)
+            rl.DrawRectangle(0, 0, WIDTH, HEIGHT, rl.PURPLE)
             rl.DrawText("GAMEPLAY SCREEN", 20, 20, 40, rl.MAROON)
             rl.DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, rl.MAROON)
     
         case .ENDING:
             // TODO: Draw ENDING screen here!
-            rl.DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, rl.BLUE)
+            rl.DrawRectangle(0, 0, WIDTH, HEIGHT, rl.BLUE)
             rl.DrawText("ENDING SCREEN", 20, 20, 40, rl.DARKBLUE)
             rl.DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, rl.DARKBLUE)   
     }

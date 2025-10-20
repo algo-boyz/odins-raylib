@@ -178,15 +178,15 @@ HISTORY_MAX :: 256
 
 main :: proc() {
     // Init Window
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - tracking")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - tracking")
     defer rl.CloseWindow()
 
     // Init Variables
     t: f32 = 0.0
-    x: f32 = f32(screen_height) / 2.0
+    x: f32 = f32(HEIGHT) / 2.0
     v: f32 = 0.0
     g: f32 = x
     goal_offset: f32 = 600

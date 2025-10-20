@@ -23,12 +23,12 @@ Particle :: struct {
 }
 
 // Constants
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 600
+WIDTH :: 800
+HEIGHT :: 600
 FPS :: 120
 CELL_SIZE :: 4
-ROWS: int : int(SCREEN_HEIGHT / CELL_SIZE)
-COLS: int : int(SCREEN_WIDTH / CELL_SIZE)
+ROWS: int : int(HEIGHT / CELL_SIZE)
+COLS: int : int(WIDTH / CELL_SIZE)
 
 // Colors
 GREY :: rl.Color{29, 29, 29, 255}
@@ -48,7 +48,7 @@ showFPS: bool // shows the fps
 brush_size: int // size of the brush
 
 main :: proc() {
-	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Falling Sands Simulation")
+	rl.InitWindow(WIDTH, HEIGHT, "Falling Sands Simulation")
 	rl.SetTargetFPS(FPS)
 	defer rl.CloseWindow()
 
@@ -58,7 +58,7 @@ main :: proc() {
 	for !rl.WindowShouldClose() do updateGame()
 }
 
-// Initialize game state
+// Init game state
 init :: proc() {
 	for &row in cells {
 		for &cell in row {

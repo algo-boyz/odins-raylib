@@ -36,14 +36,14 @@ extrapolate_function1 :: proc(g: ^f32, gv: ^f32, t: f32) {
 }
 
 main :: proc() {
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - extrapolation")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - extrapolation")
     
     // Init Variables
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goalOffset := f32(600)
@@ -56,7 +56,7 @@ main :: proc() {
     
     rl.SetTargetFPS(i32(1.0 / dt))
     
-    // Initialize history arrays
+    // Init history arrays
     for i := 0; i < HISTORY_MAX; i += 1 {
         x_prev[i] = x
         v_prev[i] = v

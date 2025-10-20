@@ -4,10 +4,10 @@ import rl "vendor:raylib"
 
 main :: proc() {
     // Initialization
-    SCREEN_WIDTH :: 800
-    SCREEN_HEIGHT :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [textures] example - background scrolling")
+    rl.InitWindow(WIDTH, HEIGHT, "Paralax effect")
 
     // NOTE: Be careful, background width must be equal or bigger than screen width
     // if not, texture should be drawn more than two times for scrolling effect
@@ -77,8 +77,8 @@ main :: proc() {
 
         rl.DrawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, rl.RED)
         rl.DrawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", 
-                    SCREEN_WIDTH - 330, 
-                    SCREEN_HEIGHT - 20, 
+                    WIDTH - 330, 
+                    HEIGHT - 20, 
                     10, 
                     rl.RAYWHITE)
 
