@@ -4,7 +4,6 @@ import "core:fmt"
 import "core:math/rand"
 import rl "vendor:raylib"
 import "../../../rlutil/ring"
-import "../../../rlutil/gif"
 
 // port of https://github.com/epsilon-phase/raylib-experiments/blob/canon/src/particle/main.c
 WIDTH :: 480
@@ -78,9 +77,6 @@ main :: proc() {
 	defer rl.CloseWindow()
 	rl.SetTargetFPS(60)
 
-    rec := gif.new_recorder("preview.gif", 12, 600)
-    defer gif.recorder_cleanup(&rec)
-
 	emitters := ring.Ring_Buffer(150, ^Particle_Emitter){}
 
 	for !rl.WindowShouldClose() {
@@ -88,7 +84,6 @@ main :: proc() {
 			mouse_pos := rl.GetMousePosition()
 			ring.append(&emitters, particle_emitter_init(int(mouse_pos.x), int(mouse_pos.y), 50, 100))
 		}
-        gif.recorder_update(&rec)
 		{
 			rl.BeginDrawing()
 			defer rl.EndDrawing()
@@ -98,7 +93,6 @@ main :: proc() {
 				draw_emitter(emitters.data[i])
 			}
 			rl.DrawFPS(10, 10)
-			gif.recorder_dbg(&rec)
 		}
 		for i in 0..<emitters.len {
 			particle_emitter_step(emitters.data[i])

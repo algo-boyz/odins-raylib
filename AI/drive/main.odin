@@ -8,7 +8,6 @@ import "core:strconv"
 import rl "vendor:raylib"
 import "vendor:raylib/rlgl"
 
-// Constants
 HEIGHT :: 800
 WIDTH :: 800
 FPS :: 75
@@ -18,19 +17,17 @@ ROT_AMOUNT :: 6.0
 WAIT_TIME :: 0.7
 RAD :: 4
 
-// Angle offsets for the three rays
+// Angle offsets for the three sensor rays
 ANGLE_OFFSETS := [3]f32{-30.0, 0.0, 30.0}
 
-// Map structure to hold all map-related data
 Map :: struct {
     data: [dynamic][dynamic]i32,
     width: int,
     height: int,
     cell_size: int,
 }
-
-// Global variables
 game_map: Map
+
 cutoff: [3]bool
 show := true
 togg := false
@@ -56,7 +53,7 @@ make_car :: proc(rect: rl.Rectangle, position: rl.Vector2, origin: rl.Vector2, c
     }
 }
 
-// Init the map with given dimensions
+// Init map with given dimensions
 init_map :: proc(width, height: int) {
     game_map.width = width
     game_map.height = height
@@ -72,7 +69,6 @@ init_map :: proc(width, height: int) {
     }
 }
 
-// Clean up the map
 cleanup_map :: proc() {
     for i in 0..<len(game_map.data) {
         delete(game_map.data[i])
@@ -89,8 +85,7 @@ parse_ppm_header :: proc(content: string) -> (width, height: int, data_start: in
         fmt.println("Invalid PPM file format - too few lines")
         return 0, 0, 0, false
     }
-    
-    line_idx := 0
+    line_idx: int
     
     // Read magic number
     magic := strings.trim_space(lines[line_idx])
@@ -110,7 +105,7 @@ parse_ppm_header :: proc(content: string) -> (width, height: int, data_start: in
         return 0, 0, 0, false
     }
     
-    // Read dimensions
+    // Read dims
     dimension_parts := strings.fields(strings.trim_space(lines[line_idx]))
     defer delete(dimension_parts)
     
@@ -239,7 +234,7 @@ update_car :: proc(car: ^Car, x: f32, y: f32, rot: f32) {
     car.rotation = rot
     car.rect = {car.position.x, car.position.y, car.rect.width, car.rect.height}
     
-    // Calculate raycast distances for each of the 3 rays
+    // Calc raycast distance for each ray
     for i in 0..<3 {
         car.angle_rad[i] = math.to_radians(rot + ANGLE_OFFSETS[i])
         n: f32 = 0
@@ -280,7 +275,7 @@ update_car :: proc(car: ^Car, x: f32, y: f32, rot: f32) {
         rlgl.SetLineWidth(1.0)
     }
     
-    // Draw the car
+    // Draw car
     rl.DrawRectanglePro(car.rect, car.origin, car.rotation, rl.ORANGE)
 }
 
@@ -290,7 +285,6 @@ draw_grid :: proc() {
             rl.DrawLine(i32(i), 0, i32(i), HEIGHT, rl.DARKGRAY)
         }
     }
-    
     for i in 0..<HEIGHT {
         if i % game_map.cell_size == 0 {
             rl.DrawLine(0, i32(i), WIDTH, i32(i), rl.DARKGRAY)
@@ -311,7 +305,7 @@ draw_map :: proc() {
     }
 }
 
-// Movement functions
+// Movement
 forward :: proc(position: ^rl.Vector2, rotation: f32) {
     angle_rad := math.to_radians(rotation)
     position.x += math.cos(angle_rad) * SPEED
@@ -360,7 +354,6 @@ shake_it :: proc(position: ^rl.Vector2, rotation: ^f32, old_pos: rl.Vector2, old
 main :: proc() {
     fname := "map4"
     
-    // Load the map
     if !load_map(fname) {
         fmt.println("Failed to load map:", fname)
         return
@@ -436,7 +429,6 @@ main :: proc() {
                 togg = !togg
             }
         }
-        
         // If stuck, shake aggressively
         shake_it(&position, &rotation, old_pos, old_rot)
         

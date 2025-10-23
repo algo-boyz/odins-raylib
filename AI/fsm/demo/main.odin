@@ -7,6 +7,7 @@ import rl "vendor:raylib"
 import fsm "../"
 import "../../../rlutil"
 import "../nodes"
+import "../../../rlutil/gif"
 
 main :: proc() {
     rlutil.seed_rand()
@@ -14,6 +15,8 @@ main :: proc() {
     rl.InitWindow(600, 400, "Finite State Machine")
     defer rl.CloseWindow()
     rl.SetTargetFPS(120)
+    rec := gif.new_recorder("preview.gif", 24, 600)
+    defer gif.recorder_cleanup(&rec)
 
     ascii_map := []string{
         "000000000000",
@@ -129,5 +132,6 @@ main :: proc() {
             fsm.draw_agent(&ag2)  // Wandering (blue)
             fsm.draw_agent(&ag3)  // FSM controlled (yellow/changes based on state)
         rl.EndDrawing()
+                gif.recorder_update(&rec)
     }
 }

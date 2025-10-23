@@ -288,7 +288,7 @@ main :: proc() {
     rl.InitWindow(WIDTH, HEIGHT, "Tic Tac Toe")
     rl.SetTargetFPS(60)
     defer rl.CloseWindow()
-    
+
     user := Player.O
     ai := Player.X
     g := new_game(ai)

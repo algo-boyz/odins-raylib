@@ -1,12 +1,16 @@
-# FiniteStateMachine (C++ with Raylib)
+<p align="center">
+  <a href="demo/main.odin">
+    Finite State Machine
+  </a>
+  <a href="demo/main.odin">
+    <img src="demo/preview.gif" alt="asteroids" width="960">
+  </a>
+</p>
+<hr>
 
-This project demonstrates a Non-Player Character (NPC) using a Finite State Machine (FSM) to switch between two AI behaviors: **Wander** and **Follow**.  The demo is written in C++ using Raylib for rendering and integrates Dijkstra’s algorithm ('DijkstrasPathfinding' project) for pathfinding between nodes on a grid.
+This project demonstrates a Non-Player Character (NPC) using a Finite State Machine (FSM) to switch between two AI behaviors: **Wander** and **Follow**.  The demo is written in Odin using Raylib for rendering and integrates Dijkstra’s algorithm for pathfinding between nodes on a grid.
 
----
-
-## AI Architecture
-
-### Behaviors Implemented
+### Behaviors
 
 1. **WanderBehaviour**  
    - Agent moves randomly to new nodes on the grid.

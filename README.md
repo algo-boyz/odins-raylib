@@ -240,14 +240,13 @@
 
 <hr>
 <p align="center">
-  <a href="AI/mcts/example/main.odin">
-    Monte Carlo Tree Search
+  <a href="AI/README.md">
+    The most important AI equations
   </a>
-  <a href="AI/mcts/example/main.odin">
+  <a href="AI/README.md">
     <img src="AI/mcts/demo/preview.gif" alt="pong" width="960">
   </a>
 </p>
-<hr>
 
 <hr>
 <p align="center">

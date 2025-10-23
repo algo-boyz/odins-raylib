@@ -82,27 +82,27 @@ qlearn --visualize --epochs 500 --max-steps 300 --policy my_policy.txt
 | Strategist   | 0.6               | 0.8                  | 0.3                   | Explore with long-term priority                |
 
 
-## TODO apply to pacman:
-qlearn racing: https://github.com/Gabfuwak/RL-Racing/tree/e125404722e4b2ad8481d505a2c913712b4b67a8
-pacman: https://rlproject.netlify.app/
-https://github.com/Sadmanaster/Reinforcement-Learning-in-Game-Development/tree/main
+## Reference
 
-States and Features
-States (For Q-Learning)
-Layout Information
-Walls
-Maze Width and Height
-Food Information
-Food dot locations
-Power pellet locations
-Agent Information
-Pacman's position and direction
-Ghost positions and directions
-Ghost scared timer states
-Whether agents are eaten
-Game Information
-Win/Loss state
-Features Extraction (For Approximate Q-Learning)
-Closest Food: Normalized distance to the closest food pellet.
-Number of ghosts 1 step away
-Food Eaten: 1 when agent eats food and no ghosts are nearby
+- [Qlearn racing](https://github.com/Gabfuwak/RL-Racing/tree/e125404722e4b2ad8481d505a2c913712b4b67a8)
+
+- TODO apply to [Pacman](https://rlproject.netlify.app/):
+    - States and Features
+    - States (For Q-Learning)
+    - Layout Information
+    - Walls
+    - Maze Width and Height
+    - Food Information
+    - Food dot locations
+    - Power pellet locations
+    - Agent Information
+    - Pacman's position and direction
+    - Ghost positions and directions
+    - Ghost scared timer states
+    - Whether agents are eaten
+    - Game Information
+    - Win/Loss state
+    - Features Extraction (For Approximate Q-Learning)
+    - Closest Food: Normalized distance to the closest food pellet.
+    - Number of ghosts 1 step away
+    - Food Eaten: 1 when agent eats food and no ghosts are nearby

@@ -85,7 +85,7 @@ main :: proc() {
     rl.SetConfigFlags({.MSAA_4X_HINT})
     rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib example - kernel perceptron")
     defer rl.CloseWindow()
-    
+
     seed := rand.create(u64(time.now()._nsec))
     rng := rand.default_random_generator(&seed)
     
@@ -123,10 +123,16 @@ main :: proc() {
     
     accuracy_val: f32 = accuracy(&perceptron, training[:])
     count: int = TRAINING_STEPS
+    show_info: bool
     
     rl.SetTargetFPS(60)
     
     for !rl.WindowShouldClose() {
+        // Toggle info panel with 'I' key
+        if rl.IsKeyPressed(.I) {
+            show_info = !show_info
+        }
+
         train(&perceptron, training[count % NUM_POINTS])
         count += 1
         
@@ -145,67 +151,95 @@ main :: proc() {
             sx, sy := world_to_screen(points[i].x, points[i].y)
             spline_points[i] = {f32(sx), f32(sy)}
         }
-        rl.DrawLineStrip(&spline_points[0], i32(SPLINE_SAMPLES), rl.Color{50, 50, 50, 255})  // Dark gray
+        rl.DrawLineStrip(&spline_points[0], i32(SPLINE_SAMPLES), rl.Color{0, 0, 0, 255})  // Black boundary
         
-        // Draw SUPPORT VECTORS (Large magenta circles with black outline)
-        for sv in perceptron.support_vectors {
-            sx, sy := world_to_screen(sv[0], sv[1])
-            rl.DrawCircleLines(sx, sy, 10, rl.Color{0, 0, 0, 255})         // Black outline
-            rl.DrawCircle(sx, sy, 8, rl.Color{255, 0, 255, 255})           // Bright magenta fill
-        }
-        
-        // Draw TRAINING POINTS
+        // Draw TRAINING POINTS (in layers for proper visibility)
+        // Layer 1: True labels (outer circles)
         for data_point in training {
             sx, sy := world_to_screen(data_point[0], data_point[1])
             
-            // TRUE LABEL (outer circle - larger, DARK colors)
-            true_color: rl.Color
             if data_point[NUM_FEATURES] > 0 {
-                true_color = rl.Color{0, 100, 0, 255}      // Dark green (positive class)
+                rl.DrawCircle(sx, sy, 5, rl.Color{70, 130, 220, 255})  // Blue (positive class)
             } else {
-                true_color = rl.Color{139, 0, 0, 255}      // Dark red (negative class)
-            }
-            rl.DrawCircle(sx, sy, 6, true_color)
-            
-            // PREDICTION (inner circle - smaller, BRIGHT colors)
-            prediction_color: rl.Color
-            is_correct := !is_misclassified(&perceptron, data_point)
-            prediction: f32 = predict(&perceptron, data_point)
-            
-            if prediction > 0 {
-                if is_correct {
-                    prediction_color = rl.Color{0, 255, 0, 255}      // Bright green (correct positive)
-                } else {
-                    prediction_color = rl.Color{139, 0, 0, 255}     // Dark red (wrong positive)
-                }
-            } else {
-                if is_correct {
-                    prediction_color = rl.Color{255, 0, 0, 255}     // Bright red (correct negative)
-                } else {
-                    prediction_color = rl.Color{0, 100, 0, 255}     // Dark green (wrong negative)
-                }
-            }
-            rl.DrawCircle(sx, sy, 4, prediction_color)
-            
-            // MISCLASSIFIED border (thick bright red outline)
-            if is_misclassified(&perceptron, data_point) {
-                rl.DrawCircleLines(sx, sy, 8, rl.Color{255, 0, 0, 255})
+                rl.DrawCircle(sx, sy, 5, rl.Color{255, 140, 0, 255})   // Orange (negative class)
             }
         }
         
-        // Draw UI with updated legend
-        accuracy_text := fmt.ctprintf("Accuracy: %.1f%% (%d/%d support vectors)", 
-                                   accuracy_val * 100, len(perceptron.support_vectors), BUDGET)
-        rl.DrawText(accuracy_text, 10, 10, 20, rl.Color{40, 40, 40, 255})
+        // Layer 2: Predictions (inner circles)
+        for data_point in training {
+            sx, sy := world_to_screen(data_point[0], data_point[1])
+            prediction: f32 = predict(&perceptron, data_point)
+            
+            if prediction > 0 {
+                rl.DrawCircle(sx, sy, 3, rl.Color{0, 200, 255, 255})   // Cyan (predicted positive)
+            } else {
+                rl.DrawCircle(sx, sy, 3, rl.Color{255, 80, 80, 255})   // Coral red (predicted negative)
+            }
+        }
         
-        // Updated legend with consistent colors
-        rl.DrawText("█ Large magenta circles = Support Vectors", 10, 40, 16, rl.Color{255, 0, 255, 255})
-        rl.DrawText("█ Dark green/red (outer) = True labels", 10, 60, 16, rl.Color{40, 40, 40, 255})
-        rl.DrawText("█ Bright green/red (inner) = Predictions", 10, 80, 16, rl.Color{40, 40, 40, 255})
-        rl.DrawText("█ Bright green = Correct positive prediction", 10, 100, 16, rl.Color{0, 255, 0, 255})
-        rl.DrawText("█ Bright red = Correct negative prediction", 10, 120, 16, rl.Color{255, 0, 0, 255})
-        rl.DrawText("█ Dark green/red (inner) = Wrong predictions", 10, 140, 16, rl.Color{139, 0, 0, 255})
-        rl.DrawText("█ Thick red border = Misclassified points", 10, 160, 16, rl.Color{255, 0, 0, 255})
+        // Layer 3: Misclassified indicators (thick borders)
+        for data_point in training {
+            if is_misclassified(&perceptron, data_point) {
+                sx, sy := world_to_screen(data_point[0], data_point[1])
+                rl.DrawCircleLines(sx, sy, 7, rl.Color{255, 0, 255, 255})  // Magenta border
+            }
+        }
+        
+        // Layer 4: Support vectors (distinctive markers)
+        for sv in perceptron.support_vectors {
+            sx, sy := world_to_screen(sv[0], sv[1])
+            // Draw a distinctive cross/star pattern
+            rl.DrawCircle(sx, sy, 9, rl.Color{255, 215, 0, 255})       // Gold fill
+            rl.DrawCircleLines(sx, sy, 9, rl.Color{0, 0, 0, 255})      // Black outline
+            // Add small inner dot for emphasis
+            rl.DrawCircle(sx, sy, 3, rl.Color{0, 0, 0, 255})
+        }
+        
+        // Draw info panel with semi-transparent background
+        if show_info {
+            panel_x: i32 = 10
+            panel_y: i32 = 10
+            panel_width: i32 = 420
+            panel_height: i32 = 200
+            
+            // Semi-transparent dark background
+            rl.DrawRectangle(panel_x, panel_y, panel_width, panel_height, rl.Color{0, 0, 0, 180})
+            
+            // Accuracy text
+            accuracy_text := fmt.ctprintf("Accuracy: %.1f%% (%d/%d support vectors)", 
+                                       accuracy_val * 100, len(perceptron.support_vectors), BUDGET)
+            rl.DrawText(accuracy_text, panel_x + 10, panel_y + 10, 20, rl.Color{255, 255, 255, 255})
+            
+            // Legend with color indicators
+            y_offset: i32 = panel_y + 40
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 9, rl.Color{255, 215, 0, 255})
+            rl.DrawCircleLines(panel_x + 20, y_offset + 8, 9, rl.Color{0, 0, 0, 255})
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 3, rl.Color{0, 0, 0, 255})
+            rl.DrawText("Support Vectors (gold with black center)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+            
+            y_offset += 25
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 5, rl.Color{70, 130, 220, 255})
+            rl.DrawText("True positive class (blue outer)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+            
+            y_offset += 25
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 5, rl.Color{255, 140, 0, 255})
+            rl.DrawText("True negative class (orange outer)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+            
+            y_offset += 25
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 3, rl.Color{0, 200, 255, 255})
+            rl.DrawText("Predicted positive (cyan inner)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+            
+            y_offset += 25
+            rl.DrawCircle(panel_x + 20, y_offset + 8, 3, rl.Color{255, 80, 80, 255})
+            rl.DrawText("Predicted negative (coral inner)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+            
+            y_offset += 25
+            rl.DrawCircleLines(panel_x + 20, y_offset + 8, 7, rl.Color{255, 0, 255, 255})
+            rl.DrawText("Misclassified (magenta border)", panel_x + 40, y_offset, 16, rl.Color{255, 255, 255, 255})
+        } else {
+            // Show minimal hint when panel is hidden
+            rl.DrawRectangle(10, 10, 180, 30, rl.Color{0, 0, 0, 180})
+            rl.DrawText("Press 'I' for info", 20, 15, 16, rl.Color{255, 255, 255, 255})
+        }
     }
 }
-    

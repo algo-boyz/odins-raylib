@@ -6,12 +6,10 @@ import "core:math/rand"
 import "core:mem" 
 import rl "vendor:raylib"
 
-// Constants
 MAX_RUNS :: 200
 MAX_CODE :: 1200
 MAX_ARC  :: 64
 
-// Enums
 Terrain :: enum i32 {
 	GROUND       = 0,
 	TREE         = 1,
@@ -23,7 +21,7 @@ Terrain :: enum i32 {
 
 // Initial map layout
 // 1=border (TREE), 2=ai unit, 3=defensiveunit, 4=objective
-map_initial_layout :: [10][10]Terrain{
+map_layout :: [10][10]Terrain{
 	{.TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE},
 	{.TREE, .GROUND, .GROUND, .GROUND, .GROUND, .GROUND, .GROUND, .GROUND, .GROUND, .TREE},
 	{.TREE, .GROUND, .GROUND, .GROUND, .AI2, .GROUND, .GROUND, .GOAL, .GROUND, .TREE},
@@ -36,8 +34,7 @@ map_initial_layout :: [10][10]Terrain{
 	{.TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE, .TREE},
 }
 
-// Current map state for simulation
-current_map_state: [10][10]Terrain
+map_state: [10][10]Terrain
 
 Code :: struct {
 	position: rl.Vector2,
@@ -52,15 +49,15 @@ Code_Arc :: struct {
 	score:    i32,
 }
 
-arr_codearc:  [MAX_ARC]Code_Arc
+arr_codearc: [MAX_ARC]Code_Arc
 arr_temparc: [MAX_ARC]Code_Arc
 
-WIDTH:  i32
-HEIGHT: i32
-tile_width:    i32
-tile_height:   i32
-map_width:     i32 = 10
-map_height:    i32 = 10
+WIDTH,
+HEIGHT,
+tile_width,
+tile_height: i32
+map_width:   i32 = 10
+map_height:  i32 = 10
 
 main :: proc() {
 	WIDTH = 800
@@ -69,62 +66,61 @@ main :: proc() {
 	tile_width = cast(i32)math.ceil(cast(f32)WIDTH / cast(f32)map_width)
 	tile_height = cast(i32)math.ceil(cast(f32)HEIGHT / cast(f32)map_height)
 
-	rl.InitWindow(WIDTH, HEIGHT, "Odin Genetic Algorithm Example")
+	rl.InitWindow(WIDTH, HEIGHT, "Genetic Algorithm Pacman style")
 	rl.SetTargetFPS(60)
 
 	genetic_algorithm()
-
-	play_position := 0
+	pos: int
 
 	for !rl.WindowShouldClose() {
 
-		if rl.IsKeyPressed(.SPACE) || play_position > MAX_CODE - 2 {
+		if rl.IsKeyPressed(.R) || pos > MAX_CODE - 2 {
 			genetic_algorithm()
-			play_position = 0
+			pos = 0
 		}
-		if play_position == 0 {
+		if pos == 0 {
 			// Restore map
-			current_map_state = map_initial_layout
+			map_state = map_layout
 		}
 
 		// Execute script for current frame
-		current_code_pos := arr_code[play_position].position
-		current_code_move := arr_code[play_position].move
+		current_code_pos := arr_code[pos].position
+		current_code_move := arr_code[pos].move
 		
 		map_y := cast(i32)current_code_pos.y
 		map_x := cast(i32)current_code_pos.x
 
         if map_y >= 0 && map_y < map_height && map_x >= 0 && map_x < map_width {
-            if current_map_state[map_y][map_x] == .AI1 {
+            if map_state[map_y][map_x] == .AI1 {
                 p := current_code_pos
                 m := current_code_move
                 np := rl.Vector2{p.x + m.x, p.y + m.y}
 
-                // Ensure new position is within bounds
+                // Ensure new pos within bounds
                 np_y := cast(i32)np.y
                 np_x := cast(i32)np.x
 
                 if np_y >= 0 && np_y < map_height && np_x >= 0 && np_x < map_width {
-                    target_cell_type := current_map_state[np_y][np_x]
+                    target_cell_type := map_state[np_y][np_x]
 
                     #partial switch target_cell_type {
                     case .GOAL:
-                        current_map_state[np_y][np_x] = .GOALREACHED
+                        map_state[np_y][np_x] = .GOALREACHED
                     case .GROUND:
-                        current_map_state[np_y][np_x] = .AI1
-                        current_map_state[cast(int)p.y][cast(int)p.x] = .GROUND
+                        map_state[np_y][np_x] = .AI1
+                        map_state[cast(int)p.y][cast(int)p.x] = .GROUND
                     case .AI2:
-                        current_map_state[np_y][np_x] = .AI1
-                        current_map_state[cast(int)p.y][cast(int)p.x] = .GROUND
+                        map_state[np_y][np_x] = .AI1
+                        map_state[cast(int)p.y][cast(int)p.x] = .GROUND
                     case: // Other cases: TREE, AI1, GOALREACHED - no move or specific interaction
                     }
                 }
             }
         }
 
-		play_position += 1
-		if play_position > MAX_CODE - 1 {
-			play_position = 0
+		pos += 1
+		if pos > MAX_CODE - 1 {
+			pos = 0
 		}
 
 		rl.BeginDrawing()
@@ -133,7 +129,7 @@ main :: proc() {
 		// Draw map
 		for y in 0..<map_height {
 			for x in 0..<map_width {
-				cell := current_map_state[y][x]
+				cell := map_state[y][x]
 				rect_x := cast(f32)(x * tile_width)
 				rect_y := cast(f32)(y * tile_height)
 				f_tile_width := cast(f32)tile_width
@@ -154,7 +150,7 @@ main :: proc() {
 					rl.DrawRectangle(cast(i32)(rect_x + f_tile_width / 2), cast(i32)(rect_y + f_tile_height / 2), 2, 1, rl.GREEN)
 				case .AI1:
 					rl.DrawRectangle(x * tile_width, y * tile_height, tile_width, tile_height, rl.BLUE)
-					rl.DrawText("AI_Player", x * tile_width + 4, y * tile_height + tile_height / 4, 16, rl.BLACK)
+					rl.DrawText("AI", x * tile_width + tile_width / 4, y * tile_height + tile_height / 4, 40, rl.BLACK)
 				case .AI2:
 					rl.DrawRectangle(x * tile_width, y * tile_height, tile_width, tile_height, rl.RED)
 					rl.DrawText("F", x * tile_width + tile_width / 3, y * tile_height + tile_height / 4, 40, rl.WHITE)
@@ -167,8 +163,8 @@ main :: proc() {
 				}
 			}
 		}
-		rl.DrawText("Press space for new simulation.(Autorun=on)", 10, 10, 26, rl.BLACK)
-		rl.DrawText("Press space for new simulation.(Autorun=on)", 9, 9, 26, rl.WHITE)
+		rl.DrawText("Press 'R' to restart simulation (Autorun = on)", 10, 10, 26, rl.BLACK)
+		rl.DrawText("Press 'R' to restart simulation (Autorun = on)", 9, 9, 26, rl.WHITE)
 		rl.EndDrawing()
 	}
 	rl.CloseWindow()
@@ -193,7 +189,7 @@ genetic_algorithm :: proc() {
 			}
 		}
 
-		current_map_state = map_initial_layout
+		map_state = map_layout
 		execute_script()
 		score := get_score()
 		store_script(i32(z), score)
@@ -204,7 +200,7 @@ genetic_algorithm :: proc() {
 		mutate_and_new()
 
 		for z in 0..<MAX_ARC {
-			current_map_state = map_initial_layout
+			map_state = map_layout
 			get_script(i32(z))
 			execute_script()
 			
@@ -214,7 +210,7 @@ genetic_algorithm :: proc() {
 	}
 
 	// After all runs, load the best script for playing
-	current_map_state = map_initial_layout // Restore map for the final best script visualization
+	map_state = map_layout // Restore map for the final best script visualization
 	get_script(0) // Load the champion
 }
 
@@ -307,10 +303,10 @@ get_score :: proc() -> i32 {
 	num_enemies_left, players_left: i32
 	for y in 0..<map_height {
 		for x in 0..<map_width {
-			if current_map_state[y][x] == .AI2 {
+			if map_state[y][x] == .AI2 {
 				num_enemies_left += 1
 			}
-			if current_map_state[y][x] == .AI1 {
+			if map_state[y][x] == .AI1 {
 				players_left += 1
 			}
 		}
@@ -322,12 +318,12 @@ get_score :: proc() -> i32 {
 
 	for y in 0..<map_height {
 		for x in 0..<map_width {
-			if current_map_state[y][x] == .GOALREACHED {
+			if map_state[y][x] == .GOALREACHED {
 				objective_success = true
 			}
 			// If multiple goals, this might be an issue.
 			// Assuming one primary goal for distance calculation.
-			if current_map_state[y][x] == .GOAL || current_map_state[y][x] == .GOALREACHED {
+			if map_state[y][x] == .GOAL || map_state[y][x] == .GOALREACHED {
 				goal_position.x = cast(f32)x
 				goal_position.y = cast(f32)y
 			}
@@ -342,7 +338,7 @@ get_score :: proc() -> i32 {
 	if players_left > 0 { // Avoid division by zero if no players_left
 		for y in 0..<map_height {
 			for x in 0..<map_width {
-				if current_map_state[y][x] == .AI1 {
+				if map_state[y][x] == .AI1 {
 					if num_ai_units < len(distance_unit) { // Boundary check for distance_unit
 						dist_to_goal := euclidean_distance(goal_position.x, goal_position.y, cast(f32)x, cast(f32)y)
 						distance_unit[num_ai_units] = cast(i32)(dist_to_goal * 2)
@@ -399,7 +395,7 @@ execute_script :: proc() {
         // (it might have moved or been destroyed in a previous step of this same script execution)
         if scripted_pos_y >=0 && scripted_pos_y < map_height &&
            scripted_pos_x >=0 && scripted_pos_x < map_width &&
-           current_map_state[scripted_pos_y][scripted_pos_x] == .AI1 {
+           map_state[scripted_pos_y][scripted_pos_x] == .AI1 {
             
             p := arr_code[i].position // Current position of the unit for this command
             m := arr_code[i].move     // Move to be applied
@@ -410,7 +406,7 @@ execute_script :: proc() {
 
             // Check if new position is within map boundaries
             if np_y >= 0 && np_y < map_height && np_x >= 0 && np_x < map_width {
-                target_cell_type := current_map_state[np_y][np_x]
+                target_cell_type := map_state[np_y][np_x]
                 
                 // Current unit's actual position (might have changed from scripted_pos if map is dynamic within script exec)
                 // For this model, assume unit is at p.
@@ -419,12 +415,12 @@ execute_script :: proc() {
 
                 #partial switch target_cell_type {
                 case .GOAL:
-                    current_map_state[np_y][np_x] = .GOALREACHED
+                    map_state[np_y][np_x] = .GOALREACHED
                     // Unit moves, original spot becomes ground (if it was the one moving)
-                    current_map_state[unit_curr_y][unit_curr_x] = .GROUND 
+                    map_state[unit_curr_y][unit_curr_x] = .GROUND 
                 case .GROUND:
-                    current_map_state[np_y][np_x] = .AI1
-                    current_map_state[unit_curr_y][unit_curr_x] = .GROUND
+                    map_state[np_y][np_x] = .AI1
+                    map_state[unit_curr_y][unit_curr_x] = .GROUND
                 case .AI2:
                     neigh: int
                     // Check 8 neighbours around the *new position* (np) for friendly units
@@ -438,7 +434,7 @@ execute_script :: proc() {
                             check_x = np_x + i32(dx)
                             if check_y >= 0 && check_y < map_height &&
                                check_x >= 0 && check_x < map_width &&
-                               current_map_state[check_y][check_x] == .AI1 {
+                               map_state[check_y][check_x] == .AI1 {
                                 neigh +=1
                             }
                         }
@@ -453,10 +449,10 @@ execute_script :: proc() {
                     }
 
                     if random_draw < 4 { // Attacker (AI1) wins
-                        current_map_state[np_y][np_x] = .AI1
-                        current_map_state[unit_curr_y][unit_curr_x] = .GROUND
+                        map_state[np_y][np_x] = .AI1
+                        map_state[unit_curr_y][unit_curr_x] = .GROUND
                     } else { // Defender (AI2) wins, attacker unit is destroyed
-                        current_map_state[unit_curr_y][unit_curr_x] = .GROUND
+                        map_state[unit_curr_y][unit_curr_x] = .GROUND
                     }
                 case: // TREE, AI1 (moving onto own unit), GOALREACHED - typically no move or interaction
                 }
