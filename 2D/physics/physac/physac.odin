@@ -204,7 +204,7 @@ CreatePhysicsBodyCircle :: proc(
 
     newId := FindAvailableBodyIndex()
     if newId != -1 {
-        // Initialize new body with generic values
+        // Init new body with generic values
         newBody.id = newId
         newBody.enabled = true
         newBody.position = pos
@@ -266,7 +266,7 @@ CreatePhysicsBodyRectangle :: proc(
 
     newId := FindAvailableBodyIndex()
     if newId != -1 {
-        // Initialize new body with generic values
+        // Init new body with generic values
         newBody.id = newId
         newBody.enabled = true
         newBody.position = pos
@@ -369,7 +369,7 @@ CreatePhysicsBodyPolygon :: proc(
 
     newId := FindAvailableBodyIndex()
     if newId != -1 {
-        // Initialize new body with generic values
+        // Init new body with generic values
         newBody.id = newId
         newBody.enabled = true
         newBody.position = pos
@@ -958,7 +958,7 @@ PhysicsLoop: thread.Thread_Proc : proc(arg: ^thread.Thread) {
         fmt.printf("[PHYSAC] physics thread created successfully\n")
     }
 
-    // Initialize physics loop thread values
+    // Init physics loop thread values
     physicsThreadEnabled = true
 
     // Physics update loop
@@ -1029,7 +1029,7 @@ PhysicsStep :: proc() {
         }
     }
 
-    // Initialize physics manifolds to solve collisions
+    // Init physics manifolds to solve collisions
     for i := 0; i < physicsManifoldsCount; i += 1 {
         manifold := contacts[i]
 
@@ -1137,7 +1137,7 @@ CreatePhysicsManifold :: proc(a, b: PhysicsBody) -> PhysicsManifold {
 
     newId := FindAvailableManifoldIndex()
     if newId != -1 {
-        // Initialize new manifold with generic values
+        // Init new manifold with generic values
         newManifold.id = newId
         newManifold.bodyA = a
         newManifold.bodyB = b

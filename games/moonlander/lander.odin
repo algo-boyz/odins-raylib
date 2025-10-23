@@ -36,7 +36,7 @@ Lander :: struct {
 	flame_texture: rl.Texture2D,
 }
 
-init_lander :: proc(screen_width, screen_height: int) -> ^Lander {
+init_lander :: proc(WIDTH, HEIGHT: int) -> ^Lander {
     l := new(Lander)
 
     // --- Step 1: Call LoadMusicStream and store in a local variable ---
@@ -132,12 +132,12 @@ init_lander :: proc(screen_width, screen_height: int) -> ^Lander {
 	
     l.was_thrusting = false
     l.was_rotating = false
-    reset(l, screen_width, screen_height)
+    reset(l, WIDTH, HEIGHT)
     return l
 }
 
-reset :: proc(l: ^Lander, screen_width, screen_height: int) {
-	l.pos.x = f32(screen_width) / 2.0
+reset :: proc(l: ^Lander, WIDTH, HEIGHT: int) {
+	l.pos.x = f32(WIDTH) / 2.0
 	l.pos.y = 50.0
 	l.velocity.x = 0.0
 	l.velocity.y = 0.0
@@ -155,7 +155,7 @@ reset :: proc(l: ^Lander, screen_width, screen_height: int) {
 		l.size.x = 20.0 // width
 	}
 
-	l.landing_pad_x = 100.0 + rand.float32() * (f32(screen_width) - 200.0)
+	l.landing_pad_x = 100.0 + rand.float32() * (f32(WIDTH) - 200.0)
 	l.landing_time = 0.0
 	rl.StopMusicStream(l.thrust_music)
 	l.was_thrusting = false
@@ -214,7 +214,7 @@ update :: proc(l: ^Lander, dt: f32, thrusting_input, rotating_left_input, rotati
 	l.pos.y += l.velocity.y
 
 	// Screen bounds
-	l.pos.x = max(0.0, min(f32(screen_width) - l.size.x, l.pos.x))
+	l.pos.x = max(0.0, min(f32(WIDTH) - l.size.x, l.pos.x))
 	if l.pos.y < 0.0 {
 		l.pos.y = 0.0
 		l.velocity.y = 0.0
@@ -246,7 +246,7 @@ update :: proc(l: ^Lander, dt: f32, thrusting_input, rotating_left_input, rotati
 				if collision_bottom >= terrain_height_at_center_x {
 					// Collision occurred
 					on_landing_pad := abs(center_x - l.landing_pad_x) <= 50.0
-					correct_pad_height := abs(terrain_height_at_center_x - (f32(screen_height) - 50.0)) < 1.0 // pad is at y = gameScreenHeight - 50
+					correct_pad_height := abs(terrain_height_at_center_x - (f32(HEIGHT) - 50.0)) < 1.0 // pad is at y = gameScreenHeight - 50
 					safe_velocity_x := abs(l.velocity.x) < current_velocity_limit
 					safe_velocity_y := abs(l.velocity.y) < current_velocity_limit
 					

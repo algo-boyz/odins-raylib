@@ -31,13 +31,13 @@ load_model :: proc(filepath: string) -> (rl.Model) {
     }
     defer delete(data)
 
-    // Initialize model with zero values
+    // Init model with zero values
     model.transform = rl.Matrix(1)
     model.materials = make([^]rl.Material, 1)
     model.materials[0] = rl.LoadMaterialDefault()
     model.materialCount = 1
     
-    // Initialize meshes
+    // Init meshes
     model.meshes = make([^]rl.Mesh, 1)
     model.meshes[0] = {}  // Zero initialize the mesh structure
     model.meshCount = 1
@@ -132,7 +132,7 @@ load_model :: proc(filepath: string) -> (rl.Model) {
     offset += boneCount * size_of(rl.Transform)
     model.bindPose = poses
 
-    // Initialize bone matrices
+    // Init bone matrices
     boneMatrices := make([^]rl.Matrix, boneCount)
     for i in 0..<boneCount {
         boneMatrices[i] = rl.Matrix(1)

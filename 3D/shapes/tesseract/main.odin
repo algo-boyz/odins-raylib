@@ -66,7 +66,7 @@ main :: proc() {
         // Draw the tesseract
         for p1, i in tesseract {
             // Draw spheres to indicate the W value
-            rl.DrawSphere(transformed[i], math.abs(w_values[i] * 0.1), rl.DARKBLUE)
+            rl.DrawSphere(transformed[i], abs(w_values[i] * 0.1), rl.DARKBLUE)
             
             // Connect points that differ by exactly one coordinate
             for p2, j in tesseract {

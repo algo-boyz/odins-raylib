@@ -3370,7 +3370,7 @@ Space_Conversion :: enum c.int {
 // -- Main API
 
 // Options for `ufbx_load_file/memory/stream/stdio()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Load_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3568,7 +3568,7 @@ Load_Opts :: struct {
 }
 
 // Options for `ufbx_evaluate_scene()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Evaluate_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3588,7 +3588,7 @@ Evaluate_Opts :: struct {
 }
 
 // Options for `ufbx_tessellate_nurbs_curve()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Tessellate_Curve_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3602,7 +3602,7 @@ Tessellate_Curve_Opts :: struct {
 }
 
 // Options for `ufbx_tessellate_nurbs_surface()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Tessellate_Surface_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3621,7 +3621,7 @@ Tessellate_Surface_Opts :: struct {
 }
 
 // Options for `ufbx_subdivide_mesh()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Subdivide_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3662,7 +3662,7 @@ Subdivide_Opts :: struct {
 }
 
 // Options for `ufbx_load_geometry_cache()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Geometry_Cache_Opts :: struct {
 	_begin_zero: u32,
 
@@ -3679,7 +3679,7 @@ Geometry_Cache_Opts :: struct {
 }
 
 // Options for `ufbx_read_geometry_cache_*()`
-// NOTE: Initialize to zero with `{ 0 }` (C) or `{ }` (C++)
+// NOTE: Init to zero with `{ 0 }` (C) or `{ }` (C++)
 Geometry_Cache_Data_Opts :: struct {
 	_begin_zero: u32,
 

@@ -58,11 +58,11 @@ create_planet :: proc(
     // Remove the ImageFlipVertical call for texture
     planet.texture = rl.LoadTextureFromImage(planet.texture_image)
     
-    // Initialize rotation
+    // Init rotation
     planet.rotation = 0
     planet.rotation_speed = 0
 
-    // Initialize parameters
+    // Init parameters
     planet.height_scale = 1
     planet.initial_height = 0
     planet.radius = 5
@@ -70,7 +70,7 @@ create_planet :: proc(
     planet.position = rl.Vector3{0, 0, 0}
     planet.change_resolution = planet.resolution
     planet.change_height_scale = planet.height_scale
-    // Initialize clouds and seasons
+    // Init clouds and seasons
     planet.clouds = create_clouds(clouds_map_loc, 1, 79, true)
     planet.seasons = create_seasons(seasons_map_loc, 1, 12, true)
     // Load shader

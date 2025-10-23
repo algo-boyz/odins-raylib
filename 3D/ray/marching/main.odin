@@ -4,11 +4,11 @@ import rl "vendor:raylib"
 
 main :: proc() {
     // Initialization
-    screen_width :: 800
-    screen_height :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
     rl.SetConfigFlags({.WINDOW_RESIZABLE})
-    rl.InitWindow(screen_width, screen_height, "raylib [shaders] example - raymarching shapes")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [shaders] example - raymarching shapes")
 
     camera := rl.Camera{
         position = rl.Vector3{2.5, 2.5, 3.0},    // Camera position
@@ -28,7 +28,7 @@ main :: proc() {
     run_time_loc := rl.GetShaderLocation(shader, "runTime")
     resolution_loc := rl.GetShaderLocation(shader, "resolution")
 
-    resolution := [2]f32{f32(screen_width), f32(screen_height)}
+    resolution := [2]f32{f32(WIDTH), f32(HEIGHT)}
     rl.SetShaderValue(shader, resolution_loc, &resolution, .VEC2)
 
     run_time: f32 = 0.0

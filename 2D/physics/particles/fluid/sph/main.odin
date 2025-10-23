@@ -74,7 +74,7 @@ new_grid :: proc() -> Grid {
 	for i in 0..<GRID_HEIGHT {
 		cells[i] = make([]Cell, GRID_WIDTH)
 		for j in 0..<GRID_WIDTH {
-			// Initialize dynamic array and mutex
+			// Init dynamic array and mutex
 			cells[i][j].particles = make([dynamic]^Particle)
 		}
 	}
@@ -172,16 +172,16 @@ calculate_density_pressure :: proc(p: ^Particle, grid: ^Grid) {
 	}
 
 	// Ensure density doesn't go below rest density (or a small fraction) to avoid issues
-	p.rho = math.max(p.rho, REST_DENSITY * 0.1) 
+	p.rho = max(p.rho, REST_DENSITY * 0.1) 
 
 	// Calculate pressure using Tait Equation of State
 	// P = k * ( (rho/rho0)^gamma - 1 )
 	density_ratio := p.rho / REST_DENSITY
 	// Clamp ratio power input to avoid NaN if density_ratio is negative (shouldn't happen with max check)
-	ratio_pow_gamma := math.pow(math.max(0, density_ratio), GAMMA) 
+	ratio_pow_gamma := math.pow(max(0, density_ratio), GAMMA) 
 	p.p = STIFFNESS * (ratio_pow_gamma - 1.0)
 	// Ensure pressure is non-negative (optional, depends on EOS interpretation)
-	p.p = math.max(0.0, p.p) 
+	p.p = max(0.0, p.p) 
 }
 
 // Calculates SPH forces (pressure, viscosity) for a single particle
@@ -431,7 +431,7 @@ mov_particles :: proc(particles: []Particle, grid: ^Grid, dt: f32) {
 // --- Main Application ---
 
 main :: proc() {
-	// Initialize particles
+	// Init particles
 	particles: [PARTICLE_COUNT]Particle
 	// Simple grid initialization
     // In your particle initialization code:

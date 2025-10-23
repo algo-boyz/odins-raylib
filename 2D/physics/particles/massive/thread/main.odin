@@ -19,7 +19,7 @@ Particle :: struct {
 
 // Shared data structure for worker threads
 WorkerData :: struct {
-    screen_width, screen_height:  f32,
+    WIDTH, HEIGHT:  f32,
     mouse_pos:     				  rl.Vector2,
     barrier:       				  ^sync.Barrier,
 	particles:     				  []Particle,
@@ -33,11 +33,11 @@ RenderBatch :: struct {
     count:     int,
 }
 
-particle_new :: proc(screen_width, screen_height: i32) -> Particle {
+particle_new :: proc(WIDTH, HEIGHT: i32) -> Particle {
     return Particle{
         pos = {
-            f32(rand.int31_max(screen_width)),
-            f32(rand.int31_max(screen_height)),
+            f32(rand.int31_max(WIDTH)),
+            f32(rand.int31_max(HEIGHT)),
         },
         vel = {
             f32(rand.int31_max(201) - 100) / 100.0,
@@ -190,7 +190,7 @@ particle_worker :: proc(arg: rawptr) {
         for i in data.start_idx..<data.end_idx {
             particle_attract(&data.particles[i], data.mouse_pos, 1.0)
             particle_do_friction(&data.particles[i], 0.99)
-            particle_move(&data.particles[i], data.screen_width, data.screen_height)
+            particle_move(&data.particles[i], data.WIDTH, data.HEIGHT)
         }
         // Signal that work is done
         sync.barrier_wait(data.barrier)
@@ -201,7 +201,7 @@ main :: proc() {
     particles := make([]Particle, NUM_PARTICLES)
     defer delete(particles)
     
-    // Initialize particles
+    // Init particles
     for i in 0..<NUM_PARTICLES {
         particles[i] = particle_new(WIDTH, HEIGHT)
     }
@@ -220,7 +220,7 @@ main :: proc() {
     particles_per_thread := NUM_PARTICLES / NUM_THREADS
     remainder := NUM_PARTICLES % NUM_THREADS
     
-    // Initialize worker data and spawn threads
+    // Init worker data and spawn threads
     for i in 0..<NUM_THREADS {
         start_idx := i * particles_per_thread
         end_idx := start_idx + particles_per_thread
@@ -269,8 +269,8 @@ main :: proc() {
         // Update shared data for all workers
         for i in 0..<NUM_THREADS {
             worker_data[i].mouse_pos = mouse_pos
-            worker_data[i].screen_width = WIDTH
-            worker_data[i].screen_height = HEIGHT
+            worker_data[i].WIDTH = WIDTH
+            worker_data[i].HEIGHT = HEIGHT
         }
         // Signal workers to start processing
         sync.barrier_wait(&barrier)

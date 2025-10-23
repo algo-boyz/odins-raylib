@@ -139,8 +139,8 @@ player_update :: proc(game: ^Game, dt: f32) {
     game.player.pos.y += math.sin_f32(f32(rl.GetTime()) * 5) * dt * 0.1
     
     // constraints
-    game.player.pos.x = math.max(-6, math.min(game.player.pos.x, 7))
-    game.player.angle = math.max(-15, math.min(game.player.angle, 15))
+    game.player.pos.x = max(-6, min(game.player.pos.x, 7))
+    game.player.angle = max(-15, min(game.player.angle, 15))
 }
 
 player_draw :: proc(player: ^Player) {
@@ -247,7 +247,7 @@ shoot_laser :: proc(game: ^Game, pos: rl.Vector3) {
 }
 
 game_import_assets :: proc(game: ^Game) {
-    // Initialize maps
+    // Init maps
     game.models = make(map[string]rl.Model)
     game.audio = make(map[string]rl.Sound)
     

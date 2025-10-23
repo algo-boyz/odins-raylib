@@ -290,7 +290,7 @@ gif_player_pause :: proc(player: ^GifPlayer) {
 
 // Set animation speed (frame delay)
 gif_player_set_speed :: proc(player: ^GifPlayer, frame_delay: int) {
-    player.frame_delay = math.clamp(frame_delay, MIN_FRAME_DELAY, MAX_FRAME_DELAY)
+    player.frame_delay = clamp(frame_delay, MIN_FRAME_DELAY, MAX_FRAME_DELAY)
 }
 
 // Get current playback information

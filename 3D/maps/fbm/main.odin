@@ -110,8 +110,8 @@ generate_terrain :: proc(seed: i32) -> []f32 {
     // Normalize the terrain
     min, max := terrain[0], terrain[0]
     for value in terrain {
-        min = math.min(min, value)
-        max = math.max(max, value)
+        min = min(min, value)
+        max = max(max, value)
     }
 
     for i := 0; i < len(terrain); i += 1 {
@@ -152,14 +152,14 @@ main :: proc() {
             delta := rl.GetMouseDelta()
             camera_angle.x += delta.y * 0.003
             camera_angle.y -= delta.x * 0.003
-            camera_angle.x = math.clamp(camera_angle.x, -math.PI / 3.0, math.PI / 3.0)
+            camera_angle.x = clamp(camera_angle.x, -math.PI / 3.0, math.PI / 3.0)
         }
 
         // Camera zoom
         wheel := rl.GetMouseWheelMove()
         if wheel != 0 {
             camera_distance *= (1.0 - wheel * 0.02)
-            camera_distance = math.clamp(camera_distance, 10.0, 300.0)
+            camera_distance = clamp(camera_distance, 10.0, 300.0)
         }
 
         // Update camera position
@@ -182,7 +182,7 @@ main :: proc() {
         }
 
         // Adjust water level
-        if rl.IsKeyDown(.COMMA) do water_level = math.max(0.0, water_level - 0.1)
+        if rl.IsKeyDown(.COMMA) do water_level = max(0.0, water_level - 0.1)
         if rl.IsKeyDown(.PERIOD) do water_level += 0.1
 
         // Drawing

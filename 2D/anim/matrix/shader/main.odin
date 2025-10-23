@@ -13,8 +13,8 @@ Streamer :: struct {
     text:      []rune,
 }
 
-SCREEN_WIDTH  :: 1280
-SCREEN_HEIGHT :: 800
+WIDTH  :: 1280
+HEIGHT :: 800
 CHAR_SIZE     :: 12
 MAX_STREAMERS :: 200
 
@@ -38,7 +38,7 @@ prepare_streamer :: proc(s: ^Streamer) {
         delete(s.text)
     }
     
-    s.column = rand.int31_max(SCREEN_WIDTH / CHAR_SIZE) * CHAR_SIZE
+    s.column = rand.int31_max(WIDTH / CHAR_SIZE) * CHAR_SIZE
     s.position = 0
     s.speed = f32(rand.int31_max(40) + 5)
     
@@ -50,19 +50,19 @@ prepare_streamer :: proc(s: ^Streamer) {
 }
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Matrix")
+    rl.InitWindow(WIDTH, HEIGHT, "Matrix")
     defer rl.CloseWindow()
     
     rl.SetTargetFPS(60)
     
     // Create a render texture to draw the matrix effect on
-    target := rl.LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT)
+    target := rl.LoadRenderTexture(WIDTH, HEIGHT)
     defer rl.UnloadRenderTexture(target)
     
     shader := rl.LoadShader("", "../assets/shader/basic2.fs")
     defer rl.UnloadShader(shader)
 
-    // Initialize streamers
+    // Init streamers
     streamers := make([dynamic]Streamer, MAX_STREAMERS)
     defer delete(streamers)
     
@@ -75,8 +75,8 @@ main :: proc() {
     quality := []f32{2.5}
     
     // Source rectangle for render texture
-    source_rec := rl.Rectangle{0, 0, f32(SCREEN_WIDTH), -f32(SCREEN_HEIGHT)}
-    dest_rec := rl.Rectangle{0, 0, f32(SCREEN_WIDTH), f32(SCREEN_HEIGHT)}
+    source_rec := rl.Rectangle{0, 0, f32(WIDTH), -f32(HEIGHT)}
+    dest_rec := rl.Rectangle{0, 0, f32(WIDTH), f32(HEIGHT)}
     
     for !rl.WindowShouldClose() {
         elapsed := rl.GetFrameTime()
@@ -95,7 +95,7 @@ main :: proc() {
             
             for i := 0; i < len(s.text); i += 1 {
                 y_pos := int(s.position) * CHAR_SIZE - (i * CHAR_SIZE)
-                if y_pos < -CHAR_SIZE || y_pos > SCREEN_HEIGHT {
+                if y_pos < -CHAR_SIZE || y_pos > HEIGHT {
                     continue
                 }
                 
@@ -150,7 +150,7 @@ main :: proc() {
             }
             
             // Reset streamer if it's gone off screen
-            if s.position * f32(CHAR_SIZE) - f32(len(s.text) * CHAR_SIZE) >= f32(SCREEN_HEIGHT) {
+            if s.position * f32(CHAR_SIZE) - f32(len(s.text) * CHAR_SIZE) >= f32(HEIGHT) {
                 prepare_streamer(&s)
             }
         }

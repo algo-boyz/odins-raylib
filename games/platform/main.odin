@@ -24,8 +24,8 @@ import lg "core:math/linalg"
 G :: 400
 PLAYER_JUMP_SPD:f32 : 350
 PLAYER_HOR_SPD:f32 : 200
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 450
+WIDTH :: 800
+HEIGHT :: 450
 
 Player :: struct {
     position: rl.Vector2,
@@ -55,7 +55,7 @@ camera_option: CameraOption
 delta: f32
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [core] example - 2d camera")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [core] example - 2d camera")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
     initGame()
@@ -77,7 +77,7 @@ initGame :: proc() {
     env_items[4] = {{ 650, 300, 100,  10 },  1, rl.GRAY }
 
     camera.target = player.position
-    camera.offset = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+    camera.offset = {WIDTH / 2, HEIGHT / 2}
     camera.rotation = 0
     camera.zoom = 1
 
@@ -171,13 +171,13 @@ drawGame :: proc() {
 }
 
 updateCameraCenter :: proc() {
-    camera.offset = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+    camera.offset = {WIDTH / 2, HEIGHT / 2}
     camera.target = player.position
 }
 
 updateCameraCenterClamp :: proc() {
     camera.target = player.position
-    camera.offset = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+    camera.offset = {WIDTH / 2, HEIGHT / 2}
     min_x, min_y, max_x, max_y:f32 = 1000, 1000, -1000, -1000
 
     for i in env_items {
@@ -190,10 +190,10 @@ updateCameraCenterClamp :: proc() {
     max := rl.GetWorldToScreen2D({max_x, max_y}, camera)
     min := rl.GetWorldToScreen2D({min_x, min_y}, camera)
 
-    if max.x < SCREEN_WIDTH do camera.offset.x = SCREEN_WIDTH - (max.x - SCREEN_WIDTH / 2)
-    if max.y < SCREEN_HEIGHT do camera.offset.y = SCREEN_HEIGHT - (max.y - SCREEN_HEIGHT / 2)
-    if min.x > 0 do camera.offset.x = SCREEN_WIDTH / 2 - min.x
-    if min.y > 0 do camera.offset.y = SCREEN_HEIGHT / 2 - min.y
+    if max.x < WIDTH do camera.offset.x = WIDTH - (max.x - WIDTH / 2)
+    if max.y < HEIGHT do camera.offset.y = HEIGHT - (max.y - HEIGHT / 2)
+    if min.x > 0 do camera.offset.x = WIDTH / 2 - min.x
+    if min.y > 0 do camera.offset.y = HEIGHT / 2 - min.y
 }
 
 updateCameraSmooth :: proc() {
@@ -201,7 +201,7 @@ updateCameraSmooth :: proc() {
     min_effect_length: f32 = 10
     fraction_speed: f32 = .8
 
-    camera.offset = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+    camera.offset = {WIDTH / 2, HEIGHT / 2}
     diff := player.position - camera.target
     length := lg.length(diff)
 
@@ -216,7 +216,7 @@ updateCameraHorizontalLand :: proc() {
    @(static) evening_out := false
    @(static) even_out_target: f32
 
-    camera.offset = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+    camera.offset = {WIDTH / 2, HEIGHT / 2}
     camera.target.x = player.position.x
 
     if evening_out {
@@ -248,9 +248,9 @@ updateCameraHorizontalLand :: proc() {
 updateCameraScreenEdge :: proc() {
     @(static) bbox:rl.Vector2 = {0.2, 0.2};
 
-    bbox_world_min: rl.Vector2 = rl.GetScreenToWorld2D({(1 - bbox.x) * 0.5 * SCREEN_WIDTH, (1 - bbox.y)* 0.5 * SCREEN_HEIGHT}, camera);
-    bbox_world_max: rl.Vector2 = rl.GetScreenToWorld2D({(1 + bbox.x) * 0.5 *SCREEN_WIDTH, (1 + bbox.y) * 0.5 * SCREEN_HEIGHT}, camera);
-    camera.offset = {(1 - bbox.x) * 0.5 * SCREEN_WIDTH, (1 - bbox.y) * 0.5 * SCREEN_HEIGHT};
+    bbox_world_min: rl.Vector2 = rl.GetScreenToWorld2D({(1 - bbox.x) * 0.5 * WIDTH, (1 - bbox.y)* 0.5 * HEIGHT}, camera);
+    bbox_world_max: rl.Vector2 = rl.GetScreenToWorld2D({(1 + bbox.x) * 0.5 *WIDTH, (1 + bbox.y) * 0.5 * HEIGHT}, camera);
+    camera.offset = {(1 - bbox.x) * 0.5 * WIDTH, (1 - bbox.y) * 0.5 * HEIGHT};
 
     if player.position.x < bbox_world_min.x do camera.target.x = player.position.x;
     if player.position.y < bbox_world_min.y do camera.target.y = player.position.y;

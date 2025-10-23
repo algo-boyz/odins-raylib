@@ -76,11 +76,11 @@ update_light :: proc(shader: rl.Shader, light: Light) {
 }
 
 main :: proc() {
-    screen_width :: 800
-    screen_height :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
     
     rl.SetConfigFlags({.MSAA_4X_HINT})
-    rl.InitWindow(screen_width, screen_height, "basic pbr")
+    rl.InitWindow(WIDTH, HEIGHT, "basic pbr")
     
     // Define camera to look into our 3d world
     camera := rl.Camera3D{

@@ -244,7 +244,7 @@ minimax :: proc(
 // Returns the best Move value
 find_best_move :: proc(board: ^Board, is_black_turn: bool) -> Move {
     engine: Engine
-    init_engine(&engine, board) // Initialize engine with the current board
+    init_engine(&engine, board) // Init engine with the current board
 
     // Define initial alpha-beta values
     alpha := min(int)

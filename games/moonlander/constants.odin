@@ -17,8 +17,8 @@ yellow :: rl.Color{243, 216, 63, 255}
 // Window and Game Screen
 window_width :: 1920
 window_height :: 1080
-screen_width :: 960
-screen_height :: 540
+WIDTH :: 960
+HEIGHT :: 540
 
 // State Flags
 exit_requested := false

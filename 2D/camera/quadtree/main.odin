@@ -24,8 +24,8 @@ Quadtree :: struct {
 }
 
 // Global Variables
-SCREEN_WIDTH :: 512
-SCREEN_HEIGHT :: 512
+WIDTH :: 512
+HEIGHT :: 512
 
 // State
 state := struct {
@@ -231,12 +231,12 @@ update_and_draw :: proc() {
 }
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib: quadtree")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib: quadtree")
     defer rl.CloseWindow()
 
     rl.SetTargetFPS(60)
 
-    // Initialize state
+    // Init state
     state.camera = create_camera(f32(state.quad_size)/2, f32(state.quad_size)/2, state.cam_fov)
     state.root = create_quadtree(0, 0, f32(state.quad_size), f32(state.quad_size), state.quad_depth)
     defer free_quadtree(state.root)

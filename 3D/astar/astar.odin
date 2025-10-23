@@ -245,8 +245,8 @@ is_pos_valid :: proc(m: ^Map, pos: [3]f32) -> bool {
     }
     // Check if position collides with obstacles
     for obstacle in m.obstacles {
-        if math.abs(pos.x - obstacle.x) < 1.0 &&
-           math.abs(pos.z - obstacle.z) < 1.0 {
+        if abs(pos.x - obstacle.x) < 1.0 &&
+           abs(pos.z - obstacle.z) < 1.0 {
             return false
         }
     }

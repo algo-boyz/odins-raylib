@@ -18,8 +18,8 @@ package line_bezier
 
 import rl "vendor:raylib"
 
-SCREEN_WIDTH ::  800
-SCREEN_HEIGHT :: 450
+WIDTH ::  800
+HEIGHT :: 450
 FPS ::           60
 
 mouse:             rl.Vector2
@@ -32,7 +32,7 @@ move_end_point:    bool
 main :: proc() {
     // Set config flags and manage winddo
     rl.SetConfigFlags(rl.ConfigFlags({.MSAA_4X_HINT}))
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [shapes] example - cubic-bezier lines")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [shapes] example - cubic-bezier lines")
     defer rl.CloseWindow()
     rl.SetTargetFPS(FPS)
 
@@ -45,7 +45,7 @@ main :: proc() {
 initGame :: proc() {
     // init game variables
     start_point = {30, 30}
-    end_point = {f32(SCREEN_WIDTH - 30), f32(SCREEN_HEIGHT - 30)}
+    end_point = {f32(WIDTH - 30), f32(HEIGHT - 30)}
     move_start_point = false
     move_end_point = false
 }

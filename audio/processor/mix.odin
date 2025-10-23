@@ -15,11 +15,11 @@ ProcessAudio :: proc "c" (buffer: rawptr, frames: c.uint) {
         left  := &samples[frame * 2 + 0]
         right := &samples[frame * 2 + 1]
 
-        left^  = math.pow(math.abs(left^),  exponent) * (left^  < 0 ? -1 : 1)
-        right^ = math.pow(math.abs(right^), exponent) * (right^ < 0 ? -1 : 1)
+        left^  = math.pow(abs(left^),  exponent) * (left^  < 0 ? -1 : 1)
+        right^ = math.pow(abs(right^), exponent) * (right^ < 0 ? -1 : 1)
 
-        average += math.abs(left^)  / f32(frames)
-        average += math.abs(right^) / f32(frames)
+        average += abs(left^)  / f32(frames)
+        average += abs(right^) / f32(frames)
     }
 
     for i in 0..<399 {

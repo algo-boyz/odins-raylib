@@ -1,7 +1,5 @@
 #version 330 core
 
-// based on: https://www.shadertoy.com/view/4dd3Rl
-
 in vec2 vs_uv;
 
 uniform float u_time;
@@ -205,8 +203,6 @@ vec4 intersect_box(vec3 ro, vec3 rd) // no top and bottom, just sides!
 {
     float t_min = 1000.0;
     vec3 t_normal;
-
-    // x = -box_x plane
     float t = (-box_x -ro.x) / rd.x;
     vec3 p = ro + t*rd;
 
@@ -214,8 +210,6 @@ vec4 intersect_box(vec3 ro, vec3 rd) // no top and bottom, just sides!
         t_normal = vec3(-1.0, 0.0, 0.0);
         t_min = t;
     }
-
-    // x = +box_x plane
     t = (box_x -ro.x) / rd.x;
     p = ro + t*rd;
 
@@ -225,8 +219,6 @@ vec4 intersect_box(vec3 ro, vec3 rd) // no top and bottom, just sides!
 			t_min = t;
         }
     }
-
-    // z = -box_z plane
 	t = (-box_z -ro.z) / rd.z;
     p = ro + t*rd;
     
@@ -236,8 +228,6 @@ vec4 intersect_box(vec3 ro, vec3 rd) // no top and bottom, just sides!
             t_min = t;
         }
     }
-    
-    // z = +box_z plane
 	t = (box_z -ro.z) / rd.z;
     p = ro + t*rd;
     
@@ -247,7 +237,6 @@ vec4 intersect_box(vec3 ro, vec3 rd) // no top and bottom, just sides!
             t_min = t;
         }
     }
-    
     if (t_min < 1000.0) return shadeBox(t_normal, ro + t_min*rd, rd);
     
     return bg;
@@ -321,9 +310,7 @@ vec4 trace_heightfield( vec3 ro, vec3 rd)
  	return shade(normal, p, rd);
 }
 
-// Shadertoy camera code by iq
-mat3 setCamera( in vec3 ro, in vec3 ta, float cr ) 
-{
+mat3 setCamera( in vec3 ro, in vec3 ta, float cr )  {
 	vec3 cw = normalize(ta-ro);
 	vec3 cp = vec3(sin(cr), cos(cr),0.0);
 	vec3 cu = normalize( cross(cw,cp) );
@@ -331,15 +318,15 @@ mat3 setCamera( in vec3 ro, in vec3 ta, float cr )
     return mat3( cu, cv, cw );
 }
 
-void main()
-{
-    vec2 p = (-u_resolution.xy + 2.0*gl_FragCoord.xy)/ u_resolution.y;
+void main() {
+    // Use UV coordinates properly, assuming they're in [0,1] range
+    // Convert to centered coordinates [-1,1] and maintain aspect ratio
+    vec2 p = (vs_uv - 0.5) * 2.0;
+    p.x *= u_aspect;
     vec2 m = u_mouse_pos;
     
-    m.y += 0.1; // adjusted for better initial view
-    m.x += 0.2; // adjusted for better initial view
-    
-    // camera positioned closer and looking more towards the center
+    m.y += 0.1;
+    m.x += 0.2;
     vec3 ro = 6.0*normalize(vec3(sin(3.0*m.x), 0.8*m.y + 0.4, cos(3.0*m.x))); // position
 	vec3 ta = vec3(0.0, -0.5, 0.0); // target adjusted to look at water surface
     mat3 ca = setCamera( ro, ta, 0.0 );

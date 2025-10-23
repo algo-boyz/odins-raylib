@@ -50,8 +50,8 @@ Colors :: enum {
 	Orange,
 }
 
-SCREEN_WIDTH :: 1280
-SCREEN_HEIGHT :: 720
+WIDTH :: 1280
+HEIGHT :: 720
 time_step: f32
 sub_steps: i32
 world_id: b2.WorldId
@@ -66,7 +66,7 @@ c_mode: [2]u8
 
 main :: proc() {
 	rl.SetConfigFlags({.MSAA_4X_HINT})
-	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Box2D")
+	rl.InitWindow(WIDTH, HEIGHT, "Box2D")
 	rl.SetTargetFPS(1000)
 	defer {
 		rl.CloseWindow()
@@ -267,7 +267,7 @@ drawGame :: proc() {
 	debugGame(box_size, "Box Size", clr[c_mode[1]].color, 20, 5, 30)
 	debugGame(ball_size, "Ball Size", clr[c_mode[0]].color, 20, 5, 60)
 
-	if pause do rl.DrawText("PRESS SPACE TO CONTINUE", SCREEN_WIDTH / 2 - rl.MeasureText("PRESS SPACE TO CONTINUE", 40) / 2, SCREEN_HEIGHT / 2 - 50, 40, rl.RED)
+	if pause do rl.DrawText("PRESS SPACE TO CONTINUE", WIDTH / 2 - rl.MeasureText("PRESS SPACE TO CONTINUE", 40) / 2, HEIGHT / 2 - 50, 40, rl.RED)
 }
 
 updateGame :: proc() {

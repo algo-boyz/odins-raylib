@@ -8,7 +8,6 @@ out vec4 fs_color;
 
 #define PI 3.141592
 
-// -----------------------------------------------------------------------
 // Simplex 3D Noise
 // by Ian McEwan, Stefan Gustavson (https://github.com/stegu/webgl-noise)
 vec4 permute(vec4 x) {
@@ -98,14 +97,11 @@ float snoise01(vec3 v) {
 
 void main() {
     vec3 color = vec3(0.0);
-
-    // -------------------------------------------------------------------
     // Space
     vec2 sp;
     float a;
     float r;
     float aw;
-
     {
         float aspect = u_aspect;
         float zoomout = 1.5;
@@ -120,7 +116,6 @@ void main() {
         a = 0.5 * (atan(sp.y, sp.x) / PI + 1.0);
         aw = 2.0 * abs(a - 0.5); // [1.0 -> 0.0 -> 1.0]
     }
-
     // Entropy sources
     float n0;
     float n1;
@@ -137,12 +132,9 @@ void main() {
         n2 = snoise(vec3(0.0, 20 * sp1.x, 20 * sp1.y));
         n0 = snoise(vec3(0.0, 50 * sp1.x - 0.4 * n1, 50 * sp1.y - 0.4 * n1));
     }
-
-    // -------------------------------------------------------------------
     // Shapes and signed distances
     float sd;
     float shape_idx;
-
     {
         float sd_square = 1.0 - max(abs(sp1.x), abs(sp1.y));
         float sd_circle = length(sp1) - 1.0;
@@ -152,13 +144,9 @@ void main() {
 
         shape_idx = float(sd == sd_square);
     }
-
-    // -------------------------------------------------------------------
     // Drawing
-
     // Line
     vec3 line_color;
-
     {
         vec3 color = mix(vec3(0.8, 1.0, 0.8), vec3(1.0, 0.8, 0.8), shape_idx);
         color *= (1.0 + sign(n0) * pow(abs(n0), 2.0));
@@ -169,10 +157,8 @@ void main() {
 
         line_color = color * line;
     }
-
     // Fabric
     vec3 fabric_color;
-
     {
         float max_sp = max(abs(sp1.x), abs(sp1.y));
         float fabric = 1.0 - smoothstep(0.0, 0.05, abs(sp1.y) - 1.3);
@@ -191,17 +177,14 @@ void main() {
 
         fabric_color = fabric * color + frame * color;
     }
-
     // Lighting
     vec3 light_color;
-
     {
         vec3 color = 0.25 * vec3(1.0, 0.9, 0.8);
         color *= (1.0 + 1.0 * pow(1.0 + n1, 2.0));
 
         light_color = color;
     }
-
     color = (line_color + fabric_color) * light_color;
     fs_color = vec4(color, 1.0);
 }

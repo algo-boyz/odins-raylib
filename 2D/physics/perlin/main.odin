@@ -35,13 +35,13 @@ Particle :: struct {
     max_life: f32,
 }
 
-SCREEN_WIDTH :: 1200
-SCREEN_HEIGHT :: 800
+WIDTH :: 1200
+HEIGHT :: 800
 GRID_SIZE :: 128
 PARTICLE_COUNT :: 1000
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Perlin Noise Showcase")
+    rl.InitWindow(WIDTH, HEIGHT, "Perlin Noise Showcase")
     rl.SetTargetFPS(60)
     
     state := State{
@@ -92,11 +92,11 @@ update_demo :: proc(state: ^State) {
     scroll := rl.GetMouseWheelMove()
     if scroll != 0 {
         state.scale *= 1.0 + scroll * 0.1
-        state.scale = math.clamp(state.scale, 0.001, 0.1)
+        state.scale = clamp(state.scale, 0.001, 0.1)
     }
     
     if rl.IsKeyDown(.LEFT_SHIFT) {
-        state.animation_speed = math.clamp(state.animation_speed + rl.GetMouseWheelMove() * 0.5, 0.1, 5.0)
+        state.animation_speed = clamp(state.animation_speed + rl.GetMouseWheelMove() * 0.5, 0.1, 5.0)
     }
     
     // Update particles for particle field
@@ -126,8 +126,8 @@ draw_demo :: proc(state: ^State) {
 }
 
 draw_terrain_2d :: proc(state: ^State) {
-    cell_width := f32(SCREEN_WIDTH) / f32(GRID_SIZE)
-    cell_height := f32(SCREEN_HEIGHT) / f32(GRID_SIZE)
+    cell_width := f32(WIDTH) / f32(GRID_SIZE)
+    cell_height := f32(HEIGHT) / f32(GRID_SIZE)
     
     for x in 0..<GRID_SIZE {
         for y in 0..<GRID_SIZE {
@@ -156,8 +156,8 @@ draw_terrain_2d :: proc(state: ^State) {
 
 draw_animated_waves :: proc(state: ^State) {
     step := 4
-    for x := 0; x < SCREEN_WIDTH; x += step {
-        for y := 0; y < SCREEN_HEIGHT; y += step {
+    for x := 0; x < WIDTH; x += step {
+        for y := 0; y < HEIGHT; y += step {
             noise_val := noise.get_noise_3d_with_octaves(
                 &state.noise,
                 f64(x) * f64(state.scale),
@@ -201,8 +201,8 @@ draw_particle_field :: proc(state: ^State) {
 
 draw_cloud_simulation :: proc(state: ^State) {
     cell_size := 6
-    for x := 0; x < SCREEN_WIDTH; x += cell_size {
-        for y := 0; y < SCREEN_HEIGHT; y += cell_size {
+    for x := 0; x < WIDTH; x += cell_size {
+        for y := 0; y < HEIGHT; y += cell_size {
             // Multi-layer cloud effect
             cloud1 := noise.get_noise_3d_with_octaves(
                 &state.noise,
@@ -220,7 +220,7 @@ draw_cloud_simulation :: proc(state: ^State) {
             )
             density := (cloud1 * 0.7 + cloud2 * 0.3)
             if density > 0.3 {
-                alpha := u8(math.clamp((density - 0.3) * 255 * 1.5, 0, 255))
+                alpha := u8(clamp((density - 0.3) * 255 * 1.5, 0, 255))
                 color := get_cloud_color(density, state.color_scheme, alpha)
                 
                 rl.DrawRectangle(i32(x), i32(y), i32(cell_size), i32(cell_size), color)
@@ -231,8 +231,8 @@ draw_cloud_simulation :: proc(state: ^State) {
 
 draw_marble_texture :: proc(state: ^State) {
     cell_size := 2
-    for x := 0; x < SCREEN_WIDTH; x += cell_size {
-        for y := 0; y < SCREEN_HEIGHT; y += cell_size {
+    for x := 0; x < WIDTH; x += cell_size {
+        for y := 0; y < HEIGHT; y += cell_size {
             // Create marble pattern using multiple noise octaves
             base_noise := noise.get_noise_2d_with_octaves(
                 &state.noise,
@@ -266,8 +266,8 @@ draw_marble_texture :: proc(state: ^State) {
 init_particles :: proc(state: ^State) {
     for &particle in state.particles {
         particle.pos = rl.Vector2{
-            f32(rl.GetRandomValue(0, SCREEN_WIDTH)),
-            f32(rl.GetRandomValue(0, SCREEN_HEIGHT)),
+            f32(rl.GetRandomValue(0, WIDTH)),
+            f32(rl.GetRandomValue(0, HEIGHT)),
         }
         particle.vel = rl.Vector2{0, 0}
         particle.life = f32(rl.GetRandomValue(50, 300)) / 100.0
@@ -306,10 +306,10 @@ update_particles :: proc(state: ^State) {
         particle.life -= rl.GetFrameTime()
         // Wrap around screen and reset if dead
         if particle.life <= 0 || 
-           particle.pos.x < 0 || particle.pos.x > SCREEN_WIDTH ||
-           particle.pos.y < 0 || particle.pos.y > SCREEN_HEIGHT {
-            particle.pos.x = f32(rl.GetRandomValue(0, SCREEN_WIDTH))
-            particle.pos.y = f32(rl.GetRandomValue(0, SCREEN_HEIGHT))
+           particle.pos.x < 0 || particle.pos.x > WIDTH ||
+           particle.pos.y < 0 || particle.pos.y > HEIGHT {
+            particle.pos.x = f32(rl.GetRandomValue(0, WIDTH))
+            particle.pos.y = f32(rl.GetRandomValue(0, HEIGHT))
             particle.vel = rl.Vector2{0, 0}
             particle.life = f32(rl.GetRandomValue(50, 300)) / 100.0
             particle.max_life = particle.life
@@ -416,5 +416,5 @@ draw_ui :: proc(state: ^State) {
     rl.DrawText("Wireframe: W | Colors: C", 10, ui_y, 16, rl.WHITE)
     ui_y += line_height
     fps_text := fmt.ctprintf("FPS: %d", rl.GetFPS())
-    rl.DrawText(fps_text, SCREEN_WIDTH - 100, 10, 16, rl.LIME)
+    rl.DrawText(fps_text, WIDTH - 100, 10, 16, rl.LIME)
 }

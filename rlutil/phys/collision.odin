@@ -79,12 +79,7 @@ plane_from_point_normal :: proc(point: Vec3, normal: Vec3) -> Plane {
     return {normal = normal, dist = dot(point, normal)}
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////
 // Distance to closest point
-//
-
 signed_distance_plane :: proc(point: Vec3, plane: Plane) -> f32 {
     // If plane equation normalized (||p.n||==1)
     return dot(point, plane.normal) - plane.dist
@@ -119,12 +114,7 @@ squared_distance_segment :: proc(point, a, b: Vec3) -> f32 {
     return dot(ac, ac) - e * e / f
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////
 // Closest point
-//
-
 closest_point_plane :: proc(point: Vec3, plane: Plane) -> Vec3 {
     t := dot(plane.normal, point) - plane.dist
     return point - t * plane.normal
@@ -211,7 +201,6 @@ closest_point_between_segments :: proc(p1, q1, p2, q2: Vec3) -> (t: [2]f32, poin
             }
         }
     }
-
     points[0] = p1 + d1 * t[0]
     points[1] = p2 + d2 * t[1]
     return t, points
@@ -265,12 +254,7 @@ closest_point_triangle :: proc(point, a, b, c: Vec3) -> Vec3 {
     return a + ab * v + ac * w // = u*a + v*b + w*c, u = va * denom = 1.0f-v-w
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////
 // Tests
-//
-
 test_aabb_vs_aabb :: proc(a, b: Aabb) -> bool {
     // Exit with no intersection if separated along an axis
     if a.max[0] < b.min[0] || a.min[0] > b.max[0] do return false
@@ -362,6 +346,7 @@ test_point_polyhedron :: proc(pos: Vec3, planes: []Plane) -> bool {
 }
 
 // Intersections
+
 // Given planes a and b, compute line L = p+t*d of their intersection.
 intersect_planes :: proc(a, b: Plane) -> (point, dir: Vec3, ok: bool) {
     // Compute direction of intersection line
@@ -415,7 +400,7 @@ intersect_static_aabb_vs_moving_aabb :: proc(a, b: Aabb, vel_relative: Vec3) -> 
         return 0, true
     }
 
-    // Initialize ts of first and last contact
+    // Init ts of first and last contact
     t = {0, 1}
 
     // For each axis, determine ts of first and last contact, if any

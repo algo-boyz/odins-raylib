@@ -8,12 +8,12 @@ Paddle :: struct {
     speed: f32,
 }
 
-paddle_limit_movement :: proc(using paddle: ^Paddle, screen_height: i32) {
+paddle_limit_movement :: proc(using paddle: ^Paddle, HEIGHT: i32) {
     if y <= 0 {
         y = 0
     }
-    if y + height >= f32(screen_height) {
-        y = f32(screen_height) - height
+    if y + height >= f32(HEIGHT) {
+        y = f32(HEIGHT) - height
     }
 }
 
@@ -21,22 +21,22 @@ paddle_draw :: proc(using paddle: ^Paddle) {
     rl.DrawRectangleRounded({x, y, width, height}, 0.8, 0, rl.WHITE)
 }
 
-paddle_update :: proc(using paddle: ^Paddle, screen_height: i32) {
+paddle_update :: proc(using paddle: ^Paddle, HEIGHT: i32) {
     if rl.IsKeyDown(.UP) {
         y -= f32(speed)
     }
     if rl.IsKeyDown(.DOWN) {
         y += f32(speed)
     }
-    paddle_limit_movement(paddle, screen_height)
+    paddle_limit_movement(paddle, HEIGHT)
 }
 
-cpu_paddle_update :: proc(using paddle: ^Paddle, ball_y: f32, screen_height: i32) {
+cpu_paddle_update :: proc(using paddle: ^Paddle, ball_y: f32, HEIGHT: i32) {
     if y + height / 2 > ball_y {
         y -= f32(speed)
     }
     if y + height / 2 <= ball_y {
         y += f32(speed)
     }
-    paddle_limit_movement(paddle, screen_height)
+    paddle_limit_movement(paddle, HEIGHT)
 }

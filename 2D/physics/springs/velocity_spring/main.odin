@@ -16,13 +16,13 @@ xi_prev: [HISTORY_MAX]f32
 
 main :: proc() {
     // Window initialization
-    screen_width :: 640
-    screen_height :: 360
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - spring damper")
+    WIDTH :: 640
+    HEIGHT :: 360
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - spring damper")
     
-    // Initialize variables
+    // Init variables
     t: f32 = 0.0
-    x := f32(screen_height / 2)
+    x := f32(HEIGHT / 2)
     v: f32 = 0.0
     g: f32 = x
     goal_offset: f32 = 600
@@ -38,7 +38,7 @@ main :: proc() {
 
     rl.SetTargetFPS(i32(1 / dt))
     
-    // Initialize history
+    // Init history
     for i := 0; i < HISTORY_MAX; i += 1 {
         x_prev[i] = x
         v_prev[i] = v

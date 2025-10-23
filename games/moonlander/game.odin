@@ -76,7 +76,7 @@ init_game :: proc(game_width, game_height: int) -> ^Game {
 	g.game_won = false
 	g.thrust_timeout = 0.1
 
-	g.target_render_tex = rl.LoadRenderTexture(screen_width, screen_height)
+	g.target_render_tex = rl.LoadRenderTexture(WIDTH, HEIGHT)
 	rl.SetTextureFilter(g.target_render_tex.texture, .BILINEAR)
 
 	g.font = rl.LoadFontEx("assets/OpenSansRegular.ttf", 64, nil, 0)
@@ -84,7 +84,7 @@ init_game :: proc(game_width, game_height: int) -> ^Game {
 	g.bg_music = rl.LoadMusicStream("assets/music.mp3")
 	rl.SetMusicVolume(g.bg_music, MUSIC_VOLUME)
 
-	// --- Initialize Starfield instead of loading a background texture ---
+	// --- Init Starfield instead of loading a background texture ---
 	g.starfield = init_starfield(game_width, game_height)
 
 	g.terrain_texture = rl.LoadTexture("assets/moon_surface.png")
@@ -109,15 +109,15 @@ init_game_state :: proc(g: ^Game) {
 	g.game_won = false
 	g.explosion_completed = false
 
-	g.screen_scale = min(f32(rl.GetScreenWidth()) / f32(screen_width), 
-	                                f32(rl.GetScreenHeight()) / f32(screen_height))
+	g.screen_scale = min(f32(rl.GetScreenWidth()) / f32(WIDTH), 
+	                                f32(rl.GetScreenHeight()) / f32(HEIGHT))
 
 	g.lives = 3
 	g.level = 1
 	g.input_delay = 0.3
 	g.playing_music = true
 
-	g.player_lander = init_lander(screen_width, screen_height)
+	g.player_lander = init_lander(WIDTH, HEIGHT)
 	randomize_starfield_movement(g.starfield, g.level)
 	randomize_terrain(g) // Generates terrain and sets player_landing_pad_x
 	set_terrain_reference(g.player_lander, &g.terrain_points[0], TERRAIN_POINTS_COUNT)
@@ -142,7 +142,7 @@ reset_game :: proc(g: ^Game) {
 	g.game_over = false
 	g.playing_music = true
 
-	reset(g.player_lander, screen_width, screen_height)
+	reset(g.player_lander, WIDTH, HEIGHT)
     randomize_starfield_movement(g.starfield, g.level)
 	randomize_terrain(g) // Will also update lander's landing_pad_x
 	set_terrain_reference(g.player_lander, &g.terrain_points[0], TERRAIN_POINTS_COUNT)
@@ -152,7 +152,7 @@ reset_game :: proc(g: ^Game) {
 game_update :: proc(g: ^Game, dt: f32) {
 	if dt == 0 { return }
 
-	g.screen_scale = min(f32(rl.GetScreenWidth()) / f32(screen_width), f32(rl.GetScreenHeight()) / f32(screen_height))
+	g.screen_scale = min(f32(rl.GetScreenWidth()) / f32(WIDTH), f32(rl.GetScreenHeight()) / f32(HEIGHT))
 	update_ui_state(g)
 
 	running := !g.start_time && !g.lost_window_focus && !g.is_exit_menu && !g.game_over && !g.game_won
@@ -211,7 +211,7 @@ game_update :: proc(g: ^Game, dt: f32) {
 					g.game_over = true
 				} else {
 					g.lives -= 1
-					reset(g.player_lander, screen_width, screen_height)
+					reset(g.player_lander, WIDTH, HEIGHT)
 					randomize_terrain(g)
 					set_terrain_reference(g.player_lander, &g.terrain_points[0], TERRAIN_POINTS_COUNT)
 					g.explosion_completed = false // Reset for next attempt
@@ -239,7 +239,7 @@ game_update :: proc(g: ^Game, dt: f32) {
 						}
 					}
 					g.level += 1
-					reset(g.player_lander, screen_width, screen_height)
+					reset(g.player_lander, WIDTH, HEIGHT)
 					randomize_starfield_movement(g.starfield, g.level)
 					randomize_terrain(g)
 					set_terrain_reference(g.player_lander, &g.terrain_points[0], TERRAIN_POINTS_COUNT)
@@ -305,10 +305,10 @@ game_draw :: proc(g: ^Game) {
 	rl.ClearBackground(black)
 	render_tex_src := rl.Rectangle{0, 0, f32(g.target_render_tex.texture.width), -f32(g.target_render_tex.texture.height)}
 	render_tex_dest := rl.Rectangle{
-		(f32(rl.GetScreenWidth()) - (f32(screen_width) * g.screen_scale)) * 0.5,
-		(f32(rl.GetScreenHeight()) - (f32(screen_height) * g.screen_scale)) * 0.5,
-		f32(screen_width) * g.screen_scale,
-		f32(screen_height) * g.screen_scale,
+		(f32(rl.GetScreenWidth()) - (f32(WIDTH) * g.screen_scale)) * 0.5,
+		(f32(rl.GetScreenHeight()) - (f32(HEIGHT) * g.screen_scale)) * 0.5,
+		f32(WIDTH) * g.screen_scale,
+		f32(HEIGHT) * g.screen_scale,
 	}
 	rl.DrawTexturePro(g.target_render_tex.texture, render_tex_src, render_tex_dest, {0, 0}, 0.0, rl.WHITE)
 	rl.EndDrawing()
@@ -322,8 +322,8 @@ draw_terrain :: proc(g: ^Game) {
             p2 := g.terrain_points[i+1]
             rl.DrawLineV(p1, p2, rl.GRAY)
 
-            p1_bottom := rl.Vector2{p1.x, f32(screen_height)}
-            p2_bottom := rl.Vector2{p2.x, f32(screen_height)}
+            p1_bottom := rl.Vector2{p1.x, f32(HEIGHT)}
+            p2_bottom := rl.Vector2{p2.x, f32(HEIGHT)}
             
             rl.DrawTriangle(p1, p2, p1_bottom, rl.DARKGRAY)
             rl.DrawTriangle(p2, p2_bottom, p1_bottom, rl.DARKGRAY)
@@ -369,8 +369,8 @@ draw_terrain :: proc(g: ^Game) {
             source.height = tex_h                      // Use the full height of the texture image.
             
             // Destination rectangle calculation
-            y_top_dest := math.min(y1_sub, y2_sub)
-            height_dest := f32(screen_height) - y_top_dest
+            y_top_dest := min(y1_sub, y2_sub)
+            height_dest := f32(HEIGHT) - y_top_dest
             
             // Ensure width and height are positive for the dest rectangle
             width_dest_check := subdivision_width_on_screen
@@ -402,10 +402,10 @@ draw_terrain :: proc(g: ^Game) {
 
 draw_centered_text :: proc(font: rl.Font, text: cstring, y_pos: f32, font_size: f32, spacing: f32, color: rl.Color, box_dims: rl.Vector2 = {0,0}, box_color: rl.Color = black) {
 	text_size := rl.MeasureTextEx(font, text, font_size, spacing)
-	pos_x := (f32(screen_width) - text_size.x) / 2
+	pos_x := (f32(WIDTH) - text_size.x) / 2
 	
 	if box_dims.x > 0 && box_dims.y > 0 { // Draw background box if dimensions provided
-		box_x := (f32(screen_width) - box_dims.x) / 2
+		box_x := (f32(WIDTH) - box_dims.x) / 2
 		box_y_val := y_pos - (box_dims.y - font_size)/2 - 5
 		rl.DrawRectangleRounded(rl.Rectangle{box_x, box_y_val, box_dims.x, box_dims.y}, 0.2, 10, box_color)
 	}
@@ -437,8 +437,8 @@ draw_ui_elements :: proc(g: ^Game) {
 			text_size := rl.MeasureTextEx(g.font, warning_text, 28, 2)
 			box_w := text_size.x + 40
 			box_h := text_size.y + 20
-			box_x := f32(screen_width)/2 - box_w/2
-			box_y := f32(screen_height)/2 - 110
+			box_x := f32(WIDTH)/2 - box_w/2
+			box_y := f32(HEIGHT)/2 - 110
 			
 			rl.DrawRectangle(i32(box_x), i32(box_y), i32(box_w), i32(box_h), rl.Fade(black, 0.7))
 			rl.DrawRectangleLines(i32(box_x), i32(box_y), i32(box_w), i32(box_h), rl.Fade(warning_color, alpha))
@@ -446,7 +446,7 @@ draw_ui_elements :: proc(g: ^Game) {
 		}
 	}
 	// Game State Messages
-	msg_y := f32(screen_height / 2)
+	msg_y := f32(HEIGHT / 2)
 	msg_box_h :: 70.0
     msg_box_w:f32 = 500.0
     
@@ -460,7 +460,7 @@ draw_ui_elements :: proc(g: ^Game) {
 		welcome_box_y_center := msg_y - 25 // Roughly center the box
         
         // Draw background box for welcome message
-        box_x_welcome := (f32(screen_width) - welcome_box_w) / 2
+        box_x_welcome := (f32(WIDTH) - welcome_box_w) / 2
         box_y_welcome := welcome_box_y_center - welcome_box_h / 2 + 25
 		rl.DrawRectangleRounded(rl.Rectangle{box_x_welcome, box_y_welcome, welcome_box_w, welcome_box_h}, 0.2, 10, black)
 
@@ -527,7 +527,7 @@ draw_ui_elements :: proc(g: ^Game) {
 
 	draw_stat :: proc(font: rl.Font, text: cstring, line_num: int, color: rl.Color) {
 		size := rl.MeasureTextEx(font, text, font_sz_stats, font_sp_stats)
-		pos := rl.Vector2{f32(screen_width - int(size.x) - right_margin), f32(start_y + line_h * line_num)}
+		pos := rl.Vector2{f32(WIDTH - int(size.x) - right_margin), f32(start_y + line_h * line_num)}
 		rl.DrawTextEx(font, text, pos, font_sz_stats, font_sp_stats, color)
 	}
 
@@ -561,22 +561,22 @@ draw_ui_elements :: proc(g: ^Game) {
 	// Music toggle text
 	music_status_text := fmt.ctprintf("Press M to toggle music (%s)", "ON" if g.playing_music else "OFF")
 	music_text_size := rl.MeasureTextEx(g.font, music_status_text, 25, 1)
-	music_pos_x := (f32(screen_width) - music_text_size.x) / 2
-	music_pos_y := f32(screen_height - 30)
+	music_pos_x := (f32(WIDTH) - music_text_size.x) / 2
+	music_pos_y := f32(HEIGHT - 30)
 	rl.DrawTextEx(g.font, music_status_text, {music_pos_x, music_pos_y}, 25, 1, rl.WHITE)
 }
 
 
 randomize_terrain :: proc(g: ^Game) {
-	segment_w := f32(screen_width) / f32(TERRAIN_POINTS_COUNT - 1)
+	segment_w := f32(WIDTH) / f32(TERRAIN_POINTS_COUNT - 1)
 	// Heights are from top of screen. min_h is "higher" on screen (smaller Y value).
-	min_h := f32(screen_height) - MIN_TERRAIN_HEIGHT_FROM_BOTTOM
-	max_h := f32(screen_height) - MAX_TERRAIN_HEIGHT_FROM_BOTTOM
+	min_h := f32(HEIGHT) - MIN_TERRAIN_HEIGHT_FROM_BOTTOM
+	max_h := f32(HEIGHT) - MAX_TERRAIN_HEIGHT_FROM_BOTTOM
 	
 	// Update lander's target landing_pad_x, as terrain gen depends on it
 	landing_pad_center_x := get_landing_pad_x(g.player_lander)
 	landing_pad_half_w :f32 = 50.0
-	landing_pad_terrain_y := f32(screen_height - 50) // Y of the flat part
+	landing_pad_terrain_y := f32(HEIGHT - 50) // Y of the flat part
 
 	for i := 0; i < TERRAIN_POINTS_COUNT; i += 1 {
 		x := f32(i) * segment_w

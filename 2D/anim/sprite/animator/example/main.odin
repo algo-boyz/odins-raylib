@@ -4,16 +4,16 @@ import "core:fmt"
 import rl "vendor:raylib"
 import anim "../"
 
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 600
+WIDTH :: 800
+HEIGHT :: 600
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "sprite animation")
+    rl.InitWindow(WIDTH, HEIGHT, "sprite animation")
     defer rl.CloseWindow()
     
     rl.SetTargetFPS(120)
     
-    // Initialize animator and sprite
+    // Init animator and sprite
     sprite_animator := anim.new_animator(
         animator_name = "GiveItAName",
         frames_per_row = 6,
@@ -30,8 +30,8 @@ main :: proc() {
     
     // Set sprite location
     location := rl.Vector2{
-        SCREEN_WIDTH / 3.5,
-        SCREEN_HEIGHT - 150,
+        WIDTH / 3.5,
+        HEIGHT - 150,
     }
     
     // Assign sprite to animator

@@ -3,6 +3,7 @@ package main
 import rl "vendor:raylib"
 import "core:math"
 import "core:fmt"
+import "../../../rlutil/gif"
 
 WIDTH :: 1200
 HEIGHT :: 800
@@ -45,7 +46,7 @@ show_dropdown: bool = false
 dropdown_scroll: int = 0
 
 // Reaction-diffusion params
-D_A: f32 = 1.0
+D_A: f32 = 1
 D_B: f32 = 0.5
 f: f32 = 0.0545  // Feed rate
 k: f32 = 0.062   // Kill rate
@@ -63,7 +64,8 @@ main :: proc() {
     rl.InitWindow(WIDTH, HEIGHT, "Chemical Reaction Diffusion Simulation")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
-
+    grec := gif.new_recorder("preview.gif", 12, 600)
+    defer gif.recorder_cleanup(&grec)
     luminescent_shader = rl.LoadShaderFromMemory(nil, fragment_shader_code)
     time_uniform = rl.GetShaderLocation(luminescent_shader, "time")
     defer rl.UnloadShader(luminescent_shader)
@@ -74,6 +76,7 @@ main :: proc() {
     for !rl.WindowShouldClose() {
         rl.BeginDrawing()
         rl.ClearBackground(rl.BLACK)
+        gif.recorder_update(&grec)
             
             // Update shader time
             time_value := f32(rl.GetTime())
@@ -253,7 +256,7 @@ handle_input :: proc() {
                     nx := x + dx
                     ny := y + dy
                     if nx >= 0 && nx < LEN_ROW && ny >= 0 && ny < LEN_COL {
-                        grid[nx][ny].B = 1.0
+                        grid[nx][ny].B = 1
                     }
                 }
             }

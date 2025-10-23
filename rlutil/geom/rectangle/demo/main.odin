@@ -5,8 +5,8 @@ import "core:math"
 import rl "vendor:raylib"
 import rec "../"
 
-SCREEN_WIDTH :: 1200
-SCREEN_HEIGHT :: 800
+WIDTH :: 1200
+HEIGHT :: 800
 
 State :: struct {
     mouse_pos: rl.Vector2,
@@ -21,7 +21,7 @@ State :: struct {
 }
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Rectangle Utilities Demo")
+    rl.InitWindow(WIDTH, HEIGHT, "Rectangle Utilities Demo")
     rl.SetTargetFPS(60)
     
     state := State{

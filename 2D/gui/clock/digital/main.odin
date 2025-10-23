@@ -4,8 +4,8 @@ import "core:time"
 import rl "vendor:raylib"
 import "../../../../rlutil"
 
-draw_separator :: proc(offset, led_width, screen_height: i32, color: rl.Color) -> i32 {
-    pad := (screen_height - 2 * led_width) / 3
+draw_separator :: proc(offset, led_width, HEIGHT: i32, color: rl.Color) -> i32 {
+    pad := (HEIGHT - 2 * led_width) / 3
     rl.DrawRectangle(offset + led_width, pad, led_width, led_width, color)
     rl.DrawRectangle(offset + led_width, pad + pad + led_width, led_width, led_width, color)
     return offset + 2 * led_width
@@ -142,11 +142,11 @@ main :: proc() {
     
     for !rl.WindowShouldClose() {
         // Calculate dimensions based on the current window size
-        screen_width := rl.GetScreenWidth()
-        screen_height := rl.GetScreenHeight()
-        led_width := screen_width / (23 * 2)
-        h_led_length := (screen_width - led_width * 23) / 6
-        v_led_length := (screen_height - led_width * 5) / 2
+        WIDTH := rl.GetScreenWidth()
+        HEIGHT := rl.GetScreenHeight()
+        led_width := WIDTH / (23 * 2)
+        h_led_length := (WIDTH - led_width * 23) / 6
+        v_led_length := (HEIGHT - led_width * 5) / 2
 
         // Get current time
         hour, minute, second, _ := rlutil.clock_from_nano(time.now()._nsec)
@@ -170,7 +170,7 @@ main :: proc() {
                                 i32(hour % 10), led_options[selected_color])
             
             // Draw separator
-            offset = draw_separator(offset, led_width, screen_height, led_options[selected_color])
+            offset = draw_separator(offset, led_width, HEIGHT, led_options[selected_color])
             
             // Draw Minutes
             offset = draw_digit(offset, h_led_length, v_led_length, led_width, 
@@ -179,7 +179,7 @@ main :: proc() {
                                 i32(minute % 10), led_options[selected_color])
             
             // Draw separator
-            offset = draw_separator(offset, led_width, screen_height, led_options[selected_color])
+            offset = draw_separator(offset, led_width, HEIGHT, led_options[selected_color])
             
             // Draw Seconds
             offset = draw_digit(offset, h_led_length, v_led_length, led_width, 

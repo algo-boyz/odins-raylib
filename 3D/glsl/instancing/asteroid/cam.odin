@@ -74,7 +74,7 @@ update_mouse_movement :: proc(camera: ^Camera_FP, xoffset, yoffset: f32) {
 
     // Make sure that when pitch is out of bounds, screen doesn't get flipped.
     if camera.constrain_pitch {
-        camera.pitch = math.clamp(camera.pitch, -89.0, 89.0)
+        camera.pitch = clamp(camera.pitch, -89.0, 89.0)
     }
     
     // Update Front, Right and Up Vectors using the updated Euler angles
@@ -83,8 +83,8 @@ update_mouse_movement :: proc(camera: ^Camera_FP, xoffset, yoffset: f32) {
 
 // update_zoom modifies the camera's field of view based on scroll wheel input
 update_zoom :: proc(camera: ^Camera_FP, yoffset: f32) {
-    // Odin's math.clamp is perfect for this
-    camera.view.fovy = math.clamp(camera.view.fovy - yoffset, 1.0, 45.0)
+    // Odin's clamp is perfect for this
+    camera.view.fovy = clamp(camera.view.fovy - yoffset, 1.0, 45.0)
 }
 
 // get_movement calculates the movement vector based on keyboard input.

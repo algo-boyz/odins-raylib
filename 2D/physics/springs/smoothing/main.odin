@@ -17,16 +17,16 @@ State :: struct {
 
 main :: proc() {
     // Init Window
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - smoothing")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - smoothing")
     
     // Init Variables
     state := State{}
     
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goal_offset := f32(600)
@@ -40,7 +40,7 @@ main :: proc() {
     
     rl.SetTargetFPS(i32(1.0 / dt))
     
-    // Initialize history arrays
+    // Init history arrays
     for i in 0..<HISTORY_MAX {
         state.x_prev[i] = x
         state.v_prev[i] = v

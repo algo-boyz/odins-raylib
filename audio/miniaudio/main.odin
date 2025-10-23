@@ -25,7 +25,7 @@ main :: proc() {
         last_update = time.now(),
     }
 
-    // Initialize Raylib for GUI
+    // Init Raylib for GUI
     rl.InitWindow(800, 600, "Audio Wrapper Demo")
     rl.SetTargetFPS(60)
     
@@ -34,7 +34,7 @@ main :: proc() {
     
     defer rl.CloseWindow()
 
-    // Initialize audio engine
+    // Init audio engine
     success, err := mini.init_audio()
     if !success {
         fmt.printf("Failed to initialize audio: %v\n", err)

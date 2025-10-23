@@ -43,7 +43,7 @@ DEFAULT_TYPEWRITER_CONFIG :: TypewriterConfig{
     skip_space_sounds = true,
 }
 
-// Initialize a typewriter instance
+// Init a typewriter instance
 init_typewriter :: proc(strings: []string, x, y, font_size: i32, text_color, glow_color: rl.Color, sound: rl.Sound, config: TypewriterConfig) -> Typewriter {
     return Typewriter{
         strings = strings,

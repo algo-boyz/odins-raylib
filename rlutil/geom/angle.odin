@@ -5,7 +5,7 @@ import "core:math"
 PI : f32 = math.PI;
 
 // Return the angle from - to in float
-get_angle :: proc(x1, y1, x2, y2: f32) -> f32 {
+angle :: proc(x1, y1, x2, y2: f32) -> f32 {
     return math.atan2_f32(y2 - y1, x2 - x1);
 }
 
@@ -27,4 +27,17 @@ angle_diff :: proc(angle1, angle2: f32) -> f32 {
     }
 
     return diff;
+}
+
+// cos_range returns a value between a and b based on the cosine of radian input.
+// The result is in the range [a, b] when rad is in the range [0, PI].
+// When rad is outside this range, the result will be outside [a, b].
+//
+// Example: cos_range(0, 10, 0) returns 0, cos_range(0, 10, PI) returns 10.
+// Example: cos_range(0, 10, PI/2) returns 5.
+//
+// Useful for smooth transitions or animations.
+cos_range :: proc(a, b, rad: f32) -> f32 {
+    s := math.cos(rad) * 0.5 + 0.5
+    return a + (b - a) * s
 }

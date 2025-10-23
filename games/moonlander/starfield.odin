@@ -88,7 +88,7 @@ init_starfield :: proc(width, height: int) -> ^Starfield {
 
 update_starfield :: proc(g: ^Game) {
 	sf := g.starfield
-	scr_w, scr_h := screen_width, screen_height
+	scr_w, scr_h := WIDTH, HEIGHT
 
     // Timer logic removed. Direction and velocity are constant for the level.
 	for i in 0 ..< NUM_STARS {

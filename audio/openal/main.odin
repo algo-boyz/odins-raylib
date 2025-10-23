@@ -190,10 +190,10 @@ apply_weighted_avg :: proc(a: ^AL, avg_size: int) {
         sum := f32(0)
         weight_sum := f32(0)
 
-        start := math.max(i - avg_size, 0)
-        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        start := max(i - avg_size, 0)
+        end := min(i + avg_size, BUFFER_SIZE - 1)
         for j := start; j <= end; j += 1 {
-            weight := 1.0 - f32(math.abs(i - j)) / f32(avg_size)
+            weight := 1.0 - f32(abs(i - j)) / f32(avg_size)
             sum += a.fft[j] * weight
             weight_sum += weight
         }
@@ -210,8 +210,8 @@ apply_box_filter :: proc(a: ^AL, avg_size: int) {
 
     for i := 0; i < BUFFER_SIZE; i += 1 {
         sum := f32(0)
-        start := math.max(i - avg_size, 0)
-        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        start := max(i - avg_size, 0)
+        end := min(i + avg_size, BUFFER_SIZE - 1)
         for j := start; j <= end; j += 1 {
             sum += a.fft[j]
         }
@@ -226,7 +226,7 @@ apply_box_filter :: proc(a: ^AL, avg_size: int) {
 apply_block_avg :: proc(a: ^AL, avg_size: int) {
     for i := 0; i < BUFFER_SIZE; i += avg_size {
         sum := f32(0)
-        end := math.min(i + avg_size, BUFFER_SIZE - 1)
+        end := min(i + avg_size, BUFFER_SIZE - 1)
         for j := i; j <= end; j += 1 {
             sum += a.fft[j]
         }

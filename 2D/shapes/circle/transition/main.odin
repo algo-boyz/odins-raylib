@@ -3,12 +3,12 @@ package main
 import "core:fmt"
 import rl "vendor:raylib"
 
-circle_transition :: proc(radius: i32, screen_width: i32, screen_height: i32, col: rl.Color) {
-    xc := screen_width / 2
-    yc := screen_height / 2
+circle_transition :: proc(radius: i32, WIDTH: i32, HEIGHT: i32, col: rl.Color) {
+    xc := WIDTH / 2
+    yc := HEIGHT / 2
     // Draw masked circle transition
-    for y in 0..<screen_height {
-        for x in 0..<screen_width {
+    for y in 0..<HEIGHT {
+        for x in 0..<WIDTH {
             // Calculate distance from center
             dx := abs(x - xc)
             dy := abs(y - yc)
@@ -21,17 +21,17 @@ circle_transition :: proc(radius: i32, screen_width: i32, screen_height: i32, co
 }
 
 main :: proc() {
-    screen_width  : i32 = 800
-    screen_height : i32 = 450
+    WIDTH  : i32 = 800
+    HEIGHT : i32 = 450
     radius, state :i32
     
-    rl.InitWindow(screen_width, screen_height, "Circle Transition")
+    rl.InitWindow(WIDTH, HEIGHT, "Circle Transition")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
 
     for !rl.WindowShouldClose() {
         // Grow and shrink radius
-        if state == 0 && radius < i32(f32(screen_width) / 1.5) {
+        if state == 0 && radius < i32(f32(WIDTH) / 1.5) {
             radius += 10
         } else {
             state = 1
@@ -43,7 +43,7 @@ main :: proc() {
         }
         rl.BeginDrawing()
         rl.ClearBackground(rl.RAYWHITE)
-        circle_transition(radius, screen_width, screen_height, rl.BLACK)
+        circle_transition(radius, WIDTH, HEIGHT, rl.BLACK)
         rl.EndDrawing()
     }
 }

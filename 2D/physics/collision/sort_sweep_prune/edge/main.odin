@@ -6,8 +6,8 @@ import "core:fmt"
 import "core:sort"
 
 NUM_ENEMIES :: 20
-SCREEN_WIDTH :: 1200
-SCREEN_HEIGHT :: 720
+WIDTH :: 1200
+HEIGHT :: 720
 
 Enemy :: struct {
     position: [2]f32,
@@ -34,8 +34,8 @@ create_enemy :: proc() {
     random_num := rand.int31()
     enemy := Enemy{
         position = [2]f32{
-            rand.float32_range(150, SCREEN_WIDTH-150),
-            rand.float32_range(150, SCREEN_HEIGHT-150) ,
+            rand.float32_range(150, WIDTH-150),
+            rand.float32_range(150, HEIGHT-150) ,
         },
         velocity = [2]f32{
             rand.float32_range(-4,4),
@@ -66,7 +66,7 @@ is_key_pressed :: proc(key: rl.KeyboardKey) -> bool {
 }
 
 main :: proc() {
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sort, Sweep and Prune")
+    rl.InitWindow(WIDTH, HEIGHT, "Sort, Sweep and Prune")
     rl.SetTargetFPS(60)
 
     //Prepare enemies and create Edge array
@@ -99,10 +99,10 @@ main :: proc() {
             enemy.position.x += enemy.velocity.x
             enemy.position.y += enemy.velocity.y
 
-            if enemy.position.x >= (SCREEN_WIDTH - enemy.width/2) || enemy.position.x <= enemy.width/2 {
+            if enemy.position.x >= (WIDTH - enemy.width/2) || enemy.position.x <= enemy.width/2 {
                 enemy.velocity.x *= -1
             }
-            if enemy.position.y >= (SCREEN_HEIGHT - enemy.height/2) || enemy.position.y <= enemy.height/2 { 
+            if enemy.position.y >= (HEIGHT - enemy.height/2) || enemy.position.y <= enemy.height/2 { 
                 enemy.velocity.y *= -1
             }
         }

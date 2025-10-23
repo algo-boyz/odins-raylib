@@ -143,7 +143,7 @@ camera_update :: proc(bcamera: ^Camera) {
                 
                 // Verify the new position won't cause gimbal lock
                 new_direction := rl.Vector3Normalize(bcamera.camera.target - new_position)
-                up_dot := math.abs(rl.Vector3DotProduct(new_direction, {0, 1, 0}))
+                up_dot := abs(rl.Vector3DotProduct(new_direction, {0, 1, 0}))
                 
                 // Only update if we're not too close to the poles
                 if up_dot < 0.99 {
@@ -203,10 +203,10 @@ camera_update :: proc(bcamera: ^Camera) {
 }
 
 // main :: proc() {
-//     screen_width :: 800
-//     screen_height :: 450
+//     WIDTH :: 800
+//     HEIGHT :: 450
 
-//     rl.InitWindow(screen_width, screen_height, "Blender Camera")
+//     rl.InitWindow(WIDTH, HEIGHT, "Blender Camera")
 //     defer rl.CloseWindow()
 
 //     bcam := camera_init()
@@ -233,7 +233,7 @@ camera_update :: proc(bcamera: ^Camera) {
 //         } else {
 //             rl.DrawText("Blender Camera Mode: GIMBAL_ORBIT", 10, 10, 20, BLENDER_GREY)
 //         }
-//         rl.DrawFPS(10, screen_height - 30)
+//         rl.DrawFPS(10, HEIGHT - 30)
 //         rl.EndDrawing()
 //     }
 // }

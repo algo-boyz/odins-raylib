@@ -11,25 +11,25 @@ WindowState :: struct {
 }
 
 main :: proc() {
-    screen_width :: 800
-    screen_height :: 450
+    WIDTH :: 800
+    HEIGHT :: 450
 
     rl.SetConfigFlags({.WINDOW_TRANSPARENT})
-    rl.InitWindow(screen_width, screen_height, "Transparent Drag Me Window")
+    rl.InitWindow(WIDTH, HEIGHT, "Transparent Drag Me Window")
     
     state := WindowState{
         position = {
-            f32(rl.GetMonitorWidth(0) / 2 - screen_width / 2),
-            f32(rl.GetMonitorHeight(0) / 2 - screen_height / 2),
+            f32(rl.GetMonitorWidth(0) / 2 - WIDTH / 2),
+            f32(rl.GetMonitorHeight(0) / 2 - HEIGHT / 2),
         },
     }
     state.last_position = state.position
-    state.window_center = {f32(screen_width) / 2, f32(screen_height) / 2}
+    state.window_center = {f32(WIDTH) / 2, f32(HEIGHT) / 2}
     
     rl.SetWindowPosition(i32(state.position.x), i32(state.position.y))
     rl.SetWindowState({.WINDOW_UNDECORATED})
 
-    target := rl.LoadRenderTexture(screen_width, screen_height)
+    target := rl.LoadRenderTexture(WIDTH, HEIGHT)
     rl.SetTargetFPS(60)
 
     for !rl.WindowShouldClose() {

@@ -42,7 +42,7 @@ inertialize_function2 :: proc(g, gv: ^f32, t: f32) {
 }
 
 main :: proc() {
-    // Initialize history arrays
+    // Init history arrays
     x_prev := make([]f32, HISTORY_MAX)
     v_prev := make([]f32, HISTORY_MAX)
     t_prev := make([]f32, HISTORY_MAX)
@@ -52,15 +52,15 @@ main :: proc() {
     defer delete(t_prev)
     defer delete(g_prev)
 
-    screen_width  :: 640
-    screen_height :: 360
+    WIDTH  :: 640
+    HEIGHT :: 360
 
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - inertialization")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - inertialization")
     defer rl.CloseWindow()
 
     // Init Variables
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goal_offset := f32(600)
@@ -73,7 +73,7 @@ main :: proc() {
     off_v := f32(0.0)
     inertialize_toggle := false
 
-    // Initialize history arrays
+    // Init history arrays
     for i := 0; i < HISTORY_MAX; i += 1 {
         x_prev[i] = x
         v_prev[i] = v

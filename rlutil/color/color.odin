@@ -101,6 +101,17 @@ luminance :: proc(color: rl.Color) -> f32 {
             (0.0722 * srgb(cast(f32)color.b))) / 255)
 }
 
+contrast_color :: proc(color: rl.Color) -> rl.Color {
+	// Calculate luminance of color
+	lum := luminance(color)
+	// Return black or white based on luminance
+	if lum > 0.5 {
+		return rl.BLACK
+	} else {
+		return rl.WHITE
+	}
+}
+
 // Calculate the contrast ratio between two colors
 contrast :: proc(fg, bg: rl.Color) -> f32 {
     l1 := luminance(fg)
@@ -111,9 +122,9 @@ contrast :: proc(fg, bg: rl.Color) -> f32 {
 // Darken a color by a given amount
 darken :: proc(color : rl.Color, amount : int = 20) -> rl.Color {
 	return rl.Color{
-		u8(math.max(0, cast(int)color.r - amount)),
-		u8(math.max(0, cast(int)color.g - amount)),
-		u8(math.max(0, cast(int)color.b - amount)),
+		u8(max(0, cast(int)color.r - amount)),
+		u8(max(0, cast(int)color.g - amount)),
+		u8(max(0, cast(int)color.b - amount)),
 		color.a,
 	}
 }
@@ -126,9 +137,9 @@ is_dark :: proc(c: rl.Color) -> b64 {
 // Lighten a color by a given amount
 lighten :: proc(color : rl.Color, amount : int = 20) -> rl.Color {
 	return rl.Color{
-		u8(math.min(255, cast(int)color.r + amount)),
-		u8(math.min(255, cast(int)color.g + amount)),
-		u8(math.min(255, cast(int)color.b + amount)),
+		u8(min(255, cast(int)color.r + amount)),
+		u8(min(255, cast(int)color.g + amount)),
+		u8(min(255, cast(int)color.b + amount)),
 		color.a,
 	}
 }
@@ -144,7 +155,7 @@ set_alpha :: proc(color : rl.Color, val : f32) -> rl.Color {
 		color.r,
 		color.g,
 		color.b,
-		u8(math.clamp(val * 255, 0, 255)),
+		u8(clamp(val * 255, 0, 255)),
 	}
 }
 

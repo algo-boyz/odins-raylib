@@ -1,8 +1,29 @@
 package geom
 
-import "core:math/linalg"
+import lg "core:math/linalg"
 import "core:math/rand"
 import rl "vendor:raylib"
+
+
+Direction :: enum {
+  North,
+  East,
+  South,
+  West,
+}
+
+DirectionSet :: bit_set[Direction]
+
+/*
+main :: proc() {
+  dir1 := DirectionSet{.North}
+  dir2 := DirectionSet{.East, .North}
+
+  fmt.println(dir1, dir2)
+  fmt.println(dir1 ~ dir2)
+  fmt.println(dir1 | dir2)
+}
+*/
 
 RelativeDirection :: enum {
 	FACING_EACH_OTHER,
@@ -11,7 +32,7 @@ RelativeDirection :: enum {
 	NEITHER_FACING_EACH_OTHER,
 }
 
-getRelativeDirection :: proc(a:  i32, d1: i32, b: i32, d2: i32) -> RelativeDirection {
+relative_direction :: proc(a:  i32, d1: i32, b: i32, d2: i32) -> RelativeDirection {
 	ba := a - b
 	ab := b - a
 
@@ -33,12 +54,20 @@ getRelativeDirection :: proc(a:  i32, d1: i32, b: i32, d2: i32) -> RelativeDirec
 	 return .NEITHER_FACING_EACH_OTHER
 }
 
+direction_from_rotation :: proc(rotation: f32) -> rl.Vector2 {
+    return {
+        lg.cos(lg.to_radians(rotation)),
+        lg.sin(lg.to_radians(rotation)),
+    }
+}
+
+
 rand_direction :: proc() -> (dir: rl.Vector2) {
     dir = {
         rand.float32_range(-1, 1),
         rand.float32_range(-1, 1),
     }
-    return linalg.normalize(dir)
+    return lg.normalize(dir)
 }
 
 // calculates the slope between two vectors

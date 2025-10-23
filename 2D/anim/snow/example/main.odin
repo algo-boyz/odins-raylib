@@ -81,12 +81,12 @@ init :: proc() {
     rl.SetWindowState(ctx.window.configFlags)
     rl.SetTargetFPS(ctx.window.fps)
 
-    // Initialize empty particle positions
+    // Init empty particle positions
     for &p in ctx.snowParticles {
         p.pos = EMPTY_POS
     }
     
-    // Initialize perlin noise for wind effects
+    // Init perlin noise for wind effects
     ctx.perlinImg = rl.GenImagePerlinNoise(
         ctx.window.width / PERLIN_IMAGE_SCALE, 
         ctx.window.height / PERLIN_IMAGE_SCALE, 
@@ -201,7 +201,7 @@ new_snow :: proc() {
         if p.pos != EMPTY_POS {
             continue
         }
-        // Initialize a new particle
+        // Init a new particle
         p.pos.x = rand.float32_range(0, f32(ctx.window.width))
         p.pos.y = 0
         p.radius = rand.float32_range(8, P_RADIUS_MAX)

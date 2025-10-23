@@ -83,7 +83,7 @@ update_fire :: proc(fire: ^Fire) {
 }
 
 init_fire :: proc(fire: ^Fire) {
-    // Initialize all pixels to 0 (darkest color)
+    // Init all pixels to 0 (darkest color)
     for i := 0; i < len(fire.pixels); i += 1 {
         fire.pixels[i] = 0
     }

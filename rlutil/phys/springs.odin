@@ -483,7 +483,7 @@ spring_damper_exact_stiffness_damping :: proc(
     c := g + (d * q) / (s + eps)
     y := d / 2.0
     
-    if math.abs(s - (d * d) / 4.0) < eps { // Critically Damped
+    if abs(s - (d * d) / 4.0) < eps { // Critically Damped
         j0 := x^ - c
         j1 := v^ + j0 * y
         

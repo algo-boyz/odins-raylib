@@ -29,14 +29,14 @@ double_spring_damper_exact :: proc(
 }
 
 main :: proc() {
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - doublespring")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - doublespring")
     
     // Init Variables
     t := f32(0.0)
-    x := f32(screen_height) / 2.0
+    x := f32(HEIGHT) / 2.0
     v := f32(0.0)
     g := x
     goal_offset := f32(600)
@@ -48,7 +48,7 @@ main :: proc() {
     
     rl.SetTargetFPS(i32(1.0 / dt))
     
-    // Initialize history arrays
+    // Init history arrays
     for i := 0; i < HISTORY_MAX; i += 1 {
         X_Prev[i] = x
         V_Prev[i] = v

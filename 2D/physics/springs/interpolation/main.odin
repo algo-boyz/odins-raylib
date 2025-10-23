@@ -23,13 +23,13 @@ piecewise_interpolation :: proc(t: f32, pnts: []f32) -> (x: f32, v: f32) {
 }
 
 main :: proc() {
-    screen_width :: 640
-    screen_height :: 360
+    WIDTH :: 640
+    HEIGHT :: 360
     
     ctrlx: [CTRL_MAX]f32
     ctrly: [CTRL_MAX]f32
     
-    rl.InitWindow(screen_width, screen_height, "raylib [springs] example - interpolation")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [springs] example - interpolation")
     defer rl.CloseWindow()
     
     // Init variables
@@ -37,7 +37,7 @@ main :: proc() {
     frequency := f32(1.5)
     ctrl_selected := -1
     
-    // Initialize control points
+    // Init control points
     for i in 0..<CTRL_MAX {
         ctrlx[i] = (f32(i) / f32(CTRL_MAX)) * 600 + 20
         ctrly[i] = math.sin(f32(i)) * 100 + 100

@@ -6,8 +6,8 @@ import "core:strings"
 
 import rl "vendor:raylib"
 
-SCREEN_WIDTH :: 640
-SCREEN_HEIGHT :: 400
+WIDTH :: 640
+HEIGHT :: 400
 FPS :: 60
 MAP_N :: 1024
 SCALE_FACTOR :: 100.0
@@ -167,7 +167,7 @@ main :: proc() {
     load_maps()
     dropdown_text := dropdown_options()
     
-    rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Voxel Space")
+    rl.InitWindow(WIDTH, HEIGHT, "Voxel Space")
     defer rl.CloseWindow()
     
     // Load initial maps
@@ -203,14 +203,14 @@ main :: proc() {
         rl.BeginDrawing()        
         rl.ClearBackground(rl.RAYWHITE)
         
-        for i: i32 = 0; i < SCREEN_WIDTH; i += 1 {
-            delta_x := (plx + (prx - plx) / f32(SCREEN_WIDTH) * f32(i)) / scene.camera.zfar
-            delta_y := (ply + (pry - ply) / f32(SCREEN_WIDTH) * f32(i)) / scene.camera.zfar
+        for i: i32 = 0; i < WIDTH; i += 1 {
+            delta_x := (plx + (prx - plx) / f32(WIDTH) * f32(i)) / scene.camera.zfar
+            delta_y := (ply + (pry - ply) / f32(WIDTH) * f32(i)) / scene.camera.zfar
             
             rx := scene.camera.x
             ry := scene.camera.y
             
-            max_height := SCREEN_HEIGHT
+            max_height := HEIGHT
             
             for z: i32 = 1; z < i32(scene.camera.zfar); z += 1 {
                 rx += delta_x
@@ -219,10 +219,10 @@ main :: proc() {
                 map_offset := (MAP_N * (int(ry) & (MAP_N - 1))) + (int(rx) & (MAP_N - 1))
                 proj_height := int((scene.camera.height - f32(scene.height_map[map_offset].r)) / f32(z) * SCALE_FACTOR + scene.camera.horizon)
                 proj_height = proj_height < 0 ? 0 : proj_height
-                proj_height = proj_height > SCREEN_HEIGHT ? SCREEN_HEIGHT - 1 : proj_height
+                proj_height = proj_height > HEIGHT ? HEIGHT - 1 : proj_height
                 
                 if proj_height < max_height {
-                    lean := (scene.camera.tilt * (f32(i) / f32(SCREEN_WIDTH) - 0.5) + 0.5) * f32(SCREEN_HEIGHT) / 6
+                    lean := (scene.camera.tilt * (f32(i) / f32(WIDTH) - 0.5) + 0.5) * f32(HEIGHT) / 6
                     
                     for y := i32(f32(proj_height) + lean); y < i32(f32(max_height) + lean); y += 1 {
                         pixel := scene.color_map[map_offset]
@@ -239,7 +239,7 @@ main :: proc() {
                                 get_linear_fog_factor(scene.fog_end, scene.fog_start, z))
                         }
                         
-                        if y >= 0 && y < SCREEN_HEIGHT {
+                        if y >= 0 && y < HEIGHT {
                             rl.DrawPixel(i, y, scaled_pixel) 
                         }
                     }

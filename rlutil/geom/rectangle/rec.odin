@@ -334,7 +334,7 @@ to_vec :: proc(r: rl.Rectangle) -> [2]f32 {
 	return {r.x, r.y}
 }
 
-mouse_on :: proc(r: rl.Rectangle) -> bool {
-	relPos := Input.mousePosition - RectPos(r)
-	return relPos.x > 0 && relPos.x < r.width && relPos.y > 0 && relPos.y < r.height
+mouse_on :: proc(r: rl.Rectangle, mouse_pos: rl.Vector2) -> bool {
+	pos := mouse_pos - to_pos(r)
+	return pos.x > 0 && pos.x < r.width && pos.y > 0 && pos.y < r.height
 }

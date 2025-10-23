@@ -19,7 +19,6 @@ Light :: struct {
 	intensity:      f32,
 	attenuation:    f32,
 	light_id:       c.int, // ID for the light in the shader array
-
 	// Shader locations
 	enabledLoc:     c.int,
 	typeLoc:        c.int,
@@ -59,14 +58,12 @@ create_light :: proc(
 		color    = {f32(color.r) / 255.0, f32(color.g) / 255.0, f32(color.b) / 255.0, f32(color.a) / 255.0},
 		light_id = light_id,
 	}
-
 	// Create shader location strings for light array
 	enabled_name := fmt.aprintf("lights[%d].enabled", light_id)
 	type_name := fmt.aprintf("lights[%d].type", light_id)
 	position_name := fmt.aprintf("lights[%d].position", light_id)
 	target_name := fmt.aprintf("lights[%d].target", light_id)
 	color_name := fmt.aprintf("lights[%d].color", light_id)
-	
 	defer {
 		delete(enabled_name)
 		delete(type_name)
@@ -74,7 +71,6 @@ create_light :: proc(
 		delete(target_name)
 		delete(color_name)
 	}
-
 	light.enabledLoc = rl.GetShaderLocation(shader, cstring(raw_data(enabled_name)))
 	light.typeLoc = rl.GetShaderLocation(shader, cstring(raw_data(type_name)))
 	light.positionLoc = rl.GetShaderLocation(shader, cstring(raw_data(position_name)))
@@ -99,8 +95,9 @@ update_light_values :: proc(shader: rl.Shader, light: Light) {
 	// Send to shader light target position values
 	target := light.target
 	rl.SetShaderValue(shader, light.targetLoc, &target, rl.ShaderUniformDataType.VEC3)
+	intensity := light.intensity
 
-	rl.SetShaderValue(shader, rl.ShaderLocationIndex(light.intensity_loc), &light.intensity, .FLOAT);
+	rl.SetShaderValue(shader, rl.ShaderLocationIndex(light.intensity_loc), &intensity, .FLOAT);
 
 	// Send to shader light color values
 	color := light.color
@@ -165,6 +162,12 @@ fresnel_factor :: proc(n1: f32, n2: f32, v_dot_h: f32) -> f32 {
 	r0 := rn * rn
 	f := 1.0 - v_dot_h
 	return r0 + (1.0 - r0) * (f * f * f * f * f)
+}
+
+fresnel_reflectance :: proc(cosine, refrac_idx : f32) -> f32 {
+	r0 := (1 - refrac_idx) / (1 + refrac_idx)
+	r0 = r0 * r0
+	return r0 + (1 - r0) * math.pow(1 - cosine, 5)
 }
 
 // Vector reflection
@@ -235,3 +238,4 @@ construct_volume :: proc(origin: rl.Vector3) -> VolumeSampler {
 		alpha         = 0.0,
 	}
 }
+

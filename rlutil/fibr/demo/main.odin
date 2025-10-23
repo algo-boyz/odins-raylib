@@ -3,7 +3,7 @@ package main
 import "core:fmt"
 import "core:log"
 import "core:strings"
-import "../"
+import fibr "../"
 
 worker :: proc(arg: rawptr) {
 	n := cast(^u32)arg

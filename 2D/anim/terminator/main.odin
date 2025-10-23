@@ -7,15 +7,15 @@ import "core:math"
 import tw "typewriter"
 import rl "vendor:raylib"
 
-screen_width :: 1280
-screen_height :: 720
+WIDTH :: 1280
+HEIGHT :: 720
 
 main :: proc() {    
-    rl.InitWindow(screen_width, screen_height, "T-800 Typewriter Demo")
+    rl.InitWindow(WIDTH, HEIGHT, "T-800 Typewriter Demo")
     rl.SetTargetFPS(60)
 
     bg := rl.LoadImage("assets/terminator.jpg")
-    rl.ImageResize(&bg, screen_width, screen_height)
+    rl.ImageResize(&bg, WIDTH, HEIGHT)
     tex := rl.LoadTextureFromImage(bg)
     rl.UnloadImage(bg)
 

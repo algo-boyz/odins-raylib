@@ -109,7 +109,7 @@ main :: proc() {
     mesh.texcoords = raw_data(uvs_float)
     mesh.indices = raw_data(indices_u16)
 
-    // Initialize Raylib
+    // Init Raylib
     rl.InitWindow(WIDTH, HEIGHT, "odin-ufbx")
     defer rl.CloseWindow()
 

@@ -42,10 +42,10 @@ show_time :: proc() {
 }
 
 main :: proc() {
-    screen_width :: 1280
-    screen_height :: 720
+    WIDTH :: 1280
+    HEIGHT :: 720
     
-    rl.InitWindow(screen_width, screen_height, "Jumping Ball")
+    rl.InitWindow(WIDTH, HEIGHT, "Jumping Ball")
     rl.EnableCursor()
     
     rl.SetTargetFPS(60)
@@ -53,9 +53,9 @@ main :: proc() {
     c := circle.new_circle_with_params(50, rl.BLUE)
     
     platform := rl.Rectangle{
-        x = f32(screen_width) * 0.2,
-        y = f32(screen_height) / 2,
-        width = f32(screen_width) * 0.6,
+        x = f32(WIDTH) * 0.2,
+        y = f32(HEIGHT) / 2,
+        width = f32(WIDTH) * 0.6,
         height = 50,
     }
     

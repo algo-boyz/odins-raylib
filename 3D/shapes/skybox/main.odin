@@ -4,8 +4,8 @@ import "base:runtime"
 import rl "vendor:raylib"
 import rlgl "vendor:raylib/rlgl"
 
-screen_width :: 800
-screen_height :: 450
+WIDTH :: 800
+HEIGHT :: 450
 
 // Generate cubemap (6 faces) from equirectangular (panorama) texture
 gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32, format: rl.PixelFormat) -> rl.TextureCubemap {
@@ -71,7 +71,7 @@ gen_texture_cubemap :: proc(shader: rl.Shader, panorama: rl.Texture2D, size: i32
 }
 
 main :: proc() {
-    rl.InitWindow(screen_width, screen_height, "raylib [models] example - skybox loading and drawing")
+    rl.InitWindow(WIDTH, HEIGHT, "raylib [models] example - skybox loading and drawing")
     camera := rl.Camera {
         position = {0.0, 0.0, 0.0},  // Center of the cube
         target = {1.0, 0.0, 0.0},    // Looking in some direction
