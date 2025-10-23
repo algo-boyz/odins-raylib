@@ -1,529 +1,228 @@
 package main
 
+import "core:math"
+import "core:math/linalg"
 import rl "vendor:raylib"
-import "core:fmt"
-import "core:slice"
-import sm "shadow" // Your enhanced shadow package
 
-// Enhanced scene data with LOD support
-SceneData :: struct {
-    models:         [dynamic]sm.ModelLOD,
-    animations:     [^]rl.ModelAnimation,
-    anim_count:     i32,
-    frame_count:    i32,
-    debug_mode:     bool,
-    show_wireframe: bool,
+State :: struct {
+	position:        rl.Vector3,
+	rotation:        f32, // Current rotation
+	target_rotation: f32, // Desired rotation
+	velocity:        rl.Vector3,
+	move_speed:      f32,
+	run_speed_mult:  f32, // Multiplier for running speed
+	turn_speed:      f32,
 }
 
-// Scene rendering function with shadow pass awareness
-draw_scene :: proc(user_data: rawptr, shadow_pass: bool) {
-    if user_data == nil {
-        fmt.println("ERROR: draw_scene called with nil user_data")
-        return
-    }
-    
-    scene := cast(^SceneData)user_data
-    
-    // Safety check for scene validity
-    if scene == nil {
-        fmt.println("ERROR: scene cast failed")
-        return
-    }
-    
-    if len(scene.models) == 0 {
-        fmt.println("WARNING: No models to render")
-        return
-    }
-    
-    // In shadow pass, we can use simplified rendering
-    if shadow_pass {
-        // Use LOD models for shadow casting (handled automatically by the system)
-        for i in 0..<len(scene.models) {
-            model := &scene.models[i]
-            if model == nil do continue
-            
-            // Additional safety checks
-            if model.high_detail.meshCount == 0 {
-                fmt.printf("WARNING: Model %d has no meshes\n", i)
-                continue
-            }
-            
-            if model.is_static {
-                // Static objects like ground
-                rl.DrawModelEx(model.high_detail, model.position, {0, 1, 0}, 0.0, model.scale, rl.WHITE)
-            } else {
-                // Dynamic objects like robot (use animation)
-                rl.DrawModelEx(model.high_detail, model.position, {0, 1, 0}, 0.0, model.scale, rl.WHITE)
-            }
-        }
-    } else {
-        // Main pass with full quality
-        for i in 0..<len(scene.models) {
-            model := &scene.models[i]
-            if model == nil do continue
-            
-            // Additional safety checks
-            if model.high_detail.meshCount == 0 {
-                fmt.printf("WARNING: Model %d has no meshes in main pass\n", i)
-                continue
-            }
-            
-            color := rl.WHITE
-            
-            // Different colors for identification
-            if model.position.y < 0.5 {
-                color = rl.BLUE // Ground
-            } else if model.scale.x == 1.0 && model.scale.y == 1.0 && model.scale.z == 1.0 {
-                color = rl.LIGHTGRAY // Small cube
-            } else {
-                color = rl.RED // Robot
-            }
-            
-            rl.DrawModelEx(model.high_detail, model.position, {0, 1, 0}, 0.0, model.scale, color)
-            
-            // Debug: draw bounding boxes
-            if scene.debug_mode {
-                rl.DrawBoundingBox(model.bounds, rl.GREEN)
-            }
-        }
-    }
+// This array helps us remember the animation names and their indices.
+// It is paired with the `KeyAction` struct below.
+Animations :: [14]string{
+	"Robot_Dance",    // 0
+	"Robot_Punch",      // 1
+	"Robot_Wave",     // 2
+	"Robot_WalkJump", // 3
+	"Robot_Walking",  // 4
+	"Robot_ThumbsUp", // 5
+	"Robot_Standing", // 6
+	"Robot_Sitting",  // 7
+	"Robot_Running",  // 8
+	"Robot_Yes",    // 9
+	"Robot_No",       // 10
+	"Robot_Jump",     // 11
+	"Robot_Idle",     // 12
+	"Robot_Death",    // 13
+}
+
+// Helper struct to map keyboard keys to one-shot animation indices
+KeyAction :: struct {
+	key:          rl.KeyboardKey,
+	action_index: i32,
 }
 
 main :: proc() {
-    // Initialization
-    WIDTH: i32 = 1200
-    HEIGHT: i32 = 800
-    
-    rl.SetConfigFlags({.MSAA_4X_HINT, .VSYNC_HINT})
-    rl.InitWindow(WIDTH, HEIGHT, "Enhanced Shadowmapping System - Debug Version")
-    defer rl.CloseWindow()
-    
-    // Set up camera
-    cam := rl.Camera3D{
-        position = {12.0, 8.0, 12.0},
-        target = {0, 0, 0},
-        up = {0, 1, 0},
-        fovy = 45.0,
-        projection = .PERSPECTIVE,
-    }
-    
-    fmt.println("=== SHADOW SYSTEM DEBUG ===")
-    fmt.println("Step 1: Checking OpenGL support...")
-    
-    // Check OpenGL version and capabilities
-    
-    // Simple test without shadows first
-    fmt.println("Step 2: Testing basic rendering...")
-    
-    // Load base models with error checking
-    fmt.println("Step 3: Loading models...")
-    cube_model := rl.LoadModelFromMesh(rl.GenMeshCube(1.0, 1.0, 1.0))
-    if cube_model.meshCount == 0 {
-        fmt.println("ERROR: Failed to create cube model")
-        return
-    }
-    fmt.println("✓ Cube model loaded successfully")
-    defer rl.UnloadModel(cube_model)
-    
-    // Test if robot model exists before loading
-    robot_model_loaded := false
-    robot_model: rl.Model
-    
-    if rl.FileExists("assets/robot.glb") {
-        fmt.println("Step 4: Loading robot model...")
-        robot_model = rl.LoadModel("assets/robot.glb")
-        if robot_model.meshCount > 0 {
-            fmt.println("✓ Robot model loaded successfully")
-            robot_model_loaded = true
-        } else {
-            fmt.println("WARNING: Robot model failed to load")
-        }
-    } else {
-        fmt.println("WARNING: Robot model file not found, skipping...")
-    }
-    defer if robot_model_loaded do rl.UnloadModel(robot_model)
-    
-    // Test shadow system initialization step by step
-    fmt.println("Step 5: Initializing shadow system...")
-    
-    // Check if shader files exist
-    vertex_shader_exists := rl.FileExists("assets/shadow_skinning.vs")
-    fragment_shader_exists := rl.FileExists("assets/shadow_skinning.fs")
-    
-    fmt.printf("Vertex shader exists: %t\n", vertex_shader_exists)
-    fmt.printf("Fragment shader exists: %t\n", fragment_shader_exists)
-    
-    if !vertex_shader_exists || !fragment_shader_exists {
-        fmt.println("ERROR: Shader files not found! Creating fallback...")
-        
-        // Test with basic rendering only
-        fmt.println("Running without shadows...")
-        
-        rl.SetTargetFPS(60)
-        
-        for !rl.WindowShouldClose() {
-            rl.UpdateCamera(&cam, .ORBITAL)
-            
-            rl.BeginDrawing()
-            rl.ClearBackground(rl.Color{135, 206, 235, 255})
-            
-            rl.BeginMode3D(cam)
-            
-            // Draw ground
-            rl.DrawModelEx(cube_model, {0, 0, 0}, {0, 1, 0}, 0.0, {10, 1, 10}, rl.BLUE)
-            
-            // Draw some cubes
-            for i in 0..<3 {
-                x := f32(i - 1) * 3.0
-                rl.DrawModelEx(cube_model, {x, 1.0, 0}, {0, 1, 0}, 0.0, {1, 1, 1}, rl.LIGHTGRAY)
-            }
-            
-            // Draw robot if loaded
-            if robot_model_loaded {
-                rl.DrawModelEx(robot_model, {0, 0.5, 3}, {0, 1, 0}, 0.0, {1, 1, 1}, rl.RED)
-            }
-            
-            rl.EndMode3D()
-            
-            rl.DrawText("BASIC RENDERING MODE - NO SHADOWS", 10, 10, 20, rl.RED)
-            rl.DrawText("Press ESC to exit", 10, 40, 16, rl.DARKGRAY)
-            
-            rl.EndDrawing()
-        }
-        
-        return
-    }
-    
-    // Try to initialize shadow system with error checking
-    shadow_config := sm.get_mobile_config() // Start with lowest settings
-    fmt.printf("Shadow config - Resolution: %d, PCF: %t\n", shadow_config.base_resolution, shadow_config.enable_pcf)
-    
-    custom_light := sm.DirectionalLight{
-        direction = rl.Vector3Normalize({0.35, -1.0, -0.35}),
-        color = rl.Color{255, 245, 230, 255}, // Warm sunlight
-    }
-    
-    fmt.println("Step 6: Initializing shadow system...")
-    shadow_system, shadow_ok := sm.init_shadow_system_with_config(
-        "assets/shadow.vs", "assets/shadow.fs", 
-        shadow_config, custom_light
-    )
-    
-    if !shadow_ok {
-        fmt.println("ERROR: Failed to initialize shadow system!")
-        fmt.println("Falling back to basic rendering...")
-        
-        // Continue with basic rendering
-        rl.SetTargetFPS(60)
-        
-        for !rl.WindowShouldClose() {
-            rl.UpdateCamera(&cam, .ORBITAL)
-            
-            rl.BeginDrawing()
-            rl.ClearBackground(rl.Color{135, 206, 235, 255})
-            
-            rl.BeginMode3D(cam)
-            rl.DrawModelEx(cube_model, {0, 0, 0}, {0, 1, 0}, 0.0, {10, 1, 10}, rl.BLUE)
-            rl.EndMode3D()
-            
-            rl.DrawText("SHADOW INIT FAILED - BASIC MODE", 10, 10, 20, rl.RED)
-            rl.EndDrawing()
-        }
-        
-        return
-    }
-    
-    fmt.println("✓ Shadow system initialized successfully!")
-    defer sm.destroy_shadow_system(&shadow_system)
-    
-    // Init scene data
-    fmt.println("Step 7: Setting up scene...")
-    scene_data := SceneData{}
-    scene_data.models = make([dynamic]sm.ModelLOD)
-    defer delete(scene_data.models)
-    
-    // Apply shadow shader to models with error checking
-    fmt.println("Step 8: Applying shadow shaders...")
-    
-    // CRITICAL: Check if apply_shadow_shader modifies the model in a way that causes issues
-    fmt.println("Pre-shader cube model meshCount:", cube_model.meshCount)
-    sm.apply_shadow_shader(&shadow_system, &cube_model)
-    fmt.println("Post-shader cube model meshCount:", cube_model.meshCount)
-    fmt.println("✓ Cube shader applied")
-    
-    if robot_model_loaded {
-        fmt.println("Pre-shader robot model meshCount:", robot_model.meshCount)
-        sm.apply_shadow_shader(&shadow_system, &robot_model)
-        fmt.println("Post-shader robot model meshCount:", robot_model.meshCount)
-        fmt.println("✓ Robot shader applied")
-    }
-    
-    // Create LOD models for the scene
-    fmt.println("Step 9: Creating LOD models...")
-    
-    // CRITICAL: Add safety checks for LOD creation
-    fmt.println("Creating ground LOD...")
-    ground_lod := sm.create_model_lod(cube_model, {0, 0, 0}, {10, 1, 10}, true)
-    append(&scene_data.models, ground_lod)
-    fmt.println("✓ Ground LOD created")
-    
-    // Small cubes - static decorations with error checking
-    for i in 0..<3 {
-        x := f32(i - 1) * 3.0
-        fmt.printf("Creating cube LOD %d...\n", i)
-        cube_lod := sm.create_model_lod(cube_model, {x, 1.0, 0}, {1, 1, 1}, true)
-        append(&scene_data.models, cube_lod)
-    }
-    fmt.println("✓ Cube LODs created")
-    
-    // Robot - dynamic (only if loaded)
-    if robot_model_loaded {
-        fmt.println("Creating robot LOD...")
-        robot_lod := sm.create_model_lod(robot_model, {0, 0.5, 3}, {1, 1, 1}, false)
-        append(&scene_data.models, robot_lod)
-        fmt.println("✓ Robot LOD created")
-    }
-    
-    fmt.printf("Total models in scene: %d\n", len(scene_data.models))
-    
-    // Validate all models before starting main loop
-    fmt.println("Step 9.5: Validating all models...")
-    for i in 0..<len(scene_data.models) {
-        model := &scene_data.models[i]
-        if model.high_detail.meshCount == 0 {
-            fmt.printf("ERROR: Model %d has no meshes!\n", i)
-            return
-        }
-        fmt.printf("Model %d: %d meshes, static: %t\n", i, model.high_detail.meshCount, model.is_static)
-    }
-    fmt.println("✓ All models validated")
-    
-    // Control parameters
-    light_speed: f32 = 2.0
-    show_debug_info := true
-    frame_counter := 0
-    
-    rl.SetTargetFPS(60)
-    
-    fmt.println("Step 10: Starting main loop...")
-    fmt.println("=== MAIN LOOP STARTED ===")
-    
-    // Test basic rendering first (without shadows)
-    fmt.println("Testing basic rendering for 60 frames...")
-    test_frames := 0
-    
-    for !rl.WindowShouldClose() && test_frames < 60 {
-        test_frames += 1
-        dt := rl.GetFrameTime()
-        
-        rl.UpdateCamera(&cam, .ORBITAL)
-        
-        rl.BeginDrawing()
-        rl.ClearBackground(rl.Color{135, 206, 235, 255})
-        
-        rl.BeginMode3D(cam)
-        
-        // Draw models directly without shadow system
-        for i in 0..<len(scene_data.models) {
-            model := &scene_data.models[i]
-            
-            color := rl.WHITE
-            if model.position.y < 0.5 {
-                color = rl.BLUE // Ground
-            } else if model.scale.x == 1.0 && model.scale.y == 1.0 && model.scale.z == 1.0 {
-                color = rl.LIGHTGRAY // Small cube
-            } else {
-                color = rl.RED // Robot
-            }
-            
-            rl.DrawModelEx(model.high_detail, model.position, {0, 1, 0}, 0.0, model.scale, color)
-        }
-        
-        rl.EndMode3D()
-        
-        rl.DrawText("BASIC RENDERING TEST", 10, 10, 20, rl.GREEN)
-        test_text := fmt.ctprintf("Frame: %d/60", test_frames)
-        rl.DrawText(test_text, 10, 40, 16, rl.DARKGRAY)
-        
-        rl.EndDrawing()
-    }
-    
-    if rl.WindowShouldClose() {
-        fmt.println("Window closed during basic test")
-        return
-    }
-    
-    fmt.println("✓ Basic rendering test passed!")
-    fmt.println("Starting shadow rendering...")
-    
-    // Now start the full shadow rendering loop
-    for !rl.WindowShouldClose() {
-        frame_counter += 1
-        dt := rl.GetFrameTime()
-        
-        // Debug output every 60 frames
-        if frame_counter % 60 == 0 {
-            fmt.printf("Frame %d: FPS %.1f, DT %.3f\n", frame_counter, 1.0/dt, dt)
-        }
-        
-        // Update shadow system performance tracking
-        sm.update_shadow_system(&shadow_system, dt)
-        
-        // Update camera
-        rl.UpdateCamera(&cam, .ORBITAL)
-        
-        // Light control with arrow keys
-        current_light := shadow_system.light.direction
-        new_light := current_light
-        
-        if rl.IsKeyDown(.LEFT) {
-            new_light.x += light_speed * dt
-        }
-        if rl.IsKeyDown(.RIGHT) {
-            new_light.x -= light_speed * dt
-        }
-        if rl.IsKeyDown(.UP) {
-            new_light.z += light_speed * dt
-        }
-        if rl.IsKeyDown(.DOWN) {
-            new_light.z -= light_speed * dt
-        }
-        
-        // Normalize and update light
-        if new_light != current_light {
-            sm.update_light(&shadow_system, rl.Vector3Normalize(new_light))
-        }
-        
-        // Toggle debug modes
-        if rl.IsKeyPressed(.F1) {
-            scene_data.debug_mode = !scene_data.debug_mode
-            fmt.printf("Debug mode: %t\n", scene_data.debug_mode)
-        }
-        if rl.IsKeyPressed(.F2) {
-            show_debug_info = !show_debug_info
-            fmt.printf("Debug info: %t\n", show_debug_info)
-        }
-        if rl.IsKeyPressed(.F3) {
-            sm.debug_shadow_system(&shadow_system)
-        }
-        
-        // Emergency fallback key
-        if rl.IsKeyPressed(.F4) {
-            fmt.println("F4 pressed - switching to basic rendering")
-            
-            // Basic rendering fallback
-            rl.BeginDrawing()
-            rl.ClearBackground(rl.Color{135, 206, 235, 255})
-            
-            rl.BeginMode3D(cam)
-            for i in 0..<len(scene_data.models) {
-                model := &scene_data.models[i]
-                color := model.position.y < 0.5 ? rl.BLUE : rl.LIGHTGRAY
-                rl.DrawModelEx(model.high_detail, model.position, {0, 1, 0}, 0.0, model.scale, color)
-            }
-            rl.EndMode3D()
-            
-            rl.DrawText("EMERGENCY BASIC RENDERING", 10, 10, 20, rl.RED)
-            rl.EndDrawing()
-            continue
-        }
-        
-        // Render everything with try-catch equivalent
-        render_success := false
-        
-        rl.BeginDrawing()
-        rl.ClearBackground(rl.Color{135, 206, 235, 255}) // Sky blue
-        
-        // Use the LOD system (safer method)
-        if len(scene_data.models) > 0 {
-            // Check if we can safely access models
-            if frame_counter % 60 == 0 {
-                fmt.printf("Rendering %d models...\n", len(scene_data.models))
-            }
-            
-            // CRITICAL: Add bounds checking
-            models_slice := scene_data.models[:]
-            if len(models_slice) > 0 {
-                // Try shadow rendering with error recovery
-                sm.render_with_shadows_lod(&shadow_system, cam, models_slice)
-                render_success = true
-            }
-        }
-        
-        // UI Overlay
-        ui_y: i32 = 10
-        status_color := render_success ? rl.GREEN : rl.RED
-        status_text := render_success ? "Running with shadows" : "Shadow rendering failed"
-        
-        rl.DrawText("Enhanced Shadowmapping System - DEBUG", 10, ui_y, 20, rl.DARKBLUE)
-        ui_y += 25
-        
-        status_full := fmt.ctprintf("Status: %s", status_text)
-        rl.DrawText(status_full, 10, ui_y, 14, status_color)
-        ui_y += 20
-        
-        frame_text := fmt.ctprintf("Frame: %d", frame_counter)
-        rl.DrawText(frame_text, 10, ui_y, 14, rl.GRAY)
-        ui_y += 20
-        
-        models_text := fmt.ctprintf("Models: %d", len(scene_data.models))
-        rl.DrawText(models_text, 10, ui_y, 14, rl.GRAY)
-        ui_y += 20
-        
-        rl.DrawText("Controls:", 10, ui_y, 14, rl.DARKGRAY)
-        ui_y += 18
-        rl.DrawText("Arrow Keys: Move light", 15, ui_y, 12, rl.GRAY)
-        ui_y += 16
-        rl.DrawText("Mouse: Rotate camera", 15, ui_y, 12, rl.GRAY)
-        ui_y += 16
-        rl.DrawText("F1: Debug boxes", 15, ui_y, 12, rl.GRAY)
-        ui_y += 16
-        rl.DrawText("F2: Debug info", 15, ui_y, 12, rl.GRAY)
-        ui_y += 16
-        rl.DrawText("F3: Print debug", 15, ui_y, 12, rl.GRAY)
-        ui_y += 16
-        rl.DrawText("F4: Emergency fallback", 15, ui_y, 12, rl.RED)
-        
-        // Performance info
-        if show_debug_info {
-            info_x: i32 = WIDTH - 250
-            info_y: i32 = 10
-            
-            rl.DrawRectangle(info_x - 10, info_y - 5, 240, 120, rl.Color{0, 0, 0, 100})
-            
-            rl.DrawText("Performance Info:", info_x, info_y, 14, rl.WHITE)
-            info_y += 18
-            
-            fps_text := fmt.ctprintf("FPS: %.1f", shadow_system.metrics.last_fps)
-            rl.DrawText(fps_text, info_x, info_y, 12, rl.LIGHTGRAY)
-            info_y += 16
-            
-            shadow_time_text := fmt.ctprintf("Shadow: %.2fms", shadow_system.metrics.shadow_render_time * 1000)
-            rl.DrawText(shadow_time_text, info_x, info_y, 12, rl.LIGHTGRAY)
-            info_y += 16
-            
-            main_time_text := fmt.ctprintf("Main: %.2fms", shadow_system.metrics.main_render_time * 1000)
-            rl.DrawText(main_time_text, info_x, info_y, 12, rl.LIGHTGRAY)
-            info_y += 16
-            
-            resolution_text := fmt.ctprintf("Res: %dx%d", 
-                                          shadow_system.config.current_resolution, 
-                                          shadow_system.config.current_resolution)
-            rl.DrawText(resolution_text, info_x, info_y, 12, rl.LIGHTGRAY)
-        }
-        
-        rl.EndDrawing()
-        
-        // Safety check - if we've been running for a while, print status
-        if frame_counter == 300 { // After 5 seconds at 60fps
-            fmt.println("=== 5 SECOND STATUS CHECK ===")
-            fmt.printf("Successfully rendered %d frames\n", frame_counter)
-            fmt.printf("Current FPS: %.1f\n", shadow_system.metrics.last_fps)
-            fmt.printf("Shadow system working normally\n")
-            fmt.println("=============================")
-        }
-    }
-    
-    fmt.println("=== CLEAN SHUTDOWN ===")
-    fmt.println("Application completed successfully")
+	rl.InitWindow(1024, 768, "3D Model Animation Example")
+	defer rl.CloseWindow()
+
+	// Initialize state
+	state := State{
+		position        = {0, 0, 0},
+		rotation        = 0,
+		target_rotation = 0,
+		velocity        = {0, 0, 0},
+		move_speed      = 0.08,
+		run_speed_mult  = 2.0,
+		turn_speed      = 5,
+	}
+
+	// Load model and animations
+	model := rl.LoadModel("assets/robot.glb")
+	defer rl.UnloadModel(model)
+
+	anim_count: i32
+	animations := rl.LoadModelAnimations("assets/robot.glb", &anim_count)
+	defer rl.UnloadModelAnimations(animations, anim_count)
+
+	// --- Animation State Variables ---
+	anim_frame: i32 = 0
+	is_moving := false
+	is_running := false
+	is_sitting := false
+	current_action: i32 = -1 // Index for the current one-shot action, -1 for none
+
+	// Map keys to their one-shot animation index from the Animations array
+	one_shot_actions := [?]KeyAction{
+		{.X, 0},     // Dance
+		{.ENTER, 1}, // Yes
+		{.R, 2},     // Wave
+		{.V, 3},     // WalkJump
+		{.Y, 5},     // ThumbsUp
+		{.THREE, 9}, // Punch
+		{.N, 10},    // No
+		{.SPACE, 11},// Jump
+		{.SEVEN, 13},// Death
+	}
+
+	// Setup camera
+	camera_distance := f32(8)
+	camera_height := f32(4)
+	camera := rl.Camera{
+		position   = {0, camera_height, -camera_distance},
+		target     = {0, 2, 0},
+		up         = {0, 1, 0},
+		fovy       = 45,
+		projection = .PERSPECTIVE,
+	}
+
+	rl.SetTargetFPS(60)
+
+	for !rl.WindowShouldClose() {
+		// --- Input Handling ---
+		move_dir := rl.Vector3{0, 0, 0}
+
+		// Check for one-shot actions
+		for action in one_shot_actions {
+			if rl.IsKeyPressed(action.key) {
+				current_action = action.action_index
+				anim_frame = 0 // Reset animation
+				is_sitting = false // Stand up to perform an action
+			}
+		}
+
+		// Check for sitting toggle
+		if rl.IsKeyPressed(.DOWN) {
+			is_sitting = !is_sitting
+			current_action = -1 // Cancel any other action
+			anim_frame = 0
+		}
+
+		// Movement input
+		if rl.IsKeyDown(.W) do move_dir.z = 1
+		if rl.IsKeyDown(.S) do move_dir.z = -1
+		if rl.IsKeyDown(.A) do move_dir.x = -1
+		if rl.IsKeyDown(.D) do move_dir.x = 1
+
+		is_moving = move_dir.x != 0 || move_dir.z != 0
+		is_running = is_moving && rl.IsKeyDown(.LEFT_SHIFT)
+		
+		// Moving cancels sitting
+		if is_moving do is_sitting = false
+
+
+		// --- State Updates ---
+		if is_moving {
+			length := math.sqrt(move_dir.x*move_dir.x + move_dir.z*move_dir.z)
+			move_dir.x /= length
+			move_dir.z /= length
+
+			state.target_rotation = math.atan2(move_dir.x, move_dir.z) * rl.RAD2DEG
+
+			current_move_speed := state.move_speed
+			if is_running do current_move_speed *= state.run_speed_mult
+
+			state.velocity.x = move_dir.x * current_move_speed
+			state.velocity.z = move_dir.z * current_move_speed
+		} else {
+			state.velocity = {0, 0, 0}
+		}
+
+		// Smooth rotation
+		if state.rotation != state.target_rotation {
+			diff := state.target_rotation - state.rotation
+			if diff > 180 do diff -= 360
+			if diff < -180 do diff += 360
+			if abs(diff) < state.turn_speed {
+				state.rotation = state.target_rotation
+			} else {
+				state.rotation += math.sign(diff) * state.turn_speed
+			}
+			state.rotation = linalg.mod(state.rotation + 360, 360)
+		}
+
+		// Update position (only if not sitting)
+		if !is_sitting {
+			state.position.x += state.velocity.x
+			state.position.z += state.velocity.z
+		}
+
+		// --- Animation Logic ---
+		if anim_count > 0 {
+			current_anim: rl.ModelAnimation
+			
+			// Priority 1: One-shot actions
+			if current_action != -1 {
+				current_anim = animations[current_action]
+			// Priority 2: Sustained states (sitting)
+			} else if is_sitting {
+				current_anim = animations[7] // Robot_Sitting
+			// Priority 3: Locomotion (running/walking)
+			} else if is_running {
+				current_anim = animations[8] // Robot_Running
+			} else if is_moving {
+				current_anim = animations[4] // Robot_Walking
+			// Priority 4: Default state
+			} else {
+				current_anim = animations[12] // Robot_Idle
+			}
+
+			// Update and loop/reset animation
+			anim_frame += 1
+			rl.UpdateModelAnimation(model, current_anim, anim_frame)
+			
+			if anim_frame >= current_anim.frameCount {
+				anim_frame = 0
+				// If a one-shot action finished, reset to no action
+				if current_action != -1 {
+					current_action = -1
+				}
+			}
+		}
+
+		// --- Camera and Model Transform ---
+		model.transform = rl.MatrixRotateY(state.rotation * rl.DEG2RAD)
+		angle := state.rotation * rl.DEG2RAD
+		camera.position = {
+			state.position.x - math.sin(angle) * camera_distance,
+			state.position.y + camera_height,
+			state.position.z - math.cos(angle) * camera_distance,
+		}
+		camera.target = {state.position.x, state.position.y + 2, state.position.z}
+
+		// --- Render ---
+		rl.BeginDrawing()
+		rl.ClearBackground(rl.RAYWHITE)
+		rl.BeginMode3D(camera)
+			rl.DrawModel(model, state.position, 1, rl.WHITE)
+			rl.DrawGrid(20, 1)
+		rl.EndMode3D()
+
+		rl.DrawText("ROBOT CONTROLS", 10, 10, 20, rl.DARKGRAY)
+		rl.DrawText("- WASD to Move, L-Shift to Run", 10, 40, 20, rl.LIME)
+		rl.DrawText("- Down Arrow to Sit/Stand", 10, 65, 20, rl.LIME)
+		rl.DrawText("- [SPACE] Jump", 10, 90, 20, rl.SKYBLUE)
+		rl.DrawText("- [R] Wave, [Y] Thumbs Up", 10, 115, 20, rl.SKYBLUE)
+		rl.DrawText("- [X] Dance, [3] Punch", 10, 140, 20, rl.SKYBLUE)
+		rl.DrawText("- [Enter] Yes, [N] No", 10, 165, 20, rl.SKYBLUE)
+
+		rl.EndDrawing()
+	}
 }

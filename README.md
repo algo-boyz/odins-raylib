@@ -113,7 +113,7 @@
     Camera Control
   </a>
   <a href="2D/camera/control/main.odin">
-    <img src="2D/camera/control/assets/preview.gif" alt="camera control" width="960">
+    <img src="2D/camera/control/preview.gif" alt="camera control" width="960">
   </a>
 </p>
 
@@ -125,7 +125,7 @@
     Quadtree
   </a>
   <a href="2D/camera/quadtree/main.odin">
-    <img src="2D/camera/quadtree/assets/preview.gif" alt="quadtree" width="960">
+    <img src="2D/camera/quadtree/preview.gif" alt="quadtree" width="960">
   </a>
 </p>
 
@@ -174,7 +174,7 @@
     DOOM fire effect
   </a>
   <a href="2D/physics/fire/README.md">
-    <img src="2D/physics/fire/doom/assets/preview.gif" alt="fluid simulation 2D" width="960">
+    <img src="2D/physics/fire/doom/preview.gif" alt="fluid simulation 2D" width="960">
   </a>
 </p>
 
@@ -244,7 +244,7 @@
     Monte Carlo Tree Search
   </a>
   <a href="AI/mcts/example/main.odin">
-    <img src="AI/mcts/example/preview.gif" alt="pong" width="960">
+    <img src="AI/mcts/demo/preview.gif" alt="pong" width="960">
   </a>
 </p>
 <hr>
@@ -447,7 +447,7 @@
     Collision detection
   </a>
   <a href="3D/physics/collision/bb/main.odin">
-    <img src="3D/physics/collision/bb/assets/preview.gif" alt="collision detection" width="960">
+    <img src="3D/physics/collision/bb/preview.gif" alt="collision detection" width="960">
   </a>
 </p>
 
@@ -474,7 +474,7 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
     GLB models
   </a>
   <a href=3D/models/glb/robot/main.odin">
-    <img src="3D/models/glb/robot/assets/preview.gif" alt="glb" width="960">
+    <img src="3D/models/glb/robot/preview.gif" alt="glb" width="960">
   </a>
 </p>
 
