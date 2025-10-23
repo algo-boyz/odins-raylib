@@ -1,5 +1,26 @@
 ## A* path finder
 
+<p align="center">
+  <a href="naive/main.odin">
+    Naive
+  </a>
+  <a href="naive/main.odin">
+    <img src="naive/assets/preview.gif" alt="naive_a_star" width="960">
+  </a>
+</p>
+<hr>
+
+<p align="center">
+  <a href="jump/demo/main.odin">
+    Jump
+  </a>
+  <a href="jump/demo/main.odin">
+    <img src="jump/demo/preview.png" alt="naive_a_star" width="960">
+  </a>
+</p>
+<hr>
+
+
 - [Pathfinding](https://juhrjuhr.itch.io/deep-space-exploitation/devlog/945428/9-pathfinding)
 
 ## Todo

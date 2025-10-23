@@ -440,7 +440,7 @@ main :: proc() {
             // Show octree stats
             stats := get_octree_stats()
             stats_text := fmt.tprintf("Octree Stats - Nodes: %d, Items: %d, Max Depth: %d", 
-                                    stats.total_nodes, stats.num_items, stats.max_depth)
+                                    stats.num_nodes, stats.num_items, stats.max_depth)
             rl.DrawText(strings.clone_to_cstring(stats_text), 10, HEIGHT - 60, 14, rl.DARKBLUE)
             
         rl.EndDrawing()

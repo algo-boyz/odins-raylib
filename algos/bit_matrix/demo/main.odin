@@ -21,12 +21,12 @@ Demo :: struct {
     completed: bool,
 }
 
-demo_init :: proc(demo: ^Demo) {
+init :: proc(demo: ^Demo) {
     bm.matrix_init(&demo.origin)
     bm.matrix_copy(&demo.steps[0], &demo.origin)
     
     // Pre-calculate transpose steps
-    demo_calculate_steps(demo)
+    calculate_steps(demo)
     
     demo.current_step = 0
     demo.max_steps = 3
@@ -36,7 +36,7 @@ demo_init :: proc(demo: ^Demo) {
     demo.completed = false
 }
 
-demo_calculate_steps :: proc(demo: ^Demo) {
+calculate_steps :: proc(demo: ^Demo) {
     temp_matrix := demo.origin
     step_idx := 1
     swap_width := BIT_WIDTH
@@ -51,7 +51,7 @@ demo_calculate_steps :: proc(demo: ^Demo) {
     }
 }
 
-demo_start_animation :: proc(demo: ^Demo) {
+start_animation :: proc(demo: ^Demo) {
     if !demo.is_animating && !demo.completed {
         demo.is_animating = true
         demo.current_step = 0
@@ -59,7 +59,7 @@ demo_start_animation :: proc(demo: ^Demo) {
     }
 }
 
-demo_next_step :: proc(demo: ^Demo) {
+next_step :: proc(demo: ^Demo) {
     if demo.is_animating {
         demo.current_step += 1
         if demo.current_step > demo.max_steps {
@@ -71,15 +71,15 @@ demo_next_step :: proc(demo: ^Demo) {
     }
 }
 
-demo_reset :: proc(demo: ^Demo) {
-    demo_init(demo)
+reset :: proc(demo: ^Demo) {
+    init(demo)
 }
 
-demo_update :: proc(demo: ^Demo, delta_time: f32) {
+update :: proc(demo: ^Demo, delta_time: f32) {
     if demo.is_animating {
         demo.animation_timer += delta_time
         if demo.animation_timer >= demo.animation_speed {
-            demo_next_step(demo)
+            next_step(demo)
         }
     }
 }
@@ -172,7 +172,7 @@ draw_color_legend :: proc(start_x, start_y: i32) {
     }
 }
 
-demo_draw :: proc(demo: ^Demo) {
+draw :: proc(demo: ^Demo) {
     rl.BeginDrawing()
     rl.ClearBackground({30, 30, 40, 255})
     rl.DrawText("Educational Bit Matrix Transpose", 10, 10, 24, rl.WHITE)
@@ -234,28 +234,25 @@ demo_draw :: proc(demo: ^Demo) {
 }
 
 main :: proc() {
-    demo: Demo
-    
-    rl.InitWindow(WIDTH, HEIGHT, "Educational Bit Matrix Transpose")
+    rl.InitWindow(WIDTH, HEIGHT, "Bit Matrix Transpose")
     rl.SetTargetFPS(60)
-    
-    demo_init(&demo)
+
+    demo: Demo
+    init(&demo)
     
     for !rl.WindowShouldClose() {
         if rl.IsKeyPressed(.T) {
             if !demo.is_animating && !demo.completed {
-                demo_start_animation(&demo)
+                start_animation(&demo)
             } else if demo.is_animating {
-                demo_next_step(&demo)
+                next_step(&demo)
             }
         }
         if rl.IsKeyPressed(.R) {
-            demo_reset(&demo)
+            reset(&demo)
         }   
-        // Update
-        demo_update(&demo, rl.GetFrameTime())
-        // Draw
-        demo_draw(&demo)
+        update(&demo, rl.GetFrameTime())
+        draw(&demo)
     }
     rl.CloseWindow()
 }

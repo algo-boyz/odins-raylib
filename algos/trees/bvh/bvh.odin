@@ -1,10 +1,11 @@
-package geometry
+package bvh
 
 import "core:log"
 import "core:math"
 import "core:math/linalg"
 import "core:slice"
 import "../../../rlutil/geom"
+import rl "vendor:raylib"
 
 // alternative implementation: https://github.com/TheSandvichMaker/odin-rt/blob/main/code/bvh.odin
 

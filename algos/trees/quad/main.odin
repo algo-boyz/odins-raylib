@@ -4,6 +4,7 @@ import rl "vendor:raylib"
 import "core:fmt"
 import "core:math/linalg"
 import "core:math/rand"
+import "../../../rlutil/gif"
 
 LEN :: 1000
 NUM_POINTS :: 4
@@ -36,6 +37,8 @@ num_active: int // Track number of active quads
 is_full: bool   // Track if we ran out of quad space
 
 main :: proc(){
+	rec := gif.new_recorder("preview.gif", 12, 600)
+    defer gif.recorder_cleanup(&rec)
 	rl.InitWindow(1280, 720, "quatree")
 	do_quads: bool
 	dt: f32
@@ -43,11 +46,12 @@ main :: proc(){
 	gen_points()
 
 	for !rl.WindowShouldClose() {
+		gif.recorder_update(&rec)
 		dt = rl.GetFrameTime()
 		fps = rl.GetFPS()
 		move(dt)
 		// Toggle between naive and quadtree collision detection
-		if rl.IsKeyPressed(.SPACE){
+		if rl.IsKeyPressed(.T){
 			do_quads = !do_quads
 		}
 		if do_quads {
@@ -106,7 +110,7 @@ main :: proc(){
 		}else{
 			rl.DrawText("Mode: Naive", 4, 67, 20, rl.GREEN)
 		}
-		rl.DrawText("Press SPACE to toggle", 4, 88, 16, rl.LIGHTGRAY)
+		rl.DrawText("Press 'T' to toggle", 4, 88, 16, rl.LIGHTGRAY)
 		rl.EndDrawing()
 	}
 	rl.CloseWindow()

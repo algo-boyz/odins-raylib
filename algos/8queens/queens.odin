@@ -7,6 +7,7 @@ import "core:mem"
 import "core:slice"
 import "core:time"
 import rl "vendor:raylib"
+import "../../rlutil/gif"
 
 CHROMOSOME_LEN :: 8
 POP_SIZE :: 50
@@ -202,6 +203,8 @@ reproduce :: proc() {
 }
 
 main :: proc() {
+        rec := gif.new_recorder("preview.gif", 24, 600)
+    defer gif.recorder_cleanup(&rec)
     // Init genetics
     best_ = 0
     stuck = 0
@@ -241,6 +244,8 @@ main :: proc() {
     defer rl.UnloadTexture(queen)
 
     for !rl.WindowShouldClose() {
+                gif.recorder_update(&rec)
+
         num_conflicts := 28 - fit_best_
         rl.BeginDrawing()        
         rl.ClearBackground(rl.WHITE)

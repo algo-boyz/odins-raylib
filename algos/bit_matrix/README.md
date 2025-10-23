@@ -1,4 +1,12 @@
-# The Square Bit-Matrix Transpose
+<p align="center">
+  <a href="demo/main.odin">
+    Square Bit-Matrix Transpose
+  </a>
+  <a href="demo/main.odin">
+    <img src="demo/preview.gif" alt="naive_a_star" width="960">
+  </a>
+</p>
+<hr>
 
 Optimized algorithm to perform transpose of a square bit-matrix, by swapping bits across top-right to bottom-left diagonally.
 Taking advantage of [Binary Code Modulation](http://www.batsocks.co.uk/readme/art_bcm_1.htm). This technique allows the value of a cpu register to control the duty-cycle. Only requiring a single hardware timer to control multiple outputs.

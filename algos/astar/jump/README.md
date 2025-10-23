@@ -1,9 +1,7 @@
 # Jump Point Search
-![Screenshot of the path made with JPS](assets/preview.png)
+![Screenshot of the path made with JPS](demo/preview.png)
 
 An implementation of Jump Point Search in odin based on [Viktor Rubenko's Jump-Point-Search](https://github.com/ViktorRubenko/Jump-Point-Search)
-
-
 
 ## Example Usage
 
