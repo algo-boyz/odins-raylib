@@ -14,8 +14,8 @@ Text_Speed :: enum i32 {
 }
 
 Animated_Text :: struct {
-    full_text: string,         // Complete text to display
-    display_text: string,      // Current displayed text (partial)
+    full_text: string,          // Complete text to display
+    display_text: string,       // Current displayed text (partial)
     text_length: i32,           // Length of full text
     current_length: i32,        // Currently displayed length
     speed: Text_Speed,          // Animation speed
@@ -108,13 +108,13 @@ on_complete_animation :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Initialize window
+    // Init window
     screen_width :: 800
     screen_height :: 600
     rl.InitWindow(screen_width, screen_height, "Animated Text Example")
     rl.SetTargetFPS(60)
 
-    // Initialize animated text with a much longer text to demonstrate scrolling
+    // Init animated text with a much longer text to demonstrate scrolling
     dialogue_text := "Once upon a time in a land far, far away...\n\n" +
         "There lived a brave hero who embarked on a journey to save the kingdom " +
         "from an ancient evil that had awakened after centuries of slumber.\n\n" +

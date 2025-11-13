@@ -27,13 +27,13 @@ on_reset :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Initialize window
+    // Init window
     screen_width :: 800
     screen_height :: 600
     rl.InitWindow(screen_width, screen_height, "Counter Example")
     rl.SetTargetFPS(60)
 
-    // Initialize state
+    // Init state
     state: Counter_State = {counter = 0}
 
     // Create dialogue node

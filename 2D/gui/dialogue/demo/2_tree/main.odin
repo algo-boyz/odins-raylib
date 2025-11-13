@@ -132,13 +132,13 @@ on_navigate_to_root :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Initialize raylib window
+    // Init raylib window
     screen_width :: 1024
     screen_height :: 768
     rl.InitWindow(screen_width, screen_height, "Dialogue Tree Example")
     rl.SetTargetFPS(60)
 
-    // Initialize game state
+    // Init game state
     game_state: Game_State = {
         player_health = 100,
         player_gold = 100,

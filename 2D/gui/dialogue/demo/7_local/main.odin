@@ -304,9 +304,7 @@ main :: proc() {
             for segment := dialogue_data.styled_text; segment != nil; segment = segment.next {
                 // Determine style for this segment
                 seg_color := dialogue_data.text_color // Default
-                seg_font_size := base_font_size        // Default
-                // TODO: Add bold/italic handling if needed (requires font variants)
-                
+                seg_font_size := base_font_size       // Default
                 for style := cast(^raydial.Text_Style)segment.styles; style != nil; style = style.next {
                     #partial switch style.type {
                     case .Colored:
@@ -314,7 +312,7 @@ main :: proc() {
                     case .Sized:
                         seg_font_size = style.value.font_size
                     }
-                    // TODO: Add cases for bold/italic
+                    // TODO: Add cases for bold/italic (requires font variants)
                 }
                 
                 // Basic Word Wrapping for Segment 

@@ -105,13 +105,13 @@ unload_gallery :: proc(state: ^GalleryState, allocator := context.allocator) {
 }
 
 main :: proc() {
-    // Initialize window
+    // Init window
     screen_width: i32 = 800
     screen_height: i32 = 600
     rl.InitWindow(screen_width, screen_height, "Image Gallery Example")
     rl.SetTargetFPS(60)
     
-    // Initialize image gallery
+    // Init image gallery
     gallery := load_gallery()
     defer unload_gallery(&gallery)
     
