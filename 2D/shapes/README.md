@@ -7,7 +7,7 @@
     Choose your poison
   </a>
   <a href="curves/ease/main.odin">
-    <img src="curves/ease/assets/preview.gif" alt="curves" width="960">
+    <img src="curves/ease/preview.gif" alt="curves" width="960">
   </a>
 </p>
 
@@ -17,17 +17,17 @@
     Bezier
   </a>
   <a href="curves/smooth/main.odin">
-    <img src="curves/smooth/assets/preview.gif" alt="smooth" width="960">
+    <img src="curves/smooth/preview.gif" alt="smooth" width="960">
   </a>
 </p>
 
 <hr>
 <p align="center">
-  <a href="triangle/example/main.odin">
+  <a href="triangle/demo/main.odin">
     Triangles
   </a>
-  <a href="triangle/example/main.odin">
-    <img src="triangle/assets/preview.gif" alt="triangles" width="960">
+  <a href="triangle/demo/main.odin">
+    <img src="triangle/demo/preview.gif" alt="triangles" width="960">
   </a>
 </p>
 

@@ -1,5 +1,16 @@
 <h1 align="center">█▬▬𒄆 (◡̀_◡́)d𓌏nϟ 𒅒▬▬█</h1>
 
+https://raw.githubusercontent.com/raysan5/raylib/master/logo/raylib_logo_animation.gif
+
+<p align="center">
+  <a href="logo/main.odin">
+    Raylib Logo
+  </a>
+  <a href="logo/main.odin">
+    <img src="https://raw.githubusercontent.com/raysan5/raylib/master/logo/raylib_logo_animation.gif" alt="logo" width="960">
+  </a>
+</p>
+
 <p align="center">
   <a href="sprite/README.md">
     Sprites

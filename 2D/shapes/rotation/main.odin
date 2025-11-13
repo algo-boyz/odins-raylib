@@ -24,7 +24,7 @@ main :: proc() {
     tex: Tex
     tex.pos = {500, 500}
     tex.origin = {50, 50}
-    tex.texture = rl.LoadTexture("assets/arrow.png")
+    tex.texture = rl.LoadTexture("arrow.png")
 
     for !rl.WindowShouldClose() {
         rl.BeginDrawing()
