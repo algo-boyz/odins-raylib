@@ -6,9 +6,8 @@ import "core:strings"
 import rl "vendor:raylib"
 import raydial "../../"
 
-// Gallery state
-GalleryState :: struct {
-    colors: [dynamic]rl.Color,      // We'll use colored rectangles instead of images
+Gallery_State :: struct {
+    colors: [dynamic]rl.Color,      // Colored rectangles instead of images
     image_count: i32,
     image_titles: [dynamic]string,
     image_descriptions: [dynamic]string,
@@ -17,9 +16,9 @@ GalleryState :: struct {
 }
 
 // Button callbacks
-OnNextImage :: proc "c" (user_data: rawptr) {
+on_next_img :: proc "c" (user_data: rawptr) {
     context = runtime.default_context()
-    state := cast(^GalleryState)user_data
+    state := cast(^Gallery_State)user_data
     if state.current_image_index < state.image_count - 1 {
         state.current_image_index += 1
         state.scroll_position = 0 // Reset scroll position for new image
@@ -27,19 +26,18 @@ OnNextImage :: proc "c" (user_data: rawptr) {
     }
 }
 
-OnPrevImage :: proc "c" (user_data: rawptr) {
+on_prev_img :: proc "c" (user_data: rawptr) {
     context = runtime.default_context()
-    state := cast(^GalleryState)user_data
+    state := cast(^Gallery_State)user_data
     if state.current_image_index > 0 {
         state.current_image_index -= 1
-        state.scroll_position = 0 // Reset scroll position for new image
+        state.scroll_position = 0
         fmt.printf("Showing image %d of %d\n", state.current_image_index + 1, state.image_count)
     }
 }
 
-// Load gallery images
-load_gallery :: proc(allocator := context.allocator) -> GalleryState {
-    state: GalleryState
+load_gallery :: proc(allocator := context.allocator) -> Gallery_State {
+    state: Gallery_State
     
     // Create colors for our "portraits"
     state.image_count = 4
@@ -47,13 +45,13 @@ load_gallery :: proc(allocator := context.allocator) -> GalleryState {
     reserve(&state.image_titles, i32(state.image_count))
     reserve(&state.image_descriptions, i32(state.image_count))
     
-    // Set colors for each "portrait"
+    // Set colors for each portrait
     append(&state.colors, rl.YELLOW)      // Happy
     append(&state.colors, rl.LIGHTGRAY)   // Neutral
     append(&state.colors, rl.BLUE)        // Sad
     append(&state.colors, rl.RED)         // Angry
     
-    // Set titles and descriptions
+    // Set titles and description
     titles := []string {
         "Happy Portrait (Yellow)",
         "Neutral Portrait (Gray)",
@@ -90,8 +88,7 @@ load_gallery :: proc(allocator := context.allocator) -> GalleryState {
     return state
 }
 
-// Unload gallery resources
-unload_gallery :: proc(state: ^GalleryState, allocator := context.allocator) {
+unload_gallery :: proc(state: ^Gallery_State, allocator := context.allocator) {
     for title in &state.image_titles {
         delete(title)
     }
@@ -105,9 +102,8 @@ unload_gallery :: proc(state: ^GalleryState, allocator := context.allocator) {
 }
 
 main :: proc() {
-    // Init window
-    screen_width: i32 = 800
-    screen_height: i32 = 600
+    screen_width  :: 800
+    screen_height :: 600
     rl.InitWindow(screen_width, screen_height, "Image Gallery Example")
     rl.SetTargetFPS(60)
     
@@ -155,7 +151,7 @@ main :: proc() {
     
     // Create image description label
     image_description := raydial.create_label(
-        {400, 180, 320, 220},  // Adjusted height to fit within panel
+        {400, 180, 320, 220},
         gallery.image_descriptions[0],
         true,
     )
@@ -163,15 +159,15 @@ main :: proc() {
     // Create navigation buttons
     prev_button := raydial.create_button(
         {70, 430, 150, 40},
-        "Previous Color",
-        OnPrevImage,
+        "Prev Color",
+        on_prev_img,
         &gallery,
     )
     
     next_button := raydial.create_button(
         {230, 430, 150, 40},
         "Next Color",
-        OnNextImage,
+        on_next_img,
         &gallery,
     )
     
@@ -197,9 +193,7 @@ main :: proc() {
     // Set the panel as the root node's component
     root_node.components = panel
     
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update
         raydial.update_dialogue_manager(manager)
         
         // Update image and description based on current selection
@@ -219,7 +213,7 @@ main :: proc() {
         // Draw manager (UI components)
         raydial.draw_dialogue_manager(manager)
         
-        // Draw current "portrait" as a colored rectangle
+        // Draw current portrait as colored rectangle
         rl.DrawRectangle(
             i32(image_panel.bounds.x + 50),
             i32(image_panel.bounds.y + 50),
@@ -228,7 +222,7 @@ main :: proc() {
             gallery.colors[gallery.current_image_index],
         )
         
-        // Add a facial expression to the colored rectangle
+        // Add facial expression to colored rectangle
         if gallery.current_image_index == 0 {  // Happy
             rl.DrawCircle(i32(image_panel.bounds.x + 150), i32(image_panel.bounds.y + 150), 100, gallery.colors[0])
             rl.DrawCircle(i32(image_panel.bounds.x + 120), i32(image_panel.bounds.y + 120), 15, rl.BLACK)
@@ -252,12 +246,9 @@ main :: proc() {
                         i32(image_panel.bounds.x + 170), i32(image_panel.bounds.y + 190), rl.BLACK)
         }
         
-        // Draw help text
         rl.DrawText("Press ESC to exit", 10, screen_height - 30, 20, rl.DARKGRAY)
         rl.EndDrawing()
     }
-    
-    // Cleanup
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

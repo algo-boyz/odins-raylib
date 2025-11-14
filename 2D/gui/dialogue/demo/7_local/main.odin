@@ -6,10 +6,9 @@ import "core:os"
 import "core:strings"
 import rl "vendor:raylib"
 import raydial "../../"
-import i18n "../../i18n/"
 
 AppState :: struct {
-    i18n: ^i18n.I18N,
+    i18n: ^raydial.I18N,
     dialogue_component: ^raydial.Component,
     language_label: ^raydial.Component,
     greeting_label: ^raydial.Component,
@@ -23,7 +22,6 @@ AppState :: struct {
 }
 
 main :: proc() {
-    // Init window
     screen_width: i32 = 800
     screen_height: i32 = 600
     rl.InitWindow(screen_width, screen_height, "RayDial Localization Example")
@@ -50,7 +48,7 @@ main :: proc() {
     defer rl.UnloadCodepoints(codepoints)
     fmt.printf("Attempting to load %d glyphs for Greek font.\n", codepoint_count)
     
-    // Try to load Greek font from system paths with specific codepoints
+    // Try to load Greek font from system path with specific codepoints
     paths := []string {
         "/System/Library/Fonts/Supplemental/Arial Unicode.ttf", // Common on macOS
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",      // Common on Linux
@@ -75,48 +73,47 @@ main :: proc() {
     
     if !state.greek_font_loaded {
         fmt.printf("Warning: Could not load any suitable Greek font. Greek text may not display correctly.\n")
-        // Assign the original font to greekFont to avoid null issues later if needed, though it won't display correctly.
         state.greek_font = state.original_default_font
     }
     
     // Init localization system
-    i18n_mgr := i18n.create_i18n_manager()
+    i18n_mgr := raydial.create_i18n_manager()
     state.i18n = i18n_mgr
     
     // Add supported languages
-    i18n.add_language(i18n_mgr, "en", "English")
-    i18n.add_language(i18n_mgr, "es", "Español")
-    i18n.add_language(i18n_mgr, "el", "Ελληνικά") // Greek
+    raydial.add_language(i18n_mgr, "en", "English")
+    raydial.add_language(i18n_mgr, "es", "Español")
+    raydial.add_language(i18n_mgr, "el", "Ελληνικά") // Greek
     
     // Set English as the default language
-    i18n.set_current_language(i18n_mgr, "en")
+    raydial.set_current_language(i18n_mgr, "en")
     
     // Define translation keys and values for English
-    i18n.add_translation(i18n_mgr, "en", "title", "Localization Example")
-    i18n.add_translation(i18n_mgr, "en", "greetingLabel", "Welcome to RayDial localization")
-    i18n.add_translation(i18n_mgr, "en", "switchLanguage", "Switch Language")
-    i18n.add_translation(i18n_mgr, "en", "dialogueTitle", "Sample Dialogue")
-    i18n.add_translation(i18n_mgr, "en", "speakerName", "Guide")
-    i18n.add_translation(i18n_mgr, "en", "dialogueText", "This is an example of [color=green]localized text[/color] with [size=large]styled[/size] formatting.")
-    i18n.add_translation(i18n_mgr, "en", "currentLanguage", "Current Language: English")
+    raydial.add_translation(i18n_mgr, "en", "title", "Localization Example")
+    raydial.add_translation(i18n_mgr, "en", "greetingLabel", "Welcome to RayDial localization")
+    raydial.add_translation(i18n_mgr, "en", "switchLanguage", "Switch Language")
+    raydial.add_translation(i18n_mgr, "en", "dialogueTitle", "Sample Dialogue")
+    raydial.add_translation(i18n_mgr, "en", "speakerName", "Guide")
+    raydial.add_translation(i18n_mgr, "en", "dialogueText", "This is an example of [color=green]localized text[/color] with [size=large]styled[/size] formatting.")
+    raydial.add_translation(i18n_mgr, "en", "currentLanguage", "Current Language: English")
     
     // Spanish translations
-    i18n.add_translation(i18n_mgr, "es", "title", "Ejemplo de Localización")
-    i18n.add_translation(i18n_mgr, "es", "greetingLabel", "Bienvenido a la localización de RayDial")
-    i18n.add_translation(i18n_mgr, "es", "switchLanguage", "Cambiar Idioma")
-    i18n.add_translation(i18n_mgr, "es", "dialogueTitle", "Diálogo de Ejemplo")
-    i18n.add_translation(i18n_mgr, "es", "speakerName", "Guía")
-    i18n.add_translation(i18n_mgr, "es", "dialogueText", "Este es un ejemplo de [color=green]texto localizado[/color] con formato [size=large]estilizado[/size].")
-    i18n.add_translation(i18n_mgr, "es", "currentLanguage", "Idioma Actual: Español")
+    raydial.add_translation(i18n_mgr, "es", "title", "Ejemplo de Localización")
+    raydial.add_translation(i18n_mgr, "es", "greetingLabel", "Bienvenido a la localización de RayDial")
+    raydial.add_translation(i18n_mgr, "es", "switchLanguage", "Cambiar Idioma")
+    raydial.add_translation(i18n_mgr, "es", "dialogueTitle", "Diálogo de Ejemplo")
+    raydial.add_translation(i18n_mgr, "es", "speakerName", "Guía")
+    raydial.add_translation(i18n_mgr, "es", "dialogueText", "Este es un ejemplo de [color=green]texto localizado[/color] con formato [size=large]estilizado[/size].")
+    raydial.add_translation(i18n_mgr, "es", "currentLanguage", "Idioma Actual: Español")
     
     // Greek translations
-    i18n.add_translation(i18n_mgr, "el", "title", "Παράδειγμα τοπικοποίησης")
-    i18n.add_translation(i18n_mgr, "el", "greetingLabel", "Καλώς ήρθατε στη τοπικοποίηση RayDial")
-    i18n.add_translation(i18n_mgr, "el", "switchLanguage", "Αλλαγή γλώσσας")
-    i18n.add_translation(i18n_mgr, "el", "dialogueTitle", "Δείγμα διαλόγου")
-    i18n.add_translation(i18n_mgr, "el", "speakerName", "Οδηγός")
-    i18n.add_translation(i18n_mgr, "el", "dialogueText", "Αυτό είναι ένα παράδειγμα [color=green]τοπικοποιημένου κειμένου[/color] με [size=large]μορφοποίηση[/size].")
-    i18n.add_translation(i18n_mgr, "el", "currentLanguage", "Τρέχουσα γλώσσα: Ελληνικά")
+    raydial.add_translation(i18n_mgr, "el", "title", "Παράδειγμα τοπικοποίησης")
+    raydial.add_translation(i18n_mgr, "el", "greetingLabel", "Καλώς ήρθατε στη τοπικοποίηση RayDial")
+    raydial.add_translation(i18n_mgr, "el", "switchLanguage", "Αλλαγή γλώσσας")
+    raydial.add_translation(i18n_mgr, "el", "dialogueTitle", "Δείγμα διαλόγου")
+    raydial.add_translation(i18n_mgr, "el", "speakerName", "Οδηγός")
+    raydial.add_translation(i18n_mgr, "el", "dialogueText", "Αυτό είναι ένα παράδειγμα [color=green]τοπικοποιημένου κειμένου[/color] με [size=large]μορφοποίηση[/size].")
+    raydial.add_translation(i18n_mgr, "el", "currentLanguage", "Τρέχουσα γλώσσα: Ελληνικά")
     
     // Init application state
     state.current_language_index = 0
@@ -189,21 +186,18 @@ main :: proc() {
     // Set the panel as the root node's component
     root_node.components = panel
     
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update
         raydial.update_dialogue_manager(manager)
         
         // Determine current font based on language
         current_font:rl.Font
         if state.current_language_index == 2 && state.greek_font_loaded { current_font = state.greek_font } else { current_font = state.original_default_font }
         
-        // Draw
         rl.BeginDrawing()
         rl.ClearBackground(rl.SKYBLUE)
         
         // Manual Drawing of Components 
-        // We bypass DrawDialogueManager to control font usage
+        // Bypass DrawDialogueManager to control font
         
         // 1. Draw Panel Background (using data from the panel component)
         panel_data := cast(^raydial.Panel_Data)panel.data
@@ -211,11 +205,11 @@ main :: proc() {
         rl.DrawRectangleLinesEx(panel.bounds, panel_data.border_width, panel_data.border_color)
         
         // Get localized text for components manually
-        title_text := i18n.get_localized_text(state.i18n, "title")
-        greeting_text := i18n.get_localized_text(state.i18n, "greetingLabel")
-        lang_label_text := i18n.get_localized_text(state.i18n, "currentLanguage")
-        button_text := i18n.get_localized_text(state.i18n, "switchLanguage")
-        speaker_name_text := i18n.get_localized_text(state.i18n, "speakerName")
+        title_text := raydial.get_localized_text(state.i18n, "title")
+        greeting_text := raydial.get_localized_text(state.i18n, "greetingLabel")
+        lang_label_text := raydial.get_localized_text(state.i18n, "currentLanguage")
+        button_text := raydial.get_localized_text(state.i18n, "switchLanguage")
+        speaker_name_text := raydial.get_localized_text(state.i18n, "speakerName")
         // Note: Dialogue text needs special handling for styled text
         
         // 2. Draw Title Label (using raylib directly)
@@ -233,7 +227,7 @@ main :: proc() {
         lang_label_cstr := strings.clone_to_cstring(lang_label_text, context.temp_allocator)
         rl.DrawTextEx(current_font, lang_label_cstr, {state.language_label.bounds.x, state.language_label.bounds.y}, f32(lang_label_data.font_size), 1, lang_label_data.text_color)
         
-        // 5. Draw Portrait Dialogue (More complex - replicating parts of DrawComponent)
+        // 5. Draw Portrait Dialogue
         dialogue_data := cast(^raydial.Portrait_Dialogue_Data)state.dialogue_component.data
         dialogue_bounds := state.dialogue_component.bounds
         portrait_size := dialogue_data.portrait_size
@@ -252,10 +246,10 @@ main :: proc() {
         rl.DrawRectangleRec(dialogue_bounds, dialogue_data.dialogue_box_color)
         rl.DrawRectangleLinesEx(dialogue_bounds, 2, rl.DARKGRAY)
         
-        // Draw portrait (color only for simplicity here)
+        // Draw portrait
         portrait_rect := rl.Rectangle{portrait_x, portrait_y, f32(portrait_size), f32(portrait_size)}
         if dialogue_data.use_texture {
-            // Added texture support back
+            // Add texture support back
             src_rect := rl.Rectangle{0, 0, f32(dialogue_data.portrait_texture.width), f32(dialogue_data.portrait_texture.height)}
             rl.DrawTexturePro(dialogue_data.portrait_texture, src_rect, portrait_rect, {0, 0}, 0, rl.WHITE)
         } else {
@@ -302,7 +296,7 @@ main :: proc() {
             line_height := base_font_size * 1.5 // Base line height
             
             for segment := dialogue_data.styled_text; segment != nil; segment = segment.next {
-                // Determine style for this segment
+                // Determine style for segment
                 seg_color := dialogue_data.text_color // Default
                 seg_font_size := base_font_size       // Default
                 for style := cast(^raydial.Text_Style)segment.styles; style != nil; style = style.next {
@@ -358,7 +352,7 @@ main :: proc() {
                 }
             }
         } else {
-            dialogue_text_plain := i18n.get_localized_text(state.i18n, "dialogueText")
+            dialogue_text_plain := raydial.get_localized_text(state.i18n, "dialogueText")
             dialogue_text_cstr := strings.clone_to_cstring(dialogue_text_plain, context.temp_allocator)
             rl.DrawTextEx(current_font, dialogue_text_cstr, {text_area.x, text_area.y}, f32(dialogue_data.font_size), 1, dialogue_data.text_color)
         }
@@ -384,9 +378,9 @@ main :: proc() {
             rl.DrawRectangle(50, 10, 700, 30, rl.DARKGRAY)
             status_text := "Currently using Greek (Ελληνικά)"
             status_cstr := strings.clone_to_cstring(status_text, context.temp_allocator)
-            rl.DrawTextEx(current_font, status_cstr, {60, 15}, 20, 1, rl.WHITE) // <-- Use currentFont
+            rl.DrawTextEx(current_font, status_cstr, {60, 15}, 20, 1, rl.WHITE) // use currentFont
         } else {
-            // Optionally display for other languages if needed
+            // Optionally display for other languages
             // rl.DrawRectangle(50, 10, 700, 30, rl.DARKGRAY)
             // DrawText(TextFormat("Currently using %s", GetCurrentLanguageName(state.i18n)), 60, 15, 20, WHITE)
         }
@@ -401,7 +395,7 @@ main :: proc() {
     }
     
     raydial.free_dialogue_manager(manager)
-    i18n.free_i18n_manager(i18n_mgr)
+    raydial.free_i18n_manager(i18n_mgr)
     
     rl.CloseWindow()
 }
@@ -411,25 +405,23 @@ OnSwitchLanguage :: proc "c" (user_data: rawptr) {
     context = runtime.default_context()
     state := cast(^AppState)user_data
     
-    // Cycle to the next language
+    // Cycle to next language
     state.current_language_index = (state.current_language_index + 1) % 3
     new_language := state.available_languages[state.current_language_index]
     
     // Apply the new language to the I18N manager
-    if i18n.set_current_language(state.i18n, new_language) {
-        fmt.printf("Switched to language: %s\n", i18n.get_current_language_name(state.i18n))
+    if raydial.set_current_language(state.i18n, new_language) {
+        fmt.printf("Switched to language: %s\n", raydial.get_current_language_name(state.i18n))
         
-        // Update component text keys - the drawing loop now handles font selection
+        // Update component text keys - the drawing loop handles font selection
         raydial.set_localized_label_text(state.title, "title", state.i18n)
         raydial.set_localized_label_text(state.greeting_label, "greetingLabel", state.i18n)
         raydial.set_localized_label_text(state.language_label, "currentLanguage", state.i18n)
         raydial.set_localized_button_text(state.switch_button, "switchLanguage", state.i18n)
         
-        // Update the dialogue component's keys - IMPORTANT for styled text
+        // Update the dialogue component's keys - IMPORTANT for text style
         raydial.set_localized_portrait_dialogue_speaker(state.dialogue_component, "speakerName", state.i18n)
         // Re-parse styled text when language changes to ensure correct segments are generated
         raydial.set_localized_portrait_dialogue_styled_text(state.dialogue_component, "dialogueText", state.i18n)
-        
-        // No need to change default font anymore
     }
 }

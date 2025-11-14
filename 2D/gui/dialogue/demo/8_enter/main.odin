@@ -34,7 +34,6 @@ update_dialogue :: proc(state: ^Dialogue_State) {
 }
 
 main :: proc() {
-    // Init window
     screen_width :: 800
     screen_height :: 450
     rl.InitWindow(screen_width, screen_height, "Enter Dialogue Example")
@@ -65,7 +64,6 @@ main :: proc() {
     raydial.add_component(panel, instruction_label)
     root_node.components = panel
 
-    // Main game loop
     for !rl.WindowShouldClose() {
         // Update dialogue based on keyboard input
         update_dialogue(&state)
@@ -73,18 +71,15 @@ main :: proc() {
         // Update dialogue manager
         raydial.update_dialogue_manager(manager)
 
-        // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
         raydial.draw_dialogue_manager(manager)
 
         // Draw current dialogue index
         index_text := fmt.tprintf("Dialogue %d/%d", state.current_index + 1, state.dialogue_count)
         rl.DrawText(strings.clone_to_cstring(index_text, context.temp_allocator), 10, 10, 20, rl.DARKGRAY)
+        rl.EndDrawing()
     }
-
-    // Cleanup
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

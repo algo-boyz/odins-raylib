@@ -19,7 +19,7 @@ DialogueEntry :: struct {
     show_on_right: bool,
 }
 
-// Structure to track conversation state
+// Struct to track conversation state
 ConversationState :: struct {
     entries: [^]DialogueEntry,
     entry_count: i32,
@@ -27,7 +27,7 @@ ConversationState :: struct {
     portrait_dialogue: ^raydial.Component,
 }
 
-// Create a basic emotional face based on state (same as in example 5)
+// Create a basic emotional face based on state
 draw_emotional_face :: proc(bounds: rl.Rectangle, emotion_state: i32) {
     face_color: rl.Color
     switch emotion_state {
@@ -109,13 +109,12 @@ OnNextDialogue :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Init window
-    screen_width: i32 = 1024 // Increased width
-    screen_height: i32 = 768 // Increased height
+    screen_width: i32 = 1024
+    screen_height: i32 = 768
     rl.InitWindow(screen_width, screen_height, "Styled Dialogue Example")
     rl.SetTargetFPS(60)
     
-    // Init dialogue entries with rich text styling
+    // Init dialogue entries with text styling
     dialogues: [9]DialogueEntry = {
         {"Knight", "Hello adventurer! I'm [color=yellow]Sir Galahad[/color], knight of the realm.", CHARACTER_HAPPY, false},
         {"Wizard", "I am [color=blue]Merlin[/color], a [size=large]wizard[/size] of great power.", CHARACTER_NEUTRAL, true},
@@ -140,20 +139,20 @@ main :: proc() {
     // Create dialogue manager
     manager := raydial.create_dialogue_manager(root_node)
     
-    // Create main UI panel (larger and centered)
+    // Create main UI panel
     panel := raydial.create_panel(
         {f32((screen_width - 800) / 2), f32((screen_height - 600) / 2), 800, 600}, // Centered 800x600 panel
         rl.RAYWHITE,
     )
     
-    // Create title (adjust position)
+    // Create title
     title := raydial.create_label(
         {panel.bounds.x + 20, panel.bounds.y + 20, panel.bounds.width - 40, 40},
         "Styled Dialogue Text Example",
         true,
     )
     
-    // Create portrait dialogue component (make shorter again)
+    // Create portrait dialogue component
     first_entry := &conversation.entries[0]
     color := rl.RED
     if first_entry.portrait_state == CHARACTER_HAPPY {
@@ -164,9 +163,9 @@ main :: proc() {
         color = rl.BLUE
     }
     portrait_dialogue := raydial.create_portrait_dialogue(
-        {panel.bounds.x + 20, panel.bounds.y + 70, panel.bounds.width - 40, 330}, // Reduced height from 350 to 330
+        {panel.bounds.x + 20, panel.bounds.y + 70, panel.bounds.width - 40, 330},
         first_entry.speaker_name,
-        "Plain text version",  // Will be replaced with styled text
+        "Plain text version",  // to be replaced with styled text
         color,
     )
     
@@ -179,23 +178,23 @@ main :: proc() {
     // Set initial portrait position
     raydial.set_portrait_dialogue_position(portrait_dialogue, first_entry.show_on_right)
     
-    // Create next dialogue button (adjust Y position)
-    button_y := panel.bounds.y + 70 + 330 + 10 // Position below shorter dialogue box + padding
+    // Create next dialogue button
+    button_y := panel.bounds.y + 70 + 330 + 10 // Position below dialogue box + padding
     next_button := raydial.create_button(
-        {panel.bounds.x + (panel.bounds.width - 180) / 2, button_y, 180, 40}, // Use calculated buttonY
+        {panel.bounds.x + (panel.bounds.width - 180) / 2, button_y, 180, 40},
         "Next Dialogue",
         OnNextDialogue,
         &conversation,
     )
     
-    // Create info label (adjust Y position and give more height)
+    // Create info label
     legend_height_estimate: f32 = 50 // Approximate height needed for legend text
     legend_y := button_y + 40 + 10 // Position below button + padding
     info_label_y := legend_y + legend_height_estimate 
     info_label_height := panel.bounds.y + panel.bounds.height - info_label_y - 20 // Fill remaining space minus bottom padding
     
     info_label := raydial.create_label(
-        {panel.bounds.x + 20, info_label_y, panel.bounds.width - 40, info_label_height}, // Use calculated Y and Height
+        {panel.bounds.x + 20, info_label_y, panel.bounds.width - 40, info_label_height},
         "This example demonstrates styled text with colors, sizes, and formatting",
         true,
     )
@@ -209,23 +208,20 @@ main :: proc() {
     // Set the panel as the root node's component
     root_node.components = panel
     
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update
         raydial.update_dialogue_manager(manager)
         
-        // Draw
         rl.BeginDrawing()
-        rl.ClearBackground(rl.DARKGRAY) // Slightly different background
+        rl.ClearBackground(rl.DARKGRAY)
         
         // Draw manager (UI components)
         raydial.draw_dialogue_manager(manager)
         
-        // Custom drawing for the portrait (override the default solid color)
+        // Custom drawing for the portrait (overrides default solid color)
         current_entry := &conversation.entries[conversation.current_index]
         portrait_bounds: rl.Rectangle
         portrait_area_y := portrait_dialogue.bounds.y + 10
-        portrait_area_size: f32 = 100 // Keep portrait size fixed for now
+        portrait_area_size: f32 = 100
         
         if current_entry.show_on_right {
             portrait_bounds = { 
@@ -242,22 +238,19 @@ main :: proc() {
                 portrait_area_size 
             }
         }
-        
-        // Draw the emotional face
+        // Draw the emo face
         draw_emotional_face(portrait_bounds, current_entry.portrait_state)
         
-        // Draw formatting legend (Adjust Y relative to button)
+        // Draw formatting legend
         rl.DrawText("Formatting Tags:", i32(panel.bounds.x + 20), i32(legend_y), 20, rl.BLACK)
         rl.DrawText("[color=red]text[/color]", i32(panel.bounds.x + 20), i32(legend_y + 30), 16, rl.RED)
         rl.DrawText("[size=large]text[/size]", i32(panel.bounds.x + 220), i32(legend_y + 30), 16, rl.BLACK)
         rl.DrawText("[b]text[/b] (bold)", i32(panel.bounds.x + 420), i32(legend_y + 30), 16, rl.BLACK)
         
-        // Draw help text (Relative to screen bottom)
+        // Draw help text
         rl.DrawText("Press ESC to exit", 10, screen_height - 30, 20, rl.DARKGRAY)
         rl.EndDrawing()
     }
-    
-    // Cleanup
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

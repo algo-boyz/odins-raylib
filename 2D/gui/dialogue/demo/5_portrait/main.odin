@@ -228,7 +228,6 @@ main :: proc() {
         rl.DrawText("Press ESC to exit", 10, screen_height - 30, 20, rl.DARKGRAY)
         rl.EndDrawing()
     }
-
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

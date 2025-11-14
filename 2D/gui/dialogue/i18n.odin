@@ -1,17 +1,9 @@
-package i18n
+package raydial
 
 import "base:runtime"
-import rl "vendor:raylib"
-import "core:fmt"
 import "core:os"
 import "core:strings"
-
-// Forward declaration for styled text parsing (assumed to be defined elsewhere)
-Text_Segment :: struct {
-    text: string,
-    styles: rawptr, // Placeholder; adjust based on actual styles struct from raydial.h
-    next: ^Text_Segment,
-}
+import rl "vendor:raylib"
 
 // Main localization manager struct
 I18N :: struct {
@@ -358,10 +350,4 @@ set_use_styled_text_parsing :: proc(manager: ^I18N, use_styled_text: bool) {
     if manager != nil {
         manager.use_styled_text_parsing = use_styled_text
     }
-}
-
-// External parse function (stub; implement based on raydial.h)
-parse_styled_text :: proc(text: string, default_color: rl.Color, default_font_size: f32) -> ^Text_Segment {
-    // Placeholder: implement styled text parsing logic here or import from raydial
-    return nil
 }

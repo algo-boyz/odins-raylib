@@ -108,7 +108,6 @@ on_complete_animation :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Init window
     screen_width :: 800
     screen_height :: 600
     rl.InitWindow(screen_width, screen_height, "Animated Text Example")
@@ -177,9 +176,7 @@ main :: proc() {
     // Set root node component
     root_node.components = panel
 
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update animated text
         update_animated_text(&anim_text)
 
         // Update the text label with current animation state
@@ -189,7 +186,6 @@ main :: proc() {
         // Update
         raydial.update_dialogue_manager(manager)
 
-        // Draw
         rl.BeginDrawing()
         rl.ClearBackground(rl.SKYBLUE)
         raydial.draw_dialogue_manager(manager)

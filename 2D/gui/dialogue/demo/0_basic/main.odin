@@ -26,9 +26,9 @@ main :: proc() {
     )
 
     message_label := raydial.create_label(
-        {120, 170, 560, 150}, // Increased height for more spacing
+        {120, 170, 560, 150},
         "This is a basic example creating a dialogue.\n\nText will properly wrap within the bounds of this component, preventing overflow and making the UI look pretty.",
-        true, // Enable text wrapping
+        true,
     )
 
     // Add components to the panel

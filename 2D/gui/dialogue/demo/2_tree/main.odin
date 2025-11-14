@@ -132,13 +132,11 @@ on_navigate_to_root :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Init raylib window
     screen_width :: 1024
     screen_height :: 768
     rl.InitWindow(screen_width, screen_height, "Dialogue Tree Example")
     rl.SetTargetFPS(60)
 
-    // Init game state
     game_state: Game_State = {
         player_health = 100,
         player_gold = 100,
@@ -168,11 +166,9 @@ main :: proc() {
     root_panel := raydial.create_panel({100, 100, 824, 568}, rl.LIGHTGRAY)
 
     root_title := raydial.create_label({120, 120, 784, 40}, "Welcome to the Adventure!", true)
-
     root_message := raydial.create_label({120, 180, 784, 40}, "Choose your path:", true)
 
     shop_button := raydial.create_button({120, 240, 300, 50}, "Visit the Shop", on_navigate_to_shop, manager)
-
     dungeon_button := raydial.create_button({120, 310, 300, 50}, "Enter the Dungeon", on_navigate_to_dungeon, manager)
 
     raydial.add_component(root_panel, root_title)
@@ -185,15 +181,11 @@ main :: proc() {
     shop_panel := raydial.create_panel({100, 100, 824, 568}, rl.LIGHTGRAY)
 
     shop_title := raydial.create_label({120, 120, 784, 40}, "Welcome to the Shop!", false)
-
     gold_label := raydial.create_label({120, 180, 784, 40}, "Your gold: 100", true)
 
     sword_button := raydial.create_button({120, 240, 300, 50}, "Buy Sword (50g)", on_buy_sword, &game_state)
-
     shield_button := raydial.create_button({120, 310, 300, 50}, "Buy Shield (30g)", on_buy_shield, &game_state)
-
     potion_button := raydial.create_button({120, 380, 300, 50}, "Buy Potion (20g)", on_buy_potion, &game_state)
-
     back_button := raydial.create_button({120, 450, 300, 50}, "Back to Main Menu", on_navigate_to_root, manager)
 
     raydial.add_component(shop_panel, shop_title)
@@ -208,17 +200,12 @@ main :: proc() {
     dungeon_panel := raydial.create_panel({100, 100, 824, 568}, rl.DARKGRAY)
 
     dungeon_title := raydial.create_label({120, 120, 784, 40}, "You enter the dungeon...", true)
-
     dungeon_message := raydial.create_label({120, 180, 784, 80}, "The dungeon is dark and damp. You hear strange noises echoing through the halls. What will you do?", true)
-
     dungeon_stats_label := raydial.create_label({120, 270, 784, 40}, "Your stats will appear here", true)
-
     dungeon_equip_label := raydial.create_label({120, 320, 784, 40}, "Your equipment will appear here", true)
 
     battle_button := raydial.create_button({120, 380, 300, 50}, "Fight Monsters", on_navigate_to_battle, manager)
-
     treasure_button := raydial.create_button({120, 450, 300, 50}, "Search for Treasure", on_navigate_to_treasure, manager)
-
     dungeon_back_button := raydial.create_button({440, 450, 300, 50}, "Return to Town", on_navigate_to_root, manager)
 
     raydial.add_component(dungeon_panel, dungeon_title)
@@ -234,17 +221,12 @@ main :: proc() {
     battle_panel := raydial.create_panel({100, 100, 824, 568}, rl.DARKGRAY)
 
     battle_title := raydial.create_label({120, 120, 784, 40}, "Prepare for battle!", true)
-
     battle_message := raydial.create_label({120, 180, 784, 80}, "A fierce monster appears before you! You must fight to survive!", true)
-
     health_label := raydial.create_label({120, 280, 784, 40}, "Health: 100", true)
 
     attack_button := raydial.create_button({120, 340, 300, 50}, "Attack", on_attack, &game_state)
-
     defend_button := raydial.create_button({120, 410, 300, 50}, "Defend", on_defend, &game_state)
-
     use_potion_button := raydial.create_button({120, 480, 300, 50}, "Use Potion", on_use_potion, &game_state)
-
     battle_back_button := raydial.create_button({440, 480, 300, 50}, "Back to Dungeon", on_navigate_to_dungeon, manager)
 
     raydial.add_component(battle_panel, battle_title)
@@ -260,11 +242,9 @@ main :: proc() {
     treasure_panel := raydial.create_panel({100, 100, 824, 568}, rl.GOLD)
 
     treasure_title := raydial.create_label({120, 120, 784, 40}, "You found a treasure room!", false)
-
     treasure_message := raydial.create_label({120, 180, 784, 40}, "There's a locked chest and a mysterious key on the ground.", false)
 
     find_key_button := raydial.create_button({120, 240, 300, 50}, "Pick up the Key", on_find_key, &game_state)
-
     treasure_back_button := raydial.create_button({120, 310, 300, 50}, "Return to Dungeon", on_navigate_to_dungeon, manager)
 
     raydial.add_component(treasure_panel, treasure_title)
@@ -273,9 +253,7 @@ main :: proc() {
     raydial.add_component(treasure_panel, treasure_back_button)
     treasure_node.components = treasure_panel
 
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update
         raydial.update_dialogue_manager(manager)
 
         // Update UI text based on game state
@@ -300,21 +278,18 @@ main :: proc() {
         dungeon_equip_data := cast(^raydial.Label_Data)dungeon_equip_label.data
         dungeon_equip_data.text = dungeon_equip_text
 
-        // Enable/disable shop buttons based on what player already owns
+        // Enable/disable shop buttons based on what player owns
         raydial.set_component_enabled(sword_button, !game_state.has_sword && game_state.player_gold >= 50)
         raydial.set_component_enabled(shield_button, !game_state.has_shield && game_state.player_gold >= 30)
         raydial.set_component_enabled(potion_button, !game_state.has_potion && game_state.player_gold >= 20)
 
-        // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.RAYWHITE)
         raydial.draw_dialogue_manager(manager)
 
         rl.DrawText("Press ESC to exit", 10, 10, 20, rl.DARKGRAY)
+        rl.EndDrawing()
     }
-
-    // Cleanup
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

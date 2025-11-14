@@ -27,7 +27,6 @@ on_reset :: proc "c" (user_data: rawptr) {
 }
 
 main :: proc() {
-    // Init window
     screen_width :: 800
     screen_height :: 600
     rl.InitWindow(screen_width, screen_height, "Counter Example")
@@ -102,24 +101,19 @@ main :: proc() {
     // Set root node component
     root_node.components = panel
 
-    // Main game loop
     for !rl.WindowShouldClose() {
-        // Update
         raydial.update_dialogue_manager(manager)
 
         // Update counter display
         data := cast(^raydial.Label_Data)counter_display.data
         data.text = fmt.tprintf("Current value: %d", state.counter)
 
-        // Draw
         rl.BeginDrawing()
-        defer rl.EndDrawing()
         rl.ClearBackground(rl.SKYBLUE)
         raydial.draw_dialogue_manager(manager)
         rl.DrawText("Press ESC to exit", 10, screen_height - 30, 20, rl.DARKGRAY)
+        rl.EndDrawing()
     }
-
-    // Cleanup
     raydial.free_dialogue_manager(manager)
     rl.CloseWindow()
 }

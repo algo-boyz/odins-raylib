@@ -6,7 +6,6 @@ import "core:math"
 import "core:strings"
 
 import rl "vendor:raylib"
-import i18n "./i18n"
 
 // Enums
 Component_Type :: enum {
@@ -1121,52 +1120,51 @@ set_portrait_dialogue_styled_text :: proc(component: ^Component, formatted_text:
 }
 
 // Localized
-create_localized_button :: proc(bounds: rl.Rectangle, text_key: string, on_click: Callback, user_data: rawptr, i18n_ctx: ^i18n.I18N, allocator := context.allocator) -> ^Component {
-    return create_button(bounds, i18n.get_localized_text(i18n_ctx, text_key), on_click, user_data, allocator)
+create_localized_button :: proc(bounds: rl.Rectangle, text_key: string, on_click: Callback, user_data: rawptr, i18n_ctx: ^I18N, allocator := context.allocator) -> ^Component {
+    return create_button(bounds, get_localized_text(i18n_ctx, text_key), on_click, user_data, allocator)
 }
 
-create_localized_label :: proc(bounds: rl.Rectangle, text_key: string, wrap_text: bool, i18n_ctx: ^i18n.I18N, allocator := context.allocator) -> ^Component {
-    return create_label(bounds, i18n.get_localized_text(i18n_ctx, text_key), wrap_text, allocator)
+create_localized_label :: proc(bounds: rl.Rectangle, text_key: string, wrap_text: bool, i18n_ctx: ^I18N, allocator := context.allocator) -> ^Component {
+    return create_label(bounds, get_localized_text(i18n_ctx, text_key), wrap_text, allocator)
 }
 
-create_localized_portrait_dialogue :: proc(bounds: rl.Rectangle, speaker_name_key, dialogue_text_key: string, portrait_color: rl.Color, i18n_ctx: ^i18n.I18N, allocator := context.allocator) -> ^Component {
-    loc_speaker := i18n.get_localized_text(i18n_ctx, speaker_name_key)
-    loc_text := i18n.get_localized_text(i18n_ctx, dialogue_text_key)
+create_localized_portrait_dialogue :: proc(bounds: rl.Rectangle, speaker_name_key, dialogue_text_key: string, portrait_color: rl.Color, i18n_ctx: ^I18N, allocator := context.allocator) -> ^Component {
+    loc_speaker := get_localized_text(i18n_ctx, speaker_name_key)
+    loc_text := get_localized_text(i18n_ctx, dialogue_text_key)
     return create_portrait_dialogue(bounds, loc_speaker, loc_text, portrait_color, allocator)
 }
 
-set_localized_button_text :: proc(component: ^Component, text_key: string, i18n_ctx: ^i18n.I18N, allocator := context.allocator) {
+set_localized_button_text :: proc(component: ^Component, text_key: string, i18n_ctx: ^I18N, allocator := context.allocator) {
     if component == nil || text_key == "" || i18n_ctx == nil || component.type != .Button { return }
     
     data := cast(^Button_Data)component.data
     delete(data.text, allocator) // free old
-    data.text = i18n.get_localized_text(i18n_ctx, text_key)
+    data.text = get_localized_text(i18n_ctx, text_key)
 }
 
-set_localized_label_text :: proc(component: ^Component, text_key: string, i18n_ctx: ^i18n.I18N, allocator := context.allocator) {
+set_localized_label_text :: proc(component: ^Component, text_key: string, i18n_ctx: ^I18N, allocator := context.allocator) {
     if component == nil || text_key == "" || i18n_ctx == nil || component.type != .Label { return }
     
     data := cast(^Label_Data)component.data
     delete(data.text, allocator) // free old
-    data.text = i18n.get_localized_text(i18n_ctx, text_key)
+    data.text = get_localized_text(i18n_ctx, text_key)
 }
 
-set_localized_portrait_dialogue_text :: proc(component: ^Component, dialogue_text_key: string, i18n_ctx: ^i18n.I18N, allocator := context.allocator) {
+set_localized_portrait_dialogue_text :: proc(component: ^Component, dialogue_text_key: string, i18n_ctx: ^I18N, allocator := context.allocator) {
     if component == nil || dialogue_text_key == "" || i18n_ctx == nil || component.type != .Portrait_Dialogue { return }
     
-    set_portrait_dialogue_text(component, i18n.get_localized_text(i18n_ctx, dialogue_text_key), allocator)
+    set_portrait_dialogue_text(component, get_localized_text(i18n_ctx, dialogue_text_key), allocator)
 }
 
-set_localized_portrait_dialogue_speaker :: proc(component: ^Component, speaker_name_key: string, i18n_ctx: ^i18n.I18N, allocator := context.allocator) {
+set_localized_portrait_dialogue_speaker :: proc(component: ^Component, speaker_name_key: string, i18n_ctx: ^I18N, allocator := context.allocator) {
     if component == nil || speaker_name_key == "" || i18n_ctx == nil || component.type != .Portrait_Dialogue { return }
     
-    set_portrait_dialogue_speaker(component, i18n.get_localized_text(i18n_ctx, speaker_name_key), allocator)
+    set_portrait_dialogue_speaker(component, get_localized_text(i18n_ctx, speaker_name_key), allocator)
 }
 
-set_localized_portrait_dialogue_styled_text :: proc(component: ^Component, formatted_text_key: string, i18n_ctx: ^i18n.I18N, allocator := context.allocator) {
+set_localized_portrait_dialogue_styled_text :: proc(component: ^Component, formatted_text_key: string, i18n_ctx: ^I18N, allocator := context.allocator) {
     if component == nil || formatted_text_key == "" || i18n_ctx == nil || component.type != .Portrait_Dialogue { return }
     
-    loc_formatted := i18n.get_localized_text(i18n_ctx, formatted_text_key)
+    loc_formatted := get_localized_text(i18n_ctx, formatted_text_key)
     set_portrait_dialogue_styled_text(component, loc_formatted, allocator)
-    // Note: get_localized_text may need to return a cloned string if it's from a temporary buffer
 }
