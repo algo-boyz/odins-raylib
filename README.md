@@ -489,6 +489,16 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 
 <hr>
 <p align="center">
+  <a href="3D/models/README.md">
+    BVH animations
+  </a>
+  <a href="3D/models/README.md">
+    <img src="https://github.com/orangeduck/BVHView/assets/177299/9f976284-02c1-4a14-bca4-b8b3d7c9a774"  alt="bvh" width="960">
+  </a>
+</p>
+
+<hr>
+<p align="center">
   <a href="3D/glsl/README.md">
     Glsl shaders
   </a>
@@ -569,6 +579,8 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
 - [Machine Learning for Games](https://github.com/Alkamist/odin_machine_learning/)
 - [LightMapper](https://github.com/LeonardoTemperanza/lightmapper)
 - [Ctags](https://github.com/GoNZooo/odin-tags)
+- [OrUI](https://github.com/andzdroid/orui) immediate mode UI for odin using raylib
+- [Ditherpaletteizer](https://github.com/alfredbaudisch/Ditherpaletteizer) ffmpeg wrapper to posterize and dither images
 
 ### Gamez
 

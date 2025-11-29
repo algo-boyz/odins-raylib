@@ -1,13 +1,9 @@
 package geno
 
-import "base:runtime"
 import end "core:encoding/endian"
 import "core:fmt"
-import "core:math"
 import "core:mem"
 import "core:os"
-import "core:strings"
-import "core:slice"
 
 import rl "vendor:raylib"
 
