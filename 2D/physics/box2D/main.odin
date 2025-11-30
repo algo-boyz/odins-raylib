@@ -1,24 +1,5 @@
 package box
 
-/*************************************************************************************************************
-*
-*   simple box2d implementation
-*   
-*   controls - 'left click' adds balls, and 'right click' adds boxes
-*              's' alternates betweeen boxes and balls
-*              'up' and 'down' change the size of the balls and boxes depending on which is selected
-*              'c' changes the color of the boxes and balls depending on which is selected       
-*              'a' decreases time_step and 'b' increases time_step
-*              'space' stops all movement   
-*               'r' resets the simulation           
-*
-*   Created by Evan Martinez (@Nave55)
-*
-*   https://github.com/Nave55/Odin-Raylib-Examples/blob/main/Random/box2d.odin
-*
-***************************************************************************************************************/
-
-import "core:fmt"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
@@ -70,19 +51,19 @@ main :: proc() {
 	rl.SetTargetFPS(1000)
 	defer {
 		rl.CloseWindow()
-		unloadGame()
+		destroy()
 	}
-	initGame()
+	init_game()
 
-	for !rl.WindowShouldClose() do updateGame()
+	for !rl.WindowShouldClose() do update_game()
 }
 
 // procedures to help with printing text for simulation
-debugGame1 :: proc(val: $T, col: rl.Color = rl.RED, size: i32 = 20, x: i32 = 5, y: i32 = 0) {
+dbg_game1 :: proc(val: $T, col: rl.Color = rl.RED, size: i32 = 20, x: i32 = 5, y: i32 = 0) {
 	rl.DrawText(rl.TextFormat("%v", val), x, y, size, col)
 }
 
-debugGame2 :: proc(
+dbg_game2 :: proc(
 	val: $T,
 	descrip: string,
 	col: rl.Color = rl.RED,
@@ -93,18 +74,18 @@ debugGame2 :: proc(
 	rl.DrawText(rl.TextFormat("%v: %v", descrip, val), x, y, size, col)
 }
 
-debugGame :: proc {
-	debugGame1,
-	debugGame2,
+dbg_game :: proc {
+	dbg_game1,
+	dbg_game2,
 }
 
 // invert y position for box2d
-invertY :: proc(y, height: f32) -> f32 {
+invert_y :: proc(y, height: f32) -> f32 {
 	return y + height
 }
 
 // translate box2d position to raylib coordinates
-rayPos :: proc(pos, dim: rl.Vector2, t: string, move: bool) -> rl.Vector2 {
+ray_pos :: proc(pos, dim: rl.Vector2, t: string, move: bool) -> rl.Vector2 {
 	pos := pos
 	if t == "box" {
 		if !move do pos.y -= dim.y
@@ -117,7 +98,7 @@ rayPos :: proc(pos, dim: rl.Vector2, t: string, move: bool) -> rl.Vector2 {
 }
 
 // init game with starting state
-initGame :: proc() {
+init_game :: proc() {
 	c_mode = {0, 1}
 	box_size = 20
 	ball_size = 20
@@ -140,15 +121,15 @@ initGame :: proc() {
 	world_id = b2.CreateWorld(world_def)
 
 	// walls
-	boxEntityInit({0, 600}, {1280, 120}, rl.GRAY, {}, false, "box", .1, .2)
-	boxEntityInit({0, 0}, {1, 720}, rl.GRAY, {}, false, "box", .1, .2)
-	boxEntityInit({1279, 0}, {1, 720}, rl.GRAY, {}, false, "box", .1, .2)
+	box_entity_init({0, 600}, {1280, 120}, rl.GRAY, {}, false, "box", .1, .2)
+	box_entity_init({0, 0}, {1, 720}, rl.GRAY, {}, false, "box", .1, .2)
+	box_entity_init({1279, 0}, {1, 720}, rl.GRAY, {}, false, "box", .1, .2)
 	// boxEntityInit({0, 1},    {1280, 1},    rl.GRAY,  false, "box", .1, .2)
 
 }
 
 // procedure to create boxes and balls
-boxEntityInit :: proc(
+box_entity_init :: proc(
 	pos, dim: rl.Vector2,
 	col: rl.Color,
 	ang: b2.Rot,
@@ -162,13 +143,13 @@ boxEntityInit :: proc(
 	body_def := b2.DefaultBodyDef()
 	if move do body_def.type = .dynamicBody
 	else do body_def.type = .staticBody
-	body_def.position = b2.Vec2{pos.x, invertY(pos.y, dim.y)}
+	body_def.position = b2.Vec2{pos.x, invert_y(pos.y, dim.y)}
 	body_def.angularDamping = a_dam
 	body_id := b2.CreateBody(world_id, body_def)
 
 	// shape_def
 	shape_def := b2.DefaultShapeDef()
-	shape_def.friction = fric
+	shape_def.material.friction = fric
 	shape_def.density = dens
 
 	// creates boxes and balls
@@ -185,16 +166,16 @@ boxEntityInit :: proc(
 	append(&entities, ent)
 }
 
-gameControls :: proc() {
+game_controls :: proc() {
 	// press 'r' to restart simulation
-	if rl.IsKeyPressed(.R) do initGame()
+	if rl.IsKeyPressed(.R) do init_game()
 
 	// pres 'space' to pause all motion
 	if rl.IsKeyPressed(.SPACE) do pause = !pause
 
 	// 'left click' add balls at mouse location and 'right click' add balls at mouse location
-	if rl.IsMouseButtonPressed(.LEFT) do boxEntityInit(rl.GetMousePosition(), {ball_size, ball_size}, clr[c_mode[0]].color, {1, 1}, true, "ball", .3, 1, .1)
-	if rl.IsMouseButtonPressed(.RIGHT) do boxEntityInit(rl.GetMousePosition(), {box_size, box_size}, clr[c_mode[1]].color, {1, 1}, true, "box", .3, 1, .1)
+	if rl.IsMouseButtonPressed(.LEFT) do box_entity_init(rl.GetMousePosition(), {ball_size, ball_size}, clr[c_mode[0]].color, {1, 1}, true, "ball", .3, 1, .1)
+	if rl.IsMouseButtonPressed(.RIGHT) do box_entity_init(rl.GetMousePosition(), {box_size, box_size}, clr[c_mode[1]].color, {1, 1}, true, "box", .3, 1, .1)
 
 	// press 's' changes between boxes and balls for color and size changes
 	if rl.IsKeyPressed(.S) {
@@ -229,7 +210,7 @@ gameControls :: proc() {
 }
 
 // updates simulation based on time step and sub steps
-updateB2D :: proc() {
+update_B2D :: proc() {
 	if !pause {
 		b2.World_Step(world_id, time_step, sub_steps)
 
@@ -241,7 +222,7 @@ updateB2D :: proc() {
 }
 
 // draw all entities and text
-drawGame :: proc() {
+draw :: proc() {
 	rl.BeginDrawing()
 	defer rl.EndDrawing()
 	rl.ClearBackground(rl.BLACK)
@@ -251,32 +232,32 @@ drawGame :: proc() {
 		if i.type == "box" {
 			if move {
 				rot := b2.Rot_GetAngle(b2.Body_GetRotation(body_id))
-				posi := rayPos(pos, dim, type, move)
+				posi := ray_pos(pos, dim, type, move)
 				rl.DrawRectanglePro(
 					{pos.x, pos.y, dim.x * 2, dim.y * 2},
 					{dim.x, dim.y},
 					rot * (180 / 3.14),
 					col,
 				)
-			} else do rl.DrawRectangleV(rayPos(pos, dim, type, move), dim, col)
+			} else do rl.DrawRectangleV(ray_pos(pos, dim, type, move), dim, col)
 		}
-		if i.type == "ball" do rl.DrawCircleV(rayPos(pos, dim, type, move), dim.x, col)
+		if i.type == "ball" do rl.DrawCircleV(ray_pos(pos, dim, type, move), dim.x, col)
 	}
 
-	debugGame(selector, rl.RED)
-	debugGame(box_size, "Box Size", clr[c_mode[1]].color, 20, 5, 30)
-	debugGame(ball_size, "Ball Size", clr[c_mode[0]].color, 20, 5, 60)
+	dbg_game(selector, rl.RED)
+	dbg_game(box_size, "Box Size", clr[c_mode[1]].color, 20, 5, 30)
+	dbg_game(ball_size, "Ball Size", clr[c_mode[0]].color, 20, 5, 60)
 
 	if pause do rl.DrawText("PRESS SPACE TO CONTINUE", WIDTH / 2 - rl.MeasureText("PRESS SPACE TO CONTINUE", 40) / 2, HEIGHT / 2 - 50, 40, rl.RED)
 }
 
-updateGame :: proc() {
-	gameControls()
-	updateB2D()
-	drawGame()
+update_game :: proc() {
+	game_controls()
+	update_B2D()
+	draw()
 }
 
-unloadGame :: proc() {
+destroy :: proc() {
 	b2.DestroyWorld(world_id)
 	delete(entities)
 }

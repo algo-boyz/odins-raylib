@@ -1,0 +1,43 @@
+Indiana Jonas
+
+OpenType font
+by V�t �ond�k
+2017
+
+fonty.condak.cz
+facebook.com/GunnyHandwritingFont
+
+En Cz Sk Pl Fr De
+
+Category:	cartoon
+
+Panose:		4-7-6-4-3-1-2-2-10-2
+
+
+[ English License ]
+
+Free for personal or non-commercial use.
+In case you want to use the font for a commercial project please contact me to buy a license.
+
+The public version of the font intentionally does not include number 0.
+The full version is available only to licensed users.
+
+If you think something in this font doesn't feel right please contact me.
+
+
+[English description]
+
+While experimenting with OpenType features I got the idea that they can be used 
+to emulate the perspective effect of Indiana Jones logo so I decided to give it a try. =)
+
+The final result is not the exact replica, but some kind of compromise.
+
+The letters of the original logo are slighly overlapping each other and it would be 
+too complicated to handle all possible combinations and exceptions so I had to somewhat 
+unify the width of the letters to fit the perspective curve. 
+
+To make the perspective works you have to enable OpenType feature called "Contextual Alternates".
+The perspective currently works up to five chained lower case letters. The following letters
+keep the same size.
+
+The upper case letters and numbers always keep their original size.

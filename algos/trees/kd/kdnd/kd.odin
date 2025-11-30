@@ -1,13 +1,12 @@
-package kd
+package kdnd
 
 import "core:fmt"
 import "core:math"
 import "core:mem"
 import "core:slice"
 import "core:sync"
-import "../../../rlutil/fibr"
 
-// Hyperrectangle structure for bounding boxes
+// Hyperrectangle for bounding boxes
 Hyperrect :: struct {
     dim: int,
     min: []f64,

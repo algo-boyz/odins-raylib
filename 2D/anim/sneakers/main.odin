@@ -1,12 +1,15 @@
 package main
 
-import rl "vendor:raylib"
+import "base:runtime"
 import "core:fmt"
-import "core:time"
+import "core:log"
 import "core:math/rand"
 import "core:strings"
+import "core:time"
 import "core:unicode/utf8"
-import "core:log"
+
+import rl "vendor:raylib"
+
 import "../../../rlutil/gif"
 
 TYPE_EFFECT_SPEED :: 5     // Much faster typing (was 17)
@@ -18,8 +21,8 @@ auto_decrypt := true  // Skip manual input for movie authenticity
 mask_blank   := true
 color_on     := true  
 fg   := rl.BLUE      // Classic green terminal color like in Sneakers
-seed := rand.create(u64(time.now()._nsec))
-rng  := rand.default_random_generator(&seed)
+
+rng: runtime.Random_Generator
 
 // ASCII-only character table for better font compatibility
 // Focuses on characters that look "computery" and decrypt-like
@@ -130,13 +133,17 @@ prepare_display_chars :: proc(input_string: string, avg_char_width: int) {
 }
 
 main :: proc() {
-    	rec := gif.new_recorder("preview.gif", 12, 600)
+
+    seed := rand.create(u64(time.now()._nsec))
+    rng  = rand.default_random_generator(&seed)
+
+    rec := gif.new_recorder("preview.gif", 12, 600)
     defer gif.recorder_cleanup(&rec)
     rl.InitWindow(WIDTH, HEIGHT, "SNEAKERS - Decryption Sequence")
     defer rl.CloseWindow()
     rl.SetTargetFPS(60)
     
-    font = rl.LoadFontEx("assets/JetBrainsMono-Regular.ttf", font_size, nil, 0)
+    font = rl.LoadFontEx("../../../fonts/JetBrainsMono-Regular.ttf", font_size, nil, 0)
     if font.texture.id == 0 {
         log.warn("Could not load JetBrainsMono-Regular.ttf. Using default font.")
         font = rl.GetFontDefault()

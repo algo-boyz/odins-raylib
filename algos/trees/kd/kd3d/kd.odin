@@ -5,7 +5,7 @@ import "core:math"
 import "core:mem"
 import "core:slice"
 import "core:sync"
-import "../../../rlutil/fibr"
+
 // Geographic-specific k-d tree that uses haversine distance
 Node :: struct {
     lat:   f64,

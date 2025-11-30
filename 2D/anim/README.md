@@ -32,11 +32,11 @@ https://raw.githubusercontent.com/raysan5/raylib/master/logo/raylib_logo_animati
 
 <hr>
 <p align="center">
-  <a href="terminator/main.odin">
+  <a href="text/terminator/main.odin">
     T-800
   </a>
-  <a href="terminator/main.odin">
-    <img src="terminator/assets/preview.gif" alt="terminator" width="960">
+  <a href="text/terminator/main.odin">
+    <img src="text/terminator/assets/preview.gif" alt="terminator" width="960">
   </a>
 </p>
 

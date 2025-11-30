@@ -7,6 +7,7 @@ import "core:slice"
 import "../../../rlutil/geom"
 import rl "vendor:raylib"
 
+// https://www.youtube.com/watch?v=er23-Kt-uHE
 // alternative implementation: https://github.com/TheSandvichMaker/odin-rt/blob/main/code/bvh.odin
 
 BVHNode :: struct {

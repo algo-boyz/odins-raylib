@@ -4,9 +4,6 @@
 
 <p align="center">
   <a href="trees/quad/main.odin">
-    4. **(A Star) Algorithm** 
-  </a>
-  <a href="trees/quad/main.odin">
     <img src="trees/quad/preview.gif" alt="quad" width="960">
   </a>
 </p>

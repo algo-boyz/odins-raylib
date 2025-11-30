@@ -8,8 +8,9 @@ import "core:time"
 rng: runtime.Random_Generator
 
 // Init a random number generator with a seed based on current time
-@init
-seed_rand :: proc() {
+@init 
+seed_rand :: #force_inline proc "contextless" () {
+    context = runtime.default_context()
     seed := u64(time.now()._nsec)
     state := rand.create(seed)
     rng = rand.default_random_generator(&state)

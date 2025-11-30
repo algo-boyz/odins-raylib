@@ -492,10 +492,9 @@ Originally developed by Silicon Graphics in the early '90s, OpenGL® has become 
   <a href="3D/models/README.md">
     BVH animations
   </a>
-  <a href="3D/models/README.md">
-    <img src="https://github.com/orangeduck/BVHView/assets/177299/9f976284-02c1-4a14-bca4-b8b3d7c9a774"  alt="bvh" width="960">
-  </a>
 </p>
+
+https://github.com/orangeduck/BVHView/assets/177299/9f976284-02c1-4a14-bca4-b8b3d7c9a774
 
 <hr>
 <p align="center">

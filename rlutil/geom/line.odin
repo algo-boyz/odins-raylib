@@ -52,3 +52,58 @@ draw_polygon_lines :: proc(vertices: []rl.Vector2, color: rl.Color) {
         rl.DrawLineV(v1, v2, color)
     }
 }
+
+LineIter :: struct {
+	d, s, i, end:   [2]i32,
+	err:               i32,
+	next:     Maybe([2]i32),
+}
+
+// Creates a Bresenham line iterator, yielding a value per pixel
+line_iter_new :: proc(from, to: [2]i32) -> LineIter {
+	dx :=  abs(to.x - from.x)
+	dy := -abs(to.y - from.y)
+	sx : i32 = from.x < to.x ? 1 : -1
+	sy : i32 = from.y < to.y ? 1 : -1
+
+	return LineIter {
+		d = {dx, dy},
+		s = {sx, sy},
+		err = dx + dy,
+		i = from,
+		end = to,
+		next = [2]i32{from.x, from.y},
+	}
+}
+
+line_iterate :: proc(iter: ^LineIter) -> ([2]i32, i32, bool) {
+	for {
+		if next, has_next := iter.next.([2]i32); has_next {
+			iter.next = nil
+			return next, 0, true
+		}
+		e := iter.err * 2
+		if e >= iter.d.y {
+			if iter.i.x == iter.end.x do break
+			iter.err += iter.d.y
+			iter.i.x += iter.s.x
+		}
+		if e <= iter.d.x {
+			if iter.i.y == iter.end.y do break
+			iter.err += iter.d.x
+			iter.i.y += iter.s.y
+		}
+		iter.next = iter.i
+	}
+	return {}, 0, false
+}
+
+// Returns the first non-nil Maybe from the list, or nil if none present
+maybe_any :: proc($T: typeid, maybes: []Maybe(T)) -> Maybe(T) {
+	for maybe in maybes {
+		val, ok := maybe.?
+		if ok do return val
+	}
+
+	return nil
+}

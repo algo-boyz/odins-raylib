@@ -56,7 +56,7 @@ Spiro :: struct {
 main :: proc() {
     W :: 1200
     H :: 900
-    rl.InitWindow(W, H, "Ultra Extended Raylib Demo - Mouse Controls (Enhanced) - Odin")
+    rl.InitWindow(W, H, "Ultra Raylib Demo - Mouse Controls")
     rl.SetTargetFPS(60)
     
     // Render targets for accumulation and glow
