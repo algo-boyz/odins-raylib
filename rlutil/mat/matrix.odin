@@ -99,39 +99,54 @@ rotate_2d :: proc(angle_degrees: $F) -> matrix[2, 2]F {
 }
 
 // 3D rotation around Z axis
-rotate_around_z :: proc(angle_degrees: $F) -> matrix[3, 3]F {
-	angle := math.to_radians(angle_degrees)
-	sin_a := math.sin(angle)
-	cos_a := math.cos(angle)
-	return matrix[3, 3]F{
-		cos_a, -sin_a, 0,
-		sin_a,  cos_a, 0,
-		0,      0,     1,
-	}
+// Takes radians, returns 4x4, handles Z-Axis (Roll)
+rotate_around_z :: proc(angle_radians: f32) -> rl.Matrix {
+    c := math.cos(angle_radians)
+    s := math.sin(angle_radians)
+    return rl.Matrix{
+           c, s, 0, 0,
+          -s, c, 0, 0,
+           0, 0, 1, 0,
+           0, 0, 0, 1,
+    }
 }
 
 // 3D rotation around Y axis
-rotate_around_y :: proc(angle_degrees: $F) -> matrix[3, 3]F {
-	angle := math.to_radians(angle_degrees)
-	sin_a := math.sin(angle)
-	cos_a := math.cos(angle)
-	return matrix[3, 3]F{
-		 cos_a, 0, sin_a,
-		 0,     1, 0,
-		-sin_a, 0, cos_a,
-	}
+// Takes radians, returns 4x4, uses struct literal for speed and clarity
+rotate_around_y :: proc(angle_radians: f32) -> rl.Matrix {
+    c := math.cos(angle_radians)
+    s := math.sin(angle_radians)
+    return rl.Matrix{
+         c, 0, -s, 0,
+         0, 1,  0, 0,
+         s, 0,  c, 0,
+         0, 0,  0, 1,
+    }
 }
 
-// 3D rotation around X axis
-rotate_around_x :: proc(angle_degrees: $F) -> matrix[3, 3]F {
-	angle := math.to_radians(angle_degrees)
-	sin_a := math.sin(angle)
-	cos_a := math.cos(angle)
-	return matrix[3, 3]F{
-		1, 0,      0,
-		0, cos_a, -sin_a,
-		0, sin_a,  cos_a,
-	}
+rotate_around_x :: proc(angle_radians: f32) -> rl.Matrix {
+    c := math.cos(angle_radians)
+    s := math.sin(angle_radians)
+    return rl.Matrix{
+        1,  0,  0, 0,
+        0,  c, -s, 0,
+        0,  s,  c, 0,
+        0,  0,  0, 1,
+    }
+}
+
+// transform_to_vec3 computes the matrix transform vector from a provided vector and matrix
+transform_to_vec3 :: proc (v: rl.Vector3, mat: rl.Matrix) -> rl.Vector3 {
+    res: rl.Vector3
+    x := v.x
+    y := v.y
+    z := v.z
+
+    res.x = mat[0, 0] * x + mat[0, 1] * y + mat[0, 2] * z + mat[0, 3]
+    res.y = mat[1, 0] * x + mat[1, 1] * y + mat[1, 2] * z + mat[1, 3]
+    res.z = mat[2, 0] * x + mat[2, 1] * z + mat[2, 2] * z + mat[2, 3]
+
+    return res
 }
 
 // Converts translation values to a translation matrix
